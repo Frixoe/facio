@@ -1,0 +1,94 @@
+@font-face {
+    font-family: montserratBlack;
+    src: url("./../fonts/montserrat/Montserrat-Black.otf"); 
+}
+
+@font-face {
+    font-family: montserratBlackItalic;
+    src: url("./../fonts/montserrat/Montserrat-BlackItalic.otf");
+}
+
+@font-face {
+    font-family: montserratBold;
+    src: url("./../fonts/montserrat/Montserrat-Bold.otf");
+}
+
+@font-face {
+    font-family: montserratBoldItalic;
+    src: url("./../fonts/montserrat/Montserrat-BoldItalic.otf");
+}
+
+@font-face {
+    font-family: montserratExtraBold;
+    src: url("./../fonts/montserrat/Montserrat-ExtraBold.otf");
+}
+
+@font-face {
+    font-family: montserratExtraBoldItalic;
+    src: url("./../fonts/montserrat/Montserrat-ExtraBoldItalic.otf");
+}
+
+@font-face {
+    font-family: montserratExtraLight;
+    src: url("./../fonts/montserrat/Montserrat-ExtraLight.otf");
+}
+
+@font-face {
+    font-family: montserratExtraLightItalic;
+    src: url("./../fonts/montserrat/Montserrat-ExtraLightItalic.otf");
+}
+
+@font-face {
+    font-family: montserratItalic;
+    src: url("./../fonts/montserrat/Montserrat-Italic.otf");
+}
+
+@font-face {
+    font-family: montserratLight;
+    src: url("./../fonts/montserrat/Montserrat-Light.otf");
+}
+
+@font-face {
+    font-family: montserratLightItalic;
+    src: url("./../fonts/montserrat/Montserrat-LightItalic.otf");
+}
+
+@font-face {
+    font-family: montserratMedium;
+    src: url("./../fonts/montserrat/Montserrat-Medium.otf");
+}
+
+@font-face {
+    font-family: montserratMediumItalic;
+    src: url("./../fonts/montserrat/Montserrat-MediumItalic.otf");
+}
+
+@font-face {
+    font-family: montserratRegular;
+    src: url("./../fonts/montserrat/Montserrat-Regular.otf");
+}
+
+@font-face {
+    font-family: montserratSemiBold;
+    src: url("./../fonts/montserrat/Montserrat-SemiBold.otf");
+}
+
+@font-face {
+    font-family: montserratSemiBoldItalic;
+    src: url("./../fonts/montserrat/Montserrat-SemiBoldItalic.otf");
+}
+
+@font-face {
+    font-family: montserratThin;
+    src: url("./../fonts/montserrat/Montserrat-Thin.otf");
+}
+
+@font-face {
+    font-family: montserratThinItalic;
+    src: url("./../fonts/montserrat/Montserrat-ThinItalic.otf");
+}
+
+.my-btn {
+    border-radius: 20px;
+    font-family: 'montserratMedium';
+}

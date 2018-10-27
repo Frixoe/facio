@@ -1,0 +1,33 @@
+{
+  "name": "facio",
+  "version": "1.0.0",
+  "private": true,
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "node ./crawlPages.js && run-electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Suryansh S. <business.suryansh@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "ajv": "^6.5.4",
+    "electron": "^3.0.5",
+    "electron-better-ipc": "^0.1.1",
+    "electron-builder": "^20.28.4",
+    "electron-context-menu": "^0.10.0",
+    "electron-debug": "^2.0.0",
+    "electron-dl": "^1.12.0",
+    "electron-store": "^2.0.0",
+    "electron-unhandled": "^1.1.0",
+    "electron-util": "^0.10.0",
+    "face-api.js": "^0.15.0",
+    "jquery": "^3.3.1",
+    "run-electron": "^0.1.0"
+  },
+  "devDependencies": {
+    "electron-reloader": "^0.2.0",
+    "electron-timber": "^0.5.1"
+  }
+}
