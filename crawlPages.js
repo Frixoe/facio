@@ -27,8 +27,7 @@ function getAllFiles(source) {
     let nextDirs = dirsAndFilesAbsPath.filter(isDir); // Next directories to crawl.
 
     console.log("crawled " + source);
-
-    for (var i = 0; i < nextDirs.length; ++i) getAllFiles(nextDirs[i]);
+    nextDirs.forEach(nextSource => getAllFiles(nextSource));
 }
 
 getAllFiles(__dirname + "\\pages");

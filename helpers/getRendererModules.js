@@ -8,6 +8,7 @@ module.exports = () => {
         remote: require("electron").remote,
         stores: require("./getStores")(),
         deleteStoreFile: require("./deleteStoreFile"),
-        switchPage: require("./switchPage")
+        switchPage: require("./switchPage"),
+        Window: require("./classes/window")
     }
 }

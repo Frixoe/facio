@@ -5,6 +5,8 @@ module.exports = [
         defaults: {
             scriptsPath: "",
             traysPath: "",
+            hasTraysPath: false,
+            hasScriptsPath: false,
         }
     },
     {
@@ -29,6 +31,9 @@ module.exports = [
     },
     {
         name: "faceapi",
-        cwd: "appfaceapi"
+        cwd: "appfaceapi",
+        defaults: {
+            dummy: "text"
+        }
     }
 ]
