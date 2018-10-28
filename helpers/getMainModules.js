@@ -1,5 +1,5 @@
 module.exports = (index) => {
-    var rMods = require("./getRendererModules")();
+    var rMods = require("./getRendererModules")(forMain=true);
 
     delete rMods.remote;
 

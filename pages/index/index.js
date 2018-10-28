@@ -1,6 +1,4 @@
 var helper = require("./../../helpers/getRendererModules")();
-require("./../../helpers/addJqueryToHTML");
-require("./../../helpers/performChecks")(helper);
 
 helper.logger.log("loaded 'index.html'");
 
@@ -19,8 +17,9 @@ $(() => {
     
     if (!hasTP || !helper.stores.state.get("hasAtLeastOneTray")) $(".left").prop("disabled", true);
 
-    $("#heading").attr("style", "font-family: 'montserratBoldItalic'; height: 40px;")
+    $("#heading").attr("style", "height: 40px;");
 
+    // Adding same classes to all buttons.
     $("button")
     .addClass("btn teal waves-effect waves-light my-btn")
     .attr("style", "width: 200px;");

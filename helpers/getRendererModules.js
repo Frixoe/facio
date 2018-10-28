@@ -1,7 +1,7 @@
 // A module which will be "required" in every renderer process' .js file.
 
-module.exports = () => {
-    return {
+module.exports = (forMain=false) => {
+    var helper =  {
         logger: require("electron-timber"),
         ipc: require("electron-better-ipc"),
         util: require("electron-util"),
@@ -11,4 +11,10 @@ module.exports = () => {
         switchPage: require("./switchPage"),
         Window: require("./classes/window")
     }
+
+    if (!forMain) require("./addJqueryToHTML");
+
+    require("./performChecks")(helper);
+
+    return helper;
 }
