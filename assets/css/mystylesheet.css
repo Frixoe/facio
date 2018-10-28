@@ -92,3 +92,9 @@
     border-radius: 20px;
     font-family: 'montserratMedium';
 }
+
+.error-text {
+    color: red;
+    font-family: "montserratBold";
+    text-align: center;
+}

@@ -1,7 +1,7 @@
 const electron = require("electron");
 const helper = require("./helpers/getMainModules")();
 
-// require("electron-debug")();
+require("electron-debug")();
 
 var { app, BrowserWindow } = electron; // Getting required components from the electron module.
 
@@ -11,7 +11,7 @@ function createWindow() {
     helper.stores.state.set("currentPage", "index.html");
 
     // Checking if any files are missing and if it's the app's first launch.
-    require("./helpers/checkForMissingFilesAndUpdate")(helper);
+    require("./helpers/updateFirstLaunchVarAndAddListeners")(helper);
     
     // Create the browser window.
     win = new helper.Window(helper.logger, BrowserWindow, {
@@ -21,6 +21,7 @@ function createWindow() {
         resizable: false,
         fullscreenable: false
     }, "index.html", () => {
+        delete win;
         app.quit();
     });
 

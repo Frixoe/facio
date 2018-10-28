@@ -13,7 +13,7 @@ module.exports = class {
         this.win.on("closed", () => {
             this.win = null;
             closingFn();
-
+            
             delete this;
 
             logger.log("closed window");

@@ -22,11 +22,12 @@ module.exports = [
         defaults: {
             currentPage: "index.html",
             prevPage: "",
-            firstLaunch: true,
+            isFirstLaunch: true,
             currentTray: "",
             onePicPath: "",
             picFolderPath: "",
-            prevImageInfo: ""
+            prevImageInfo: "",
+            hasAtLeastOneTray: false
         }
     },
     {

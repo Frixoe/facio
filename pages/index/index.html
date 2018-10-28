@@ -10,7 +10,6 @@
 </head>
 <body>
     <div class="container animated fadeInLeft">
-        <p>DISABLE THE FIELD BUTTON IF NO DATA ENTERED</p>
         <br>
         <br>
         <br>
@@ -37,9 +36,12 @@
                 </button>
             </div>
         </div>
+        <div hidden class="row error-row">
+            <div class="col s12">
+                <p class="error-text"></p>
+            </div>
+        </div>
     </div>
-    
-    <!-- Give the user a choice to either collect data or start the app in field mode. Disable the "Field Mode" button if first launch of the app. -->
 
     <script src="./../../assets/js/materialize.min.js"></script>
     <script src="index.js"></script>
