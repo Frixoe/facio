@@ -28,6 +28,14 @@ function createWindow() {
     helper.logger.log("loaded 'index.html'");
 }
 
+helper.ipc.answerRenderer("open-dialog", async (val) => {
+    const dialog = electron.dialog;
+    const dir = dialog.showOpenDialog(win.win, {
+        properties: ["openDirectory"]
+    });
+    return dir;
+});
+
 // When app gets ready, create a new window.
 app.on('ready', createWindow);
 

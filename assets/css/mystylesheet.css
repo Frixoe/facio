@@ -95,11 +95,28 @@
 
 .error-text {
     color: red;
-    font-family: "montserratBold";
+    font-family: "montserratSemiBold";
     text-align: center;
+    height: 10px;
 }
 
 .my-heading-template {
     font-family: "montserratBoldItalic";
     text-align: center;
+}
+
+.my-toast {
+    font-size: 15px;
+    border-radius: 40px;
+    height: 10px;
+}
+
+.my-tooltip {
+    border-radius: 40px;
+    height: 15px;
+}
+
+.my-input {
+    border-radius: 10px;
+    color: red;
 }

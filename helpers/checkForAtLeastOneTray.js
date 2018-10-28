@@ -10,10 +10,12 @@ module.exports = (h) => {
     trayFiles.forEach(file => {
         if (isTray(file)) {
             hasTray = true;
-            h.logger.log("at least one tray EXISTS...");
             return;
         }
     });
+
+    if (hasTray) h.logger.log("at least one tray EXISTS...");
+    else h.logger.log("no tray found");
 
     h.stores.state.set("hasAtLeastOneTray", hasTray);
 }

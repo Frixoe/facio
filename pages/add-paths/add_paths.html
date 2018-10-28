@@ -10,9 +10,40 @@
 </head>
 <body>
     <div class="container animated fadeInDown">
+        <br>
+        <br>
+        <br>
         <div class="row">
             <div class="col s12">
-                <h1>Adding paths</h1>
+                <h3 class="my-heading-template">Edit Paths</h1>
+            </div>
+        </div>
+        <div class="row">
+            <form class="col s12">
+                <div class="row">
+                    <div class="input-field col s10">
+                        <input disabled value="..." id="scripts-path-val-field" type="text" class="validate my-input">
+                        <label for="scripts-path-val-field"><span class="my-input-labels">Scripts Path</span></label>
+                    </div>
+                    <div class="button-div col s2">
+                        <button id="scripts-btn" class="input-buttons">Edit</button>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="input-field col s10">
+                        <input disabled value="..." id="trays-path-val-field" type="text" class="validate my-input">
+                        <label for="trays-path-val-field"><span class="my-input-labels">Trays Path</span></label>
+                    </div>
+                    <div class="button-div col s2">
+                        <button id="trays-btn" class="input-buttons">Edit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="row">
+            <div class="col s12 center-align">
+                <button id="apply-changes-btn" class="btn my-btn center-align green waves-effect waves-light hoverable">Apply Changes</button>
             </div>
         </div>
     </div>
