@@ -1,5 +1,5 @@
 const electron = require("electron");
-const helper = require("./helpers/getMainModules")();
+const h = require("./helpers/getMainModules")();
 
 require("electron-debug")();
 
@@ -8,13 +8,13 @@ var { app, BrowserWindow } = electron; // Getting required components from the e
 var win; // Creating a window variable.
 
 function createWindow() {
-    helper.stores.state.set("currentPage", "index.html");
+    h.stores.state.set("currentPage", "index.html");
 
     // Checking if any files are missing and if it's the app's first launch.
-    require("./helpers/updateFirstLaunchVarAndAddListeners")(helper);
+    require("./helpers/updateFirstLaunchVarAndAddListeners")(h);
     
     // Create the browser window.
-    win = new helper.Window(helper.logger, BrowserWindow, {
+    win = new h.Window(h.logger, BrowserWindow, {
         width: 1000,
         height: 600,
         center: true,
@@ -25,10 +25,10 @@ function createWindow() {
         app.quit();
     });
 
-    helper.logger.log("loaded 'index.html'");
+    h.logger.log("loaded 'index.html'");
 }
 
-helper.ipc.answerRenderer("open-dialog", async (val) => {
+h.ipc.answerRenderer("open-dialog", async (val) => {
     const dialog = electron.dialog;
     const dir = dialog.showOpenDialog(win.win, {
         properties: ["openDirectory"]

@@ -1,0 +1,1 @@
+module.exports = (h, trayName) => h.fs.readdirSync(h.stores.paths.get("traysPath")).indexOf(trayName + ".ftray") !== -1;

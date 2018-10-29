@@ -9,7 +9,8 @@ module.exports = (forMain=false) => {
         stores: require("./getStores")(),
         deleteStoreFile: require("./deleteStoreFile"),
         switchPage: require("./switchPage"),
-        Window: require("./classes/window")
+        Window: require("./classes/window"),
+        fs: require("fs")
     }
 
     if (!forMain) require("./addJqueryToHTML");

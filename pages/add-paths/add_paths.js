@@ -15,11 +15,6 @@ $(() => {
         style: "margin-top: 15px;"
     });
 
-    $(".input-buttons").attr({
-        style: "color: black; width: 70px;",
-        class: "btn center-align my-btn hoverable white waves-effect waves-dark"
-    });
-
     $("#scripts-btn").click(e => {
         e.preventDefault();
         chooseDirectory().then(val => {
