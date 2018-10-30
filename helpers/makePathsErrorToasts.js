@@ -2,11 +2,11 @@ let errT1 = M.toast({
     html: `
         <span>
             ${
-                !h.stores.paths.get("hasScriptsPath") && !h.stores.paths.get("hasTraysPath") ? "Couldn't find neither Scripts nor Trays paths" :
-                    !h.stores.paths.get("hasTraysPath") ? "Couldn't find Trays path" : "Couldn't find Scripts path"
+                !h.stores.haspaths.get("hasScriptsPath") && !h.stores.haspaths.get("hasTraysPath") ? "Couldn't find neither Scripts nor Trays paths" :
+                    !h.stores.haspaths.get("hasTraysPath") ? "Couldn't find Trays path" : "Couldn't find Scripts path"
             }
         </span>
-        <button id="paths-error-toast-btn1" class="btn-flat toast-action">Ok</button>
+        <button class="paths-error-toast-btn1 btn-flat toast-action">Ok</button>
     `,
     displayLength: 8000,
     inDuration: 1000,
@@ -19,7 +19,7 @@ let errT2 = M.toast({
         <span>
             ${h.stores.state.get("currentPage") === "index.html" ? 'Please enter "Data Entry" mode to edit the path(s)' : "Please edit the path(s) and try again"}
         </span>
-        <button id="paths-error-toast-btn2" class="btn-flat toast-action">Ok</button>
+        <button class="paths-error-toast-btn2 btn-flat toast-action">Ok</button>
     `,
     displayLength: 8000,
     inDuration: 1000,
@@ -27,10 +27,10 @@ let errT2 = M.toast({
     classes: "my-toast"
 });
 
-$("#paths-error-toast-btn1").click(() => {
+$(".paths-error-toast-btn1").click(() => {
     errT1.dismiss();
 });
 
-$("#paths-error-toast-btn2").click(() => {
+$(".paths-error-toast-btn2").click(() => {
     errT2.dismiss();
-})
+});

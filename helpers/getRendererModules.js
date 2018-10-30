@@ -15,7 +15,5 @@ module.exports = (forMain=false) => {
 
     if (!forMain) require("./addJqueryToHTML");
 
-    require("./performChecks")(helper);
-
     return helper;
 }

@@ -17,7 +17,7 @@ module.exports = (h) => {
         "hasTraysPath"
     );
 
-    if (h.stores.paths.get("hasTraysPath")) {
+    if (h.stores.haspaths.get("hasTraysPath")) {
         h.logger.log("checking if at least one tray exists...");
         require("./checkForAtLeastOneTray")(h);
     } else {

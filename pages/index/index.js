@@ -1,10 +1,24 @@
 var h = require("./../../helpers/getRendererModules")();
+const chokidar = h.remote.require("chokidar");
 
 h.logger.log("loaded 'index.html'");
 
 $(() => {
-    let hasSP = h.stores.paths.get("hasScriptsPath");
-    let hasTP = h.stores.paths.get("hasTraysPath");
+    var watcher = chokidar.watch(h.stores.pathchangestore.path);
+    watcher.on("ready", () => h.logger.log("now watching in :" + h.stores.state.get("currentPage")))
+    .on("all", path => {
+        if (!h.stores.haspaths.get("hasScriptsPath") || !h.stores.haspaths.get("hasTraysPath")) {
+            h.logger.log("paths were changed, making toasts now...");
+
+            if (!h.stores.haspaths.get("hasTraysPath")) $("#field-btn").prop("disabled", true);
+            else $("#field-btn").prop("disabled", false);
+
+            require("./../../helpers/makePathsErrorToasts");
+        }
+    });
+
+    let hasSP = h.stores.haspaths.get("hasScriptsPath");
+    let hasTP = h.stores.haspaths.get("hasTraysPath");
 
     if ((!hasSP || !hasTP) && !h.stores.state.get("isFirstLaunch")) {
         require("./../../helpers/makePathsErrorToasts");
@@ -27,7 +41,7 @@ $(() => {
 
     $("#data-entry-btn").click(() => {
         // Load the data collection mode file.
-        if (hasSP && hasTP) h.switchPage(h, exitAnim1, "tcae.html");
+        if (h.stores.haspaths.get("hasScriptsPath") && h.stores.haspaths.get("hasTraysPath")) h.switchPage(h, exitAnim1, "tcae.html");
         else h.switchPage(h, exitAnim3, "add_paths.html");
         M.Toast.dismissAll();
     });

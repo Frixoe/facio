@@ -4,9 +4,15 @@ module.exports = [
         cwd: "apppaths",
         defaults: {
             scriptsPath: "",
-            traysPath: "",
+            traysPath: ""
+        }
+    },
+    {
+        name: "haspaths",
+        cwd: "apphaspaths",
+        defaults: {
             hasTraysPath: false,
-            hasScriptsPath: false,
+            hasScriptsPath: false
         }
     },
     {
@@ -28,6 +34,13 @@ module.exports = [
             picFolderPath: "",
             prevImageInfo: "",
             hasAtLeastOneTray: false
+        }
+    },
+    {
+        name: "pathchangestore",
+        cwd: "apppcs",
+        defaults: {
+            title: "This acts as an event emitter for renderer modules."
         }
     },
     {

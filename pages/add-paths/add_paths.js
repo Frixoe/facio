@@ -4,8 +4,8 @@ var scriptsPath = h.stores.paths.get("scriptsPath");
 var traysPath = h.stores.paths.get("traysPath");
 
 $(() => {
-    if (h.stores.paths.get("hasScriptsPath")) $("#scripts-path-val-field").val(scriptsPath);
-    if (h.stores.paths.get("hasTraysPath")) $("#trays-path-val-field").val(traysPath);
+    if (h.stores.haspaths.get("hasScriptsPath")) $("#scripts-path-val-field").val(scriptsPath);
+    if (h.stores.haspaths.get("hasTraysPath")) $("#trays-path-val-field").val(traysPath);
 
     $(".my-input-labels").attr({
         style: "font-family: 'montserratSemiBold'; height: 10px;"

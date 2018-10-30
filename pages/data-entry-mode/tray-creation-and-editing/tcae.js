@@ -32,20 +32,24 @@ $(() => {
         $("#trays-dropdown").children("li").click((e) => {
             h.logger.log(e.target.innerHTML);
         
-            $("#pick-a-tray-btn").html(`Pick a tray: "${e.target.innerHTML}" Selected`);
+            $("#pick-a-tray-btn").html(`Pick a tray: "${e.target.innerHTML.replace(".ftray", "")}" Selected`);
         
             h.stores.state.set("currentTray", e.target.innerHTML.replace(".ftray", ""));
+            $("#delete-tray-btn").prop("disabled", false);
         });
     }
     updateDropdown();
+
+    $("#delete-tray-btn").click(e => {
+        // TODO: Fix this...
+        h.fs.unlinkSync(h.stores.paths.get(""))
+    });
 
     $(".add-tray-btn-div").attr({
         style: "margin-top: 20px;"
     });
 
-    $("#add-tray-btn").attr({
-        style: "color: black; width: 200px;"
-    }).click(e => {
+    $("#add-tray-btn").click(e => {
         e.preventDefault();
 
         let entry = $("#create-new-tray-input").val();
@@ -107,14 +111,14 @@ $(() => {
             return;
         }
 
-        h.logger.log("performing checks now...");
+        // h.logger.log("performing checks now...");
         // Performing checks to see if paths still exist.
-        require("./../../../../helpers/performChecks")(h);
+        // require("./../../../../helpers/performChecks")(h);
 
         // TODO: Check if the entered tray already exists or not.
         // If does, do not add.
 
-        if (!h.stores.paths.get("hasTraysPath")) {
+        if (!h.stores.haspaths.get("hasTraysPath")) {
             require("./../../../helpers/makePathsErrorToasts");
             return;
         }
