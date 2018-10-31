@@ -1,0 +1,36 @@
+const path = require("path");
+const fs = require("fs");
+
+function isDir(path) {
+    return fs.lstatSync(path).isDirectory();
+}
+
+function containsHtml(name) {
+    return name.indexOf(".html") > -1;
+}
+
+let pages = {};
+
+function getAllFiles(source) {
+    let dirsAndFilesNames = fs.readdirSync(source); // Contains all the names of the files and folders in the current directory.
+    let dirsAndFilesAbsPath = dirsAndFilesNames.map(name => path.join(source, name)); // Absolute paths of the files.
+
+    for (var i = 0; i < dirsAndFilesNames.length; ++i) {
+        let fofName = dirsAndFilesNames[i];
+        let absPath = path.join(source, fofName);
+
+        if (containsHtml(fofName)) {
+            let newUrl = new URL(`file:///${absPath}`);
+            pages[fofName] = newUrl.href;
+        }
+    }
+
+    let nextDirs = dirsAndFilesAbsPath.filter(isDir); // Next directories to crawl.
+
+    console.log("crawled " + source);
+    nextDirs.forEach(nextSource => getAllFiles(nextSource));
+}
+
+getAllFiles(path.join(__dirname, "pages"));
+
+fs.writeFileSync("./src/pages.json", JSON.stringify(pages, null, 4));
