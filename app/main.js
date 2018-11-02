@@ -13,7 +13,10 @@ else h.logger.log("running is Prod mode.");
 const { app, BrowserWindow } = electron; // Getting required components from the electron module.
 
 let win; // Creating a window variable.
-let err; // Err window var.
+let err = "dis shit lit"; // Err window var.
+
+let myStoresWatcher;
+let myTraysWatcher;
 
 function createWindow() {
     h.stores.state.set("currentPage", "index.html");
@@ -78,9 +81,9 @@ Object.keys(h.stores).forEach(key => {
     stores.push(h.stores[key].path);
 });
 
-let everyStoreWatcher = chokidar.watch(stores);
+myStoresWatcher = chokidar.watch(stores);
 
-everyStoreWatcher.on("unlink", (path, stats) => {
+myStoresWatcher.on("unlink", (path, stats) => {
     // Do something if any store file gets deleted.
     h.logger.log("store: " + path + "was deleted.");
     err = new h.Window(h.logger, BrowserWindow, {
@@ -102,12 +105,14 @@ everyStoreWatcher.on("unlink", (path, stats) => {
         err.win.focus();
     });
     
-}).on("change", (path, stats) => {
+})
+.on("change", (path, stats) => {
     h.logger.log("store: " + path + "was changed");
     
     if (path === h.stores.paths.path) {
         h.logger.log("the scripts/trays path(s) were/was changed, performing checks now...");
         require("./helpers/performPathChecks")(h);
+        require("./helpers/checkForAtLeastOneTray")(h);
         
         h.logger.log("editing pathchange store");
         h.stores.pathchangestore.set("garbage", ""); // Sending a msg to all watchers of this file.

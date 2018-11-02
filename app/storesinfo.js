@@ -5,7 +5,8 @@ module.exports = [
         defaults: {
             scriptsPath: "",
             traysPath: ""
-        }
+        },
+        fileExtension: "fconfig"
     },
     {
         name: "haspaths",
@@ -13,14 +14,16 @@ module.exports = [
         defaults: {
             hasTraysPath: false,
             hasScriptsPath: false
-        }
+        },
+        fileExtension: "fconfig"
     },
     {
         name: "scripts",
         cwd: "core",
         defaults: {
             dummy: "text"
-        }
+        },
+        fileExtension: "fconfig"
     },
     {
         name: "state",
@@ -34,24 +37,23 @@ module.exports = [
             picFolderPath: "",
             prevImageInfo: "",
             hasAtLeastOneTray: false
-        }
-    },
-    {
-        name: "pages",
-        cwd: "core",
+        },
+        fileExtension: "fconfig"
     },
     {
         name: "pathchangestore",
         cwd: "core",
         defaults: {
             title: "This acts as an event emitter for renderer modules."
-        }
+        },
+        fileExtension: "fconfig"
     },
     {
         name: "faceapi",
         cwd: "core",
         defaults: {
             dummy: "text"
-        }
+        },
+        fileExtension: "fconfig"
     }
 ]

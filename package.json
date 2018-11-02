@@ -4,12 +4,12 @@
   "version": "1.0.0",
   "private": true,
   "description": "An easy-to-use free and open-source facial recognition software.",
-  "main": "./src/main.js",
+  "main": "./app/main.js",
   "scripts": {
     "postinstall": "./node-modules/.bin/electron-builder install-app-deps",
     "pack": "./node_modules/.bin/electron-builder --dir",
     "dist": "./node_modules/.bin/electron-builder --win --mac --linux",
-    "start": "node ./src/crawlPages.js && run-electron .",
+    "start": "node ./app/crawlPages.js && run-electron .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -39,7 +39,7 @@
   },
   "build": {
     "files": [
-      "src/**/*"
+      "app/**/*"
     ],
     "appId": "com.suryanshs.facio",
     "mac": {

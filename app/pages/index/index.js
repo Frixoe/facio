@@ -4,6 +4,13 @@ const chokidar = h.remote.require("chokidar");
 h.logger.log("loaded 'index.html'");
 
 $(() => {
+    let hasSP = h.stores.haspaths.get("hasScriptsPath");
+    let hasTP = h.stores.haspaths.get("hasTraysPath");
+
+    if ((!hasSP || !hasTP) && !h.stores.state.get("isFirstLaunch")) {
+        require("./../../helpers/makePathsErrorToasts");
+    }
+
     let watcher = chokidar.watch(h.stores.pathchangestore.path);
     watcher.on("ready", () => h.logger.log("now watching in :" + h.stores.state.get("currentPage")))
     .on("all", path => {
@@ -16,13 +23,6 @@ $(() => {
             require("./../../helpers/makePathsErrorToasts");
         }
     });
-
-    let hasSP = h.stores.haspaths.get("hasScriptsPath");
-    let hasTP = h.stores.haspaths.get("hasTraysPath");
-
-    if ((!hasSP || !hasTP) && !h.stores.state.get("isFirstLaunch")) {
-        require("./../../helpers/makePathsErrorToasts");
-    }
 
     h.logger.log("hasSP: " + hasSP);
     h.logger.log("hasTP: " + hasTP);

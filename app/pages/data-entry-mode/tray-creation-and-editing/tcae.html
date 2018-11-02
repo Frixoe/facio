@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="./../../../assets/css/allsheets.css">
 </head>
 <body>
+    <br>
+    <br>
     <div class="container animated fadeInLeft">
         <div class="row">
             <div class="col s12">
@@ -29,12 +31,23 @@
         </form>
         <div class="row">
             <div id="dropdown-container" class="col s8">
-                <button class="my-normal-btn dropdown-trigger" data-target="trays-dropdown" id="pick-a-tray-btn">Pick a tray: None Selected</button>
+                <button class="my-normal-btn dropdown-trigger" data-target="trays-dropdown" id="pick-a-tray-btn" disabled>Pick a tray: None Selected</button>
                 <ul id="trays-dropdown" class="dropdown-content">
                 </ul>
             </div>
+            <div class="col s2">
+                <button id="edit-tray-btn" class="my-white-btn" disabled>Edit</button>
+            </div>
+            <div class="col s2">
+                <button id="delete-tray-btn" class="my-white-btn" disabled>Delete</button>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col s8">
+            </div>
             <div class="col s4">
-                <button id="delete-tray-btn" class="my-white-btn" disabled>Delete Tray</button>
+                <button id="back-btn" class="my-black-btn" onclick="h.switchPage(fadeOutLeft, '', true)">back</button>
             </div>
         </div>
     </div>

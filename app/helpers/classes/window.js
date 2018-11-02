@@ -5,7 +5,7 @@ module.exports = class {
         this.win = new bWinObj(winConfig);
 
         this.win.eval = global.eval = () => { throw new Error("No no no >:) can't be evalin' in these lands...") }
-        this.win.loadURL(require("./../../pages.json")[page]);
+        this.win.loadURL(require("./../../pagesLookup.json")[page]);
 
         logger.log("loaded " + page);
         logger.log("created window");

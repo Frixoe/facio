@@ -33,4 +33,4 @@ function getAllFiles(source) {
 
 getAllFiles(path.join(__dirname, "pages"));
 
-fs.writeFileSync("./src/pages.json", JSON.stringify(pages, null, 4));
+fs.writeFileSync("./app/pagesLookup.json", JSON.stringify(pages, null, 4));

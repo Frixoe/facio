@@ -1,3 +1,5 @@
+require("electron").remote.getCurrentWindow().focus();
+
 let errT1 = M.toast({
     html: `
         <span>
@@ -8,7 +10,7 @@ let errT1 = M.toast({
         </span>
         <button class="paths-error-toast-btn1 btn-flat toast-action">Ok</button>
     `,
-    displayLength: 8000,
+    displayLength: 30000,
     inDuration: 1000,
     outDuration: 1000,
     classes: "my-toast"
@@ -21,7 +23,7 @@ let errT2 = M.toast({
         </span>
         <button class="paths-error-toast-btn2 btn-flat toast-action">Ok</button>
     `,
-    displayLength: 8000,
+    displayLength: 30000,
     inDuration: 1000,
     outDuration: 1000,
     classes: "my-toast"
