@@ -1,22 +1,89 @@
 const chokidar = require("chokidar");
-
 const electron = require("electron");
 const isDev = require("electron-is-dev");
-
-const h = require("./helpers/getMainModules")();
-
 require("electron-debug")();
 
+const h = require("./helpers/getMainModules")([
+    "logger",
+    "ipc",
+    "util",
+    "stores",
+    "Window"
+]);
+const performPathChecks = require("./helpers/performPathChecks");
+const checkForAtLeastOneTray = require("./helpers/checkForAtLeastOneTray");
+
 if (isDev) h.logger.log("running in Dev mode.");
-else h.logger.log("running is Prod mode.");
 
 const { app, BrowserWindow } = electron; // Getting required components from the electron module.
 
 let win; // Creating a window variable.
-let err = "dis shit lit"; // Err window var.
+let err; // Err window var.
 
-let myStoresWatcher;
-let myTraysWatcher;
+let storesWatcher = null; // Watches all the stores.
+let traysWatcher = null; // Watches all the trays.
+let scriptsWatcher = null; // Watches all the scripts.
+
+function initScriptsWatcher() {
+}
+
+function initTraysWatcher() {
+    h.logger.log("starting to watch the trays...");
+
+    traysWatcher = chokidar.watch(h.stores.paths.get("traysPath"));
+    
+    traysWatcher
+    .on("ready", () => h.logger.log("trays watcher reporting for duty!"))
+    .on("error", (err) => h.logger.log("ERROR WATCHING TRAYS: " + err + "..." + " probs deleting a folder inside the trays folder."))
+    .on("add", (path) => {
+        h.logger.log("a new tray was added...");
+
+        h.stores.msgstore.set("msg", "tray-added");
+    })
+    .on("addDir", (path) => h.logger.log("a new directory was added in the trays directory..."))
+    .on("unlink", (path) => {
+        h.logger.log("a tray was deleted... path: " + path);
+        
+        checkForAtLeastOneTray(h);
+        if (!h.stores.state.get("hasAtLeastOneTray")) h.stores.msgstore.set("msg", "trays-dir-empty");
+        else h.stores.msgstore.set("msg", "tray-deleted");
+    })
+    .on("unlinkDir", (path) => {
+        if (!(h.stores.paths.get("traysPath") === path)) return;
+
+        h.logger.log("killing trays watcher as the trays dir was deleted...");
+
+        h.stores.haspaths.set("hasTraysPath", false);
+        h.stores.paths.set("traysPath", "");
+        h.stores.state.set("hasAtLeastOneTray", false);
+
+        // Do something else when the trays dir gets deleted...
+
+        // Sending a signal to all watchers watching the "msgstore"
+        h.stores.msgstore.set("msg", "trays-dir-deleted");
+
+        traysWatcher.close();
+        traysWatcher = null;
+    });
+}
+
+function initDirWatchers() {
+    if (h.stores.haspaths.get("hasTraysPath")) initTraysWatcher();
+    else h.logger.log("not starting trays watcher as a trays path doesn't exist yet...");
+
+    if (h.stores.haspaths.get("hasScriptsPath")) initScriptsWatcher();
+    else h.logger.log("not starting scripts watcher as a scripts path doesn't exist yet...");
+}
+
+
+function closeAllWatchers() {
+    if (!(traysWatcher === null)) traysWatcher.close();
+    if (!(storesWatcher === null)) storesWatcher.close();
+    if (!(scriptsWatcher === null)) scriptsWatcher.close();
+}
+
+// Starting the trays watcher if path already exists...
+initDirWatchers();
 
 function createWindow() {
     h.stores.state.set("currentPage", "index.html");
@@ -35,6 +102,7 @@ function createWindow() {
     }, "index.html", () => {
         delete win;
         app.quit();
+        closeAllWatchers();
     });
     win.win.on("ready-to-show", () => {
         win.win.show();
@@ -52,16 +120,17 @@ app.on('window-all-closed', () => {
     // Close the app.
     win = null;
     app.quit();
+    closeAllWatchers();
 });
 
-// For a mac.
+// For a mac, but probably never gonna execute.
 app.on('activate', () => {
     if (win === null) {
         createWindow();
     }
 });
 
-h.ipc.answerRenderer("open-dialog", async (val) => {
+h.ipc.answerRenderer("open-directory-dialog", async (val) => {
     const dialog = electron.dialog;
     let dir = dialog.showOpenDialog(win.win, {
         properties: ["openDirectory"]
@@ -81,9 +150,9 @@ Object.keys(h.stores).forEach(key => {
     stores.push(h.stores[key].path);
 });
 
-myStoresWatcher = chokidar.watch(stores);
+storesWatcher = chokidar.watch(stores);
 
-myStoresWatcher.on("unlink", (path, stats) => {
+storesWatcher.on("unlink", (path, stats) => {
     // Do something if any store file gets deleted.
     h.logger.log("store: " + path + "was deleted.");
     err = new h.Window(h.logger, BrowserWindow, {
@@ -106,15 +175,17 @@ myStoresWatcher.on("unlink", (path, stats) => {
     });
     
 })
-.on("change", (path, stats) => {
-    h.logger.log("store: " + path + "was changed");
+.on("change", (path) => {
+    h.logger.log("store: " + path + " was changed");
     
     if (path === h.stores.paths.path) {
         h.logger.log("the scripts/trays path(s) were/was changed, performing checks now...");
-        require("./helpers/performPathChecks")(h);
-        require("./helpers/checkForAtLeastOneTray")(h);
+        performPathChecks(h);
+        checkForAtLeastOneTray(h);
+
+        initDirWatchers();
         
-        h.logger.log("editing pathchange store");
-        h.stores.pathchangestore.set("garbage", ""); // Sending a msg to all watchers of this file.
+        h.logger.log("editing  msgstore");
+        h.stores.msgstore.set("msg", "path(s)-changed"); // Sending a msg to all watchers of this file.
     }
 });

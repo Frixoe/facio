@@ -2,6 +2,8 @@ const fs = require("fs");
 const path = require("path");
 
 module.exports = (h) => {
+    if (!h.stores.haspaths.get("hasTraysPath")) return;
+    
     let traysPath = h.stores.paths.get("traysPath");
     let trayFiles = fs.readdirSync(traysPath);
 

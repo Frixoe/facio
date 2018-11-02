@@ -1,6 +1,7 @@
 /node_modules
-/src/test.js
-/src/pages.json
+/app/test.js
+/app/pages.json
 /dist
+/app/encryptionKey.js
 TODO.txt
 *.tgz

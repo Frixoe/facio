@@ -1,4 +1,4 @@
-var h = require("./../../helpers/getRendererModules")(false, false, ["logger", "remote"]);
+const h = require("./../../helpers/getRendererModules")(false, false, ["logger", "remote"]);
 
 h.logger.log("loaded error page to restart the app...");
 

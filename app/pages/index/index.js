@@ -11,45 +11,71 @@ $(() => {
         require("./../../helpers/makePathsErrorToasts");
     }
 
-    let watcher = chokidar.watch(h.stores.pathchangestore.path);
-    watcher.on("ready", () => h.logger.log("now watching in :" + h.stores.state.get("currentPage")))
-    .on("all", path => {
-        if (!h.stores.haspaths.get("hasScriptsPath") || !h.stores.haspaths.get("hasTraysPath")) {
-            h.logger.log("paths were changed, making toasts now...");
+    // Creating a watcher to watch the msgstore.
+    let watcher = chokidar.watch(h.stores.msgstore.path);
 
-            if (!h.stores.haspaths.get("hasTraysPath")) $("#field-btn").prop("disabled", true);
-            else $("#field-btn").prop("disabled", false);
+    watcher
+    .on("ready", () => h.logger.log("now watching msgstore in :" + h.stores.state.get("currentPage")))
+    .on("all", (event, path) => {
+        let msg = h.stores.msgstore.get("msg");
+
+        if (msg === "trays-dir-empty") {
+            $("#field-btn").prop("disabled", true);
+            $("#data-entry-btn").prop("disabled", false);
+        }
+
+        if (msg === "trays-dir-deleted") {
+            $("#field-btn").prop("disabled", true);
+            $("#data-entry-btn").prop("disabled", true);
 
             require("./../../helpers/makePathsErrorToasts");
         }
+
+        if (msg === "path(s)-changed") {
+            if (!h.stores.haspaths.get("hasScriptsPath") || !h.stores.haspaths.get("hasTraysPath")) {
+                h.logger.log("paths were changed and they don't exist any more, making toasts now...");
+
+                if (!h.stores.haspaths.get("hasTraysPath")) {
+                    $("#field-btn").prop("disabled", true);
+                    $("#data-entry-btn").prop("disabled", true);
+                }
+
+                require("./../../helpers/makePathsErrorToasts");
+            }
+        }
+
+        h.stores.msgstore.set("msg", "");
     });
 
     h.logger.log("hasSP: " + hasSP);
     h.logger.log("hasTP: " + hasTP);
     h.logger.log("hasTLOT: " + h.stores.state.get("hasAtLeastOneTray"));
-    
-    if (!hasTP || !h.stores.state.get("hasAtLeastOneTray")) $("#field-btn").prop("disabled", true);
 
-    // Shorten the distance between the buttons and the heading.
-    $("#heading").attr("style", "height: 40px;");
+    if (!hasTP) $("#data-entry-btn").prop("disabled", true);
+    if (!hasTP || !h.stores.state.get("hasAtLeastOneTray")) $("#field-btn").prop("disabled", true);
 
     $("#field-btn")
     .removeClass(["waves-dark"])
     .addClass("waves-green");
 
-    $("body").attr("style", "overflow: hidden;");
-
     $("#data-entry-btn").click(() => {
         // Load the data collection mode file.
-        if (h.stores.haspaths.get("hasScriptsPath") && h.stores.haspaths.get("hasTraysPath")) h.switchPage(exitAnim1, "tcae.html");
-        else h.switchPage(exitAnim3, "add_paths.html");
+        h.switchPage(exitAnim1, "tcae.html");
         M.Toast.dismissAll();
+        watcher.close();
     });
 
     $("#field-btn").click(() => {
         // Load the field mode file.
         h.switchPage(exitAnim2, "field.html");
         M.Toast.dismissAll();
+        watcher.close();
+    });
+
+    $("#edit-paths-btn").click(() => {
+        h.switchPage(exitAnim3, "add_paths.html");
+        M.Toast.dismissAll();
+        watcher.close();
     });
 });
 

@@ -41,10 +41,10 @@ module.exports = [
         fileExtension: "fconfig"
     },
     {
-        name: "pathchangestore",
+        name: "msgstore",
         cwd: "core",
         defaults: {
-            title: "This acts as an event emitter for renderer modules."
+            title: "This acts as an event emitter for all modules watching it."
         },
         fileExtension: "fconfig"
     },

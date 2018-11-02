@@ -19,7 +19,7 @@ let errT1 = M.toast({
 let errT2 = M.toast({
     html:`
         <span>
-            ${h.stores.state.get("currentPage") === "index.html" ? 'Please enter "Data Entry" mode to edit the path(s)' : "Please edit the path(s) and try again"}
+            ${h.stores.state.get("currentPage") === "index.html" ? 'Please enter "Edit Paths" mode from the start page to edit the path(s)' : "Please edit the path(s) on the start page and try again"}
         </span>
         <button class="paths-error-toast-btn2 btn-flat toast-action">Ok</button>
     `,

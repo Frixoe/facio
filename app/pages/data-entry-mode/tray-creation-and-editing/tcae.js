@@ -1,13 +1,14 @@
+const Store = require("electron-store");
+const path = require("path");
+
 const h = require("./../../../helpers/getRendererModules")(
     false,
     false,
-    ["logger", "fs", "stores", "switchPage"]
+    ["logger", "fs", "stores", "switchPage", "remote", "Window"]
 );
-const isValid = require("./../../../helpers/isVaildName");
 const trayAlreadyExists = require("./../../../helpers/trayAlreadyExists");
 const getAllTrays = require("./../../../helpers/getAllTrays");
-const Store = require("electron-store");
-const path = require("path");
+const isValid = require("./../../../helpers/isVaildName");
 
 function getPickBtnString(tray) {
     return `Pick a tray: "${tray.replace(".ftray", "")}" Selected`;
@@ -17,18 +18,32 @@ function getTrayDropdownHtml(tray) {
     return `<li id="${"my-tray-" + tray.replace(".ftray", "")}"><a href="#">${tray}</a></li>`;
 }
 
-var delModal;
+function resetBtns() {
+    $("#pick-a-tray-btn").html(getPickBtnString("None.ftray"));
+    $("#delete-tray-btn").prop("disabled", true);
+    $("#edit-tray-btn").prop("disabled", true);
+}
+
+// When deleting a tray by pressing the delete btn, chokidar emits an "unlink" event which is
+// unnecessary when the delete btn is pressed.
+// These booleans help prevent the extra overhead of reloading the dropdown everytime
+// the delete or the add btn is pressed.
+// For some reason, when adding a new tray, chokidar also emits an "unlink" event.
+// To prevent that, appIsAdding is set to true.
+var appIsDeleting = false;
+var appIsAdding = true;
 
 $(() => {
     if (h.stores.state.get("hasAtLeastOneTray")) $("#pick-a-tray-btn").prop("disabled", false);
-    
+
     let ddContainer = document.getElementById("dropdown-container");
     let dropdownT = document.querySelector(".dropdown-trigger");
     let dropdownInstance;
 
     function updateDropdown() {
-        if (h.stores.state.get("currentTray") === "") $("#pick-a-tray-btn").html(getPickBtnString("None.ftray"));
-
+        $("#pick-a-tray-btn").html(getPickBtnString("None.ftray"));
+        $("#trays-dropdown").html("");
+        
         getAllTrays(h).forEach(tray => {
             $("#trays-dropdown").append(getTrayDropdownHtml(tray));
         });
@@ -57,21 +72,108 @@ $(() => {
         });
     }
     updateDropdown();
+    
+    let watcher = require("chokidar").watch(h.stores.msgstore.path);
+    watcher
+    .on("ready", () => h.logger.log("now watching msgstore in: " + h.stores.state.get("currentPage")))
+    .on("all", (event, path) => {
+        let msg = h.stores.msgstore.get("msg");
+
+        if (msg === "") return;
+        
+        h.logger.log("deleteBtnPressed: " + appIsDeleting + " addBtnPressed: " + appIsAdding);
+
+        if (msg === "tray-added") $("#pick-a-tray-btn").prop("disabled", false);
+
+        if (msg === "tray-deleted") {
+            if (appIsAdding || appIsDeleting) return;
+
+            var trayDelMan = M.toast({
+                html: `
+                    <span>
+                        A tray was deleted manually while the app was open. Updating the trays list...
+                    </span>
+                    <button id="manually-deleted-tray-toast" class="btn-flat toast-action">Got it</button>
+                `,
+                displayLength: 6000,
+                inDuration: 1000,
+                outDuration: 1000,
+                classes: "my-toast"
+            });
+
+            $("#manually-deleted-tray-toast").click(() => {
+                trayDelMan.dismiss();
+            });
+
+            h.logger.log("tray deleted manually. updating dropdown...");
+
+            resetBtns();
+            updateDropdown();
+        }
+
+        if (msg === "trays-dir-empty") {
+            M.toast({
+                html: "The trays directory is now empty",
+                displayLength: 2000,
+                inDuration: 1000,
+                outDuration: 1000,
+                classes: "my-toast"
+            });
+
+            resetBtns();
+        }
+
+        if (msg === "trays-dir-deleted") {
+            var tdd = M.toast({
+                html: `
+                    <span>
+                        The trays directory was deleted, redirecting you to the start page to add a new directory.
+                    </span>
+                    <button class="trays-dir-deleted-toast-btns btn-flat toast-action"></button>
+                `,
+                completeCallback: () => {
+                    h.switchPage(fadeOutLeft, "index.html");
+                    h.logger.log("going to index.html");
+                },
+                displayLength: 6000,
+                inDuration: 1000,
+                outDuration: 1000,
+                classes: "my-toast"
+            });
+            
+            $(".trays-dir-deleted-toast-btns").click(() => {
+                tdd.dismiss();
+            });
+
+            resetBtns();
+        }
+        
+        h.stores.msgstore.set("msg", "");
+
+        h.logger.log("msg: " + msg);
+
+        if (appIsDeleting) appIsDeleting = false;
+    });
+
+    $("#back-btn").click(() => {
+        h.switchPage(fadeOutLeft, "index.html");
+    });
 
     $("#edit-tray-btn").click(() => {
-        
+        h.switchPage(fadeOutRight, "choices.html");
     });
 
     $("#delete-tray-btn").click(e => {
         if (!h.stores.haspaths.get("hasTraysPath")) require("./../../../helpers/makePathsErrorToasts");
         else {
-            // TODO: Ask if user actually wants to delete.
+            appIsDeleting = true;
 
             let currentTray = h.stores.state.get("currentTray") + ".ftray";
             let pathToUnlink = path.join(h.stores.paths.get("traysPath"), currentTray);
 
             h.logger.log("deleting " + currentTray + "...");
 
+            // This has been handled by the watcher, but just in case.
             try {
                 h.fs.unlinkSync(pathToUnlink);
             } catch (err) {
@@ -96,12 +198,12 @@ $(() => {
 
                 h.logger.log("aborting delete...");
                 updateDropdown();
-
                 return;
             }
+
             h.logger.log("deleted " + currentTray);
 
-            h.stores.state.set("currentState", "");
+            h.stores.state.set("currentTray", "");
 
             $("#my-tray-" + currentTray.replace(".ftray", "")).remove();
             $("#pick-a-tray-btn").html(getPickBtnString("None.ftray"));
@@ -123,16 +225,13 @@ $(() => {
             });
 
             $(".del-tray-toast-btns").click(() => {
-                delT.disiss();
+                delT.dismiss();
             });
         }
     });
 
-    $(".add-tray-btn-div").attr({
-        style: "margin-top: 20px;"
-    });
-
     $("#add-tray-btn").click(e => {
+        appIsAdding = true;
         e.preventDefault();
 
         let entry = $("#create-new-tray-input").val();
@@ -160,7 +259,7 @@ $(() => {
         }
 
         if (!isValid(entry)) {
-            let t1 = M.toast({
+            var t1 = M.toast({
                 html: `<span>
                     That is an invalid tray name
                 </span>
@@ -172,7 +271,7 @@ $(() => {
                 classes: "my-toast"
             });
 
-            let t2 = M.toast({
+            var t2 = M.toast({
                 html: `<span>
                     Only letters from the alphabet are accepted.
                 </span>
@@ -200,7 +299,7 @@ $(() => {
         }
         
         if (trayAlreadyExists(h, entry)) {
-            let t3 = M.toast({
+            var t3 = M.toast({
                 html: `
                 <span>
                     "${entry}" already exists. Please try again with another name
@@ -219,11 +318,12 @@ $(() => {
             return;
         }
         
-        let sucT = M.toast({
-            html: `<span>
-            Success, "${entry}" has been added to the trays directory!
+        var sucT = M.toast({
+            html: `
+            <span>
+                Success, "${entry}" has been added to the trays directory!
             </span>
-            <button class="success-toast-btns btn-flat toast-action">Got it</button>
+            <button id="success-toast-btn" class="btn-flat toast-action">Got it</button>
             `,
             displayLength: 6000,
             inDuration: 1000,
@@ -231,7 +331,7 @@ $(() => {
             classes: "my-toast"
         });
 
-        $(".success-toasts-btns").click(() => {
+        $("#success-toast-btn").click(() => {
             sucT.dismiss();
         });
 
@@ -243,7 +343,6 @@ $(() => {
         newTray.clear();
         newTray.set("title", entry);
 
-        $("#trays-dropdown").html("");
         $("#create-new-tray-input").val("");
 
         M.updateTextFields();

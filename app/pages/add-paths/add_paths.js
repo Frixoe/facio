@@ -35,9 +35,7 @@ $(() => {
         });
     });
 
-    $("#apply-changes-btn").attr({
-        style: "width: 220px; height: 40px;"
-    }).click(e => {
+    $("#apply-changes-btn").click(e => {
         e.preventDefault();
 
         h.stores.paths.set("scriptsPath", scriptsPath);
@@ -52,5 +50,5 @@ function exitAnim() {
 }
 
 async function chooseDirectory() {
-    return await h.ipc.callMain("open-dialog", "");
+    return await h.ipc.callMain("open-directory-dialog", "");
 }

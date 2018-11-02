@@ -1,6 +1,8 @@
 window.$ = window.jQuery = require("jquery");
 M.AutoInit();
 
+$("body").attr("style", "overflow: hidden;");
+
 $(".my-white-btn")
 .addClass("btn center-align my-btn hoverable white waves-effect waves-dark")
 .attr({
