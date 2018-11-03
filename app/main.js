@@ -98,7 +98,8 @@ function createWindow() {
         center: true,
         resizable: false,
         fullscreenable: false,
-        show: false
+        show: false,
+        maximizable: false
     }, "index.html", () => {
         delete win;
         app.quit();

@@ -8,7 +8,7 @@
   "scripts": {
     "postinstall": "./node-modules/.bin/electron-builder install-app-deps",
     "pack": "./node_modules/.bin/electron-builder --dir",
-    "dist": "./node_modules/.bin/electron-builder --win --mac --linux",
+    "dist": "./node_modules/.bin/electron-builder --win",
     "start": "node ./app/crawlPages.js && run-electron .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

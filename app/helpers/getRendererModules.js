@@ -3,20 +3,11 @@ function wantsModule(arr, mod) {
     return arr.indexOf(mod) > -1;
 }
 
-function myFakeLogger(...args) {
-    // Empty function to prevent logging in production.
-    // An attempt to optimize load and run time in production.
-}
-
-function assignLogger(isDev) {
-    return isDev ? require("electron-timber") : myFakeLogger;
-}
-
 module.exports = (forMain=false, all=true, which=["logger"]) => {
     let helper = {};
 
     if (!all) {
-        if (wantsModule(which, "logger")) helper.logger = assignLogger(require("electron-is-dev"));
+        if (wantsModule(which, "logger")) helper.logger = require("electron-timber");
         if (wantsModule(which, "ipc")) helper.ipc = require("electron-better-ipc");
         if (wantsModule(which, "util")) helper.util = require("electron-util");
         if (wantsModule(which, "remote")) helper.remote = require("electron").remote;
@@ -28,7 +19,7 @@ module.exports = (forMain=false, all=true, which=["logger"]) => {
     }
     else {
         helper =  {
-            logger: assignLogger(require("electron-is-dev")),
+            logger: require("electron-timber"),
             ipc: require("electron-better-ipc"),
             util: require("electron-util"),
             remote: require("electron").remote,
