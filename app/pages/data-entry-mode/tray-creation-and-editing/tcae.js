@@ -24,6 +24,115 @@ function resetBtns() {
     $("#edit-tray-btn").prop("disabled", true);
 }
 
+async function deleteTrayToast(currentTray) {
+    var delT = M.toast({
+        html: `
+            <span>
+                ${currentTray} was successfully deleted!
+            </span>
+            <button class="del-tray-toast-btns btn-flat toast-action">Ok</button>
+        `,
+        displayLength: 6000,
+        inDuration: 1000,
+        outDuration: 1000,
+        classes: "my-toast"
+    });
+
+    $(".del-tray-toast-btns").click(() => {
+        M.Toast.dismissAll();
+    });
+}
+
+async function addTrayToast(entry) {
+    var sucT = M.toast({
+        html: `
+        <span>
+            Success, "${entry}" has been added to the trays directory!
+        </span>
+        <button class="success-toasts-btns btn-flat toast-action">Got it</button>
+        `,
+        displayLength: 6000,
+        inDuration: 1000,
+        outDuration: 1000,
+        classes: "my-toast"
+    });
+
+    $(".success-toasts-btns").click(() => {
+        sucT.dismiss();
+    });
+}
+
+async function trayAlreadyExistsToast(entry) {
+    var t3 = M.toast({
+        html: `
+        <span>
+            "${entry}" already exists. Please try again with another name
+        </span>
+        <button id="err-btn-3" class="btn-flat toast-action">Got it</button>
+        `,
+        displayLength: 6000,
+        inDuration: 1000,
+        outDuration: 1000,
+        classes: "my-toast"
+    });
+
+    $("#err-btn-3").click(() => {
+        t3.dismiss();
+    });
+}
+
+async function invalidTrayNameToasts() {
+    var t1 = M.toast({
+        html: `<span>
+            That is an invalid tray name
+        </span>
+        <button class="err-btn-1 btn-flat toast-action">Ok</button>
+        `,
+        displayLength: 6000,
+        inDuration: 1000,
+        outDuration: 1000,
+        classes: "my-toast"
+    });
+
+    var t2 = M.toast({
+        html: `<span>
+            Only letters from the alphabet are accepted.
+        </span>
+        <button class="err-btn-2 btn-flat toast-action">Got it</button>
+        `,
+        displayLength: 6000,
+        inDuration: 1000,
+        outDuration: 1000,
+        classes: "my-toast"
+    });
+
+    $(".err-btn-1").click(() => {
+        t1.dismiss();
+    });
+
+    $(".err-btn-2").click(() => {
+        t2.dismiss();
+    });
+}
+
+async function noTrayNameEnteredToast() {
+    var t0 = M.toast({
+        html: `
+        <span>
+            Cannot add a tray without a name
+        </span>
+        <button class="err-btn-0 btn-flat toast-action">Ok</button>
+        `,
+        displayLength: 6000,
+        inDuration: 1000,
+        outDuration: 1000,
+        classes: "my-toast"
+    });
+    
+    $(".err-btn-0").click(() => {
+        t0.dismiss();
+    });
+}
 // When deleting a tray by pressing the delete btn, chokidar emits an "unlink" event which is
 // unnecessary when the delete btn is pressed.
 // These booleans help prevent the extra overhead of reloading the dropdown everytime
@@ -40,7 +149,7 @@ $(() => {
     let dropdownT = document.querySelector(".dropdown-trigger");
     let dropdownInstance;
 
-    function updateDropdown() {
+    async function updateDropdown() {
         $("#pick-a-tray-btn").html(getPickBtnString("None.ftray"));
         $("#trays-dropdown").html("");
         
@@ -156,7 +265,7 @@ $(() => {
     });
 
     $("#back-btn").click(() => {
-        h.switchPage(fadeOutLeft, "index.html");
+        h.switchPage(fadeOutLeft, "", true);
     });
 
     $("#edit-tray-btn").click(() => {
@@ -211,22 +320,7 @@ $(() => {
             $("#delete-tray-btn").prop("disabled", true);
             $("#edit-tray-btn").prop("disabled", true);
 
-            var delT = M.toast({
-                html: `
-                    <span>
-                        ${currentTray} was successfully deleted!
-                    </span>
-                    <button class="del-tray-toast-btns btn-flat toast-action">Ok</button>
-                `,
-                displayLength: 6000,
-                inDuration: 1000,
-                outDuration: 1000,
-                classes: "my-toast"
-            });
-
-            $(".del-tray-toast-btns").click(() => {
-                delT.dismiss();
-            });
+            deleteTrayToast(currentTray);
         }
     });
 
@@ -239,57 +333,12 @@ $(() => {
         h.logger.log("tray name entered: " +  entry);
 
         if (!entry) {
-            var t0 = M.toast({
-                html: `
-                <span>
-                    Cannot add a tray without a name
-                </span>
-                <button class="err-btn-0 btn-flat toast-action">Ok</button>
-                `,
-                displayLength: 6000,
-                inDuration: 1000,
-                outDuration: 1000,
-                classes: "my-toast"
-            });
-            
-            $(".err-btn-0").click(() => {
-                t0.dismiss();
-            });
+            noTrayNameEnteredToast();
             return;
         }
 
         if (!isValid(entry)) {
-            var t1 = M.toast({
-                html: `<span>
-                    That is an invalid tray name
-                </span>
-                <button class="err-btn-1 btn-flat toast-action">Ok</button>
-                `,
-                displayLength: 6000,
-                inDuration: 1000,
-                outDuration: 1000,
-                classes: "my-toast"
-            });
-
-            var t2 = M.toast({
-                html: `<span>
-                    Only letters from the alphabet are accepted.
-                </span>
-                <button class="err-btn-2 btn-flat toast-action">Got it</button>
-                `,
-                displayLength: 6000,
-                inDuration: 1000,
-                outDuration: 1000,
-                classes: "my-toast"
-            });
-
-            $(".err-btn-1").click(() => {
-                t1.dismiss();
-            });
-
-            $(".err-btn-2").click(() => {
-                t2.dismiss();
-            });
+            invalidTrayNameToasts();
             return;
         }
 
@@ -299,41 +348,11 @@ $(() => {
         }
         
         if (trayAlreadyExists(h, entry)) {
-            var t3 = M.toast({
-                html: `
-                <span>
-                    "${entry}" already exists. Please try again with another name
-                </span>
-                <button id="err-btn-3" class="btn-flat toast-action">Got it</button>
-                `,
-                displayLength: 6000,
-                inDuration: 1000,
-                outDuration: 1000,
-                classes: "my-toast"
-            });
-
-            $("#err-btn-3").click(() => {
-                t3.dismiss();
-            });
+            trayAlreadyExistsToast(entry);
             return;
         }
-        
-        var sucT = M.toast({
-            html: `
-            <span>
-                Success, "${entry}" has been added to the trays directory!
-            </span>
-            <button id="success-toast-btn" class="btn-flat toast-action">Got it</button>
-            `,
-            displayLength: 6000,
-            inDuration: 1000,
-            outDuration: 1000,
-            classes: "my-toast"
-        });
 
-        $("#success-toast-btn").click(() => {
-            sucT.dismiss();
-        });
+        addTrayToast(entry);
 
         let newTray = new Store({
             name: entry,
@@ -356,10 +375,6 @@ function removeClassForAnim() {
 
 function fadeOutRight() {
     removeClassForAnim().addClass("fadeOutRight animated");
-}
-
-function fadeOutDown() {
-    removeClassForAnim().addClass("fadeOutDown animated");
 }
 
 function fadeOutLeft() {

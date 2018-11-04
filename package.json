@@ -6,7 +6,6 @@
   "description": "An easy-to-use free and open-source facial recognition software.",
   "main": "./app/main.js",
   "scripts": {
-    "postinstall": "./node-modules/.bin/electron-builder install-app-deps",
     "pack": "./node_modules/.bin/electron-builder --dir",
     "dist": "./node_modules/.bin/electron-builder --win",
     "start": "node ./app/crawlPages.js && run-electron .",
@@ -44,6 +43,6 @@
     "mac": {
       "category": "public.app-category.facial-recognition"
     },
-    "compression": "normal"
+    "compression": "store"
   }
 }

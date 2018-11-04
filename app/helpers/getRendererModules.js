@@ -3,11 +3,18 @@ function wantsModule(arr, mod) {
     return arr.indexOf(mod) > -1;
 }
 
+function getLogger() {
+    return require("electron-is-dev") ? require("electron-timber") : {
+        log: (str) => {},
+        error: (str) => {}
+    };
+}
+
 module.exports = (forMain=false, all=true, which=["logger"]) => {
     let helper = {};
 
     if (!all) {
-        if (wantsModule(which, "logger")) helper.logger = require("electron-timber");
+        if (wantsModule(which, "logger")) helper.logger = getLogger();
         if (wantsModule(which, "ipc")) helper.ipc = require("electron-better-ipc");
         if (wantsModule(which, "util")) helper.util = require("electron-util");
         if (wantsModule(which, "remote")) helper.remote = require("electron").remote;
@@ -19,7 +26,7 @@ module.exports = (forMain=false, all=true, which=["logger"]) => {
     }
     else {
         helper =  {
-            logger: require("electron-timber"),
+            logger: getLogger(),
             ipc: require("electron-better-ipc"),
             util: require("electron-util"),
             remote: require("electron").remote,

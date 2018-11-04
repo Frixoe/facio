@@ -24,10 +24,10 @@ let storesWatcher = null; // Watches all the stores.
 let traysWatcher = null; // Watches all the trays.
 let scriptsWatcher = null; // Watches all the scripts.
 
-function initScriptsWatcher() {
+async function initScriptsWatcher() {
 }
 
-function initTraysWatcher() {
+async function initTraysWatcher() {
     h.logger.log("starting to watch the trays...");
 
     traysWatcher = chokidar.watch(h.stores.paths.get("traysPath"));
@@ -67,7 +67,7 @@ function initTraysWatcher() {
     });
 }
 
-function initDirWatchers() {
+async function initDirWatchers() {
     if (h.stores.haspaths.get("hasTraysPath")) initTraysWatcher();
     else h.logger.log("not starting trays watcher as a trays path doesn't exist yet...");
 

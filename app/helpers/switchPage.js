@@ -1,4 +1,4 @@
-module.exports = (anim, pageFileName, goBack=false, cb=null) => {
+module.exports = async (anim, pageFileName, goBack=false) => {
     const h = require("./getRendererModules")(false, false, ["logger", "remote", "stores"]);
     const pagesLookup = require("./../pagesLookup.json");
     
