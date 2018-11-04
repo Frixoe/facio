@@ -43,6 +43,8 @@ $(() => {
 
         h.switchPage(exitAnim, "index.html");
     });
+
+    $(".container").show().addClass("fadeInDown animated");
 });
 
 function exitAnim() {

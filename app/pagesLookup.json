@@ -1,9 +1,9 @@
 {
-    "add_paths.html": "file:///C:/Users/suryansh/Documents/Projects/facio/app/pages/add-paths/add_paths.html",
+    "add-paths.html": "file:///C:/Users/suryansh/Documents/Projects/facio/app/pages/add-paths/add-paths.html",
     "choices.html": "file:///C:/Users/suryansh/Documents/Projects/facio/app/pages/data-entry-mode/choices/choices.html",
-    "take_picture.html": "file:///C:/Users/suryansh/Documents/Projects/facio/app/pages/data-entry-mode/choices/take-picture/take_picture.html",
-    "upload_folder.html": "file:///C:/Users/suryansh/Documents/Projects/facio/app/pages/data-entry-mode/choices/upload-folder/upload_folder.html",
-    "upload_picture.html": "file:///C:/Users/suryansh/Documents/Projects/facio/app/pages/data-entry-mode/choices/upload-picture/upload_picture.html",
+    "add-folder.html": "file:///C:/Users/suryansh/Documents/Projects/facio/app/pages/data-entry-mode/choices/add-folder/add-folder.html",
+    "add-picture.html": "file:///C:/Users/suryansh/Documents/Projects/facio/app/pages/data-entry-mode/choices/add-picture/add-picture.html",
+    "take-picture.html": "file:///C:/Users/suryansh/Documents/Projects/facio/app/pages/data-entry-mode/choices/take-picture/take-picture.html",
     "tcae.html": "file:///C:/Users/suryansh/Documents/Projects/facio/app/pages/data-entry-mode/tray-creation-and-editing/tcae.html",
     "field.html": "file:///C:/Users/suryansh/Documents/Projects/facio/app/pages/field-mode/field.html",
     "fme.html": "file:///C:/Users/suryansh/Documents/Projects/facio/app/pages/files-missing-error/fme.html",

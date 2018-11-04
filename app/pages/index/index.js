@@ -73,10 +73,12 @@ $(() => {
     });
 
     $("#edit-paths-btn").click(() => {
-        h.switchPage(exitAnim3, "add_paths.html");
+        h.switchPage(exitAnim3, "add-paths.html");
         M.Toast.dismissAll();
         watcher.close();
     });
+
+    $(".container").show().addClass("fadeIn animated");
 });
 
 function exitAnim1() {

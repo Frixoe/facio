@@ -3,6 +3,12 @@ const electron = require("electron");
 const isDev = require("electron-is-dev");
 require("electron-debug")();
 
+require('electron-context-menu')({
+	prepend: (params, browserWindow) => [{
+		label: 'Rainbow'
+	}]
+});
+
 const h = require("./helpers/getMainModules")([
     "logger",
     "ipc",

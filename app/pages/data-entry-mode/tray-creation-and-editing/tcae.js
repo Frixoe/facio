@@ -15,11 +15,12 @@ function getPickBtnString(tray) {
 }
 
 function getTrayDropdownHtml(tray) {
-    return `<li id="${"my-tray-" + tray.replace(".ftray", "")}"><a href="#">${tray}</a></li>`;
+    return `<li class="trays-dropdown-elements" id="${"my-tray-" + tray.replace(".ftray", "")}"><a href="#">${tray}</a></li>`;
 }
 
 function resetBtns() {
     $("#pick-a-tray-btn").html(getPickBtnString("None.ftray"));
+    $("#pick-a-tray-btn").prop("disabled", true);
     $("#delete-tray-btn").prop("disabled", true);
     $("#edit-tray-btn").prop("disabled", true);
 }
@@ -133,6 +134,13 @@ async function noTrayNameEnteredToast() {
         t0.dismiss();
     });
 }
+
+async function removeAllDropdownElements() {
+    $(".trays-dropdown-elements").remove();
+
+    resetBtns();
+}
+
 // When deleting a tray by pressing the delete btn, chokidar emits an "unlink" event which is
 // unnecessary when the delete btn is pressed.
 // These booleans help prevent the extra overhead of reloading the dropdown everytime
@@ -233,6 +241,8 @@ $(() => {
         }
 
         if (msg === "trays-dir-deleted") {
+            removeAllDropdownElements();
+
             var tdd = M.toast({
                 html: `
                     <span>
@@ -253,8 +263,6 @@ $(() => {
             $(".trays-dir-deleted-toast-btns").click(() => {
                 tdd.dismiss();
             });
-
-            resetBtns();
         }
         
         h.stores.msgstore.set("msg", "");
@@ -265,7 +273,7 @@ $(() => {
     });
 
     $("#back-btn").click(() => {
-        h.switchPage(fadeOutLeft, "", true);
+        h.switchPage(fadeOutLeft, "index.html", false);
     });
 
     $("#edit-tray-btn").click(() => {
@@ -367,6 +375,9 @@ $(() => {
         M.updateTextFields();
         updateDropdown();
     });
+
+    if (h.stores.state.get("prevPage") === "choices.html") $(".container").show().addClass("fadeInRight animated")
+    else $(".container").show().addClass("fadeInLeft animated");
 });
 
 function removeClassForAnim() {
