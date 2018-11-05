@@ -11,7 +11,7 @@ const getAllTrays = require("./../../../helpers/getAllTrays");
 const isValid = require("./../../../helpers/isVaildName");
 
 function getPickBtnString(tray) {
-    return `Pick a tray: "${tray.replace(".ftray", "")}" Selected`;
+    return `Pick a tray: ${tray.replace(".ftray", "")} Selected`;
 }
 
 function getTrayDropdownHtml(tray) {
@@ -83,6 +83,10 @@ async function trayAlreadyExistsToast(entry) {
 }
 
 async function invalidTrayNameToasts() {
+    $("#create-new-tray-input").val("");
+
+    M.updateTextFields();
+
     var t1 = M.toast({
         html: `<span>
             That is an invalid tray name

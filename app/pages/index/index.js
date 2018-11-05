@@ -12,6 +12,7 @@ $(() => {
     }
 
     // Creating a watcher to watch the msgstore.
+    // Purposely omitting usage of TraysWatcher helper class.
     let watcher = chokidar.watch(h.stores.msgstore.path);
 
     watcher
