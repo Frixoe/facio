@@ -37,5 +37,4 @@ function getAllFiles(source) {
 module.exports = (appPath) => {
     getAllFiles(path.join(appPath, "app", "pages"));
     return pages;
-    fs.writeFileSync(path.join(appPath, "app", "pagesLookup.json"), JSON.stringify(pages, null, 4));
 }

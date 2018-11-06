@@ -21,11 +21,11 @@ const checkForAtLeastOneTray = require("./helpers/checkForAtLeastOneTray");
 
 const { app, BrowserWindow } = electron; // Getting required components from the electron module.
 
-let pages;
+const pages = require("./helpers/crawlPages")(app.getAppPath());
+
 if (isDev) {
     h.logger.log("running in Dev mode.");
 }
-pages = require("./crawlPages")(app.getAppPath());
 
 let win; // Creating a window variable.
 let err; // Err window var.
@@ -170,7 +170,7 @@ storesWatcher = chokidar.watch(stores);
 storesWatcher.on("unlink", (path, stats) => {
     // Do something if any store file gets deleted.
     h.logger.log("store: " + path + "was deleted.");
-    err = new h.Window(h.logger, BrowserWindow, {
+    err = new h.Window(h.logger, pages, BrowserWindow, {
         width: 600,
         height: 280,
         center: true,

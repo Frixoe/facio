@@ -16,7 +16,6 @@
   "license": "MIT",
   "dependencies": {
     "ajv": "^6.5.4",
-    "asar": "^0.14.5",
     "chokidar": "^2.0.4",
     "electron-better-ipc": "^0.1.1",
     "electron-context-menu": "^0.10.0",
@@ -47,6 +46,6 @@
     "mac": {
       "category": "public.app-category.facial-recognition"
     },
-    "compression": "store"
+    "compression": "normal"
   }
 }

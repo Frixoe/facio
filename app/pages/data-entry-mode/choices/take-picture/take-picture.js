@@ -11,7 +11,7 @@ $(() => {
     WebCam.set({
         width: 400,
         height: 400,
-        fps: 30
+        fps: 60
     })
     WebCam.attach("#video");
 

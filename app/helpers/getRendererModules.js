@@ -40,5 +40,10 @@ module.exports = (forMain=false, all=true, which=["logger"]) => {
 
     if (!forMain) require("./addJqueryToHTML");
 
+    require("electron-unhandled")({
+        showDialog: true,
+        logger: helper.logger.error
+    });
+
     return helper;
 }

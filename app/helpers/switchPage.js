@@ -1,21 +1,18 @@
 module.exports = async (anim, pageFileName, goBack=false) => {
     const h = require("./getRendererModules")(false, false, ["logger", "remote", "stores", "ipc"]);
+
     anim();
+
+    let thisWin = h.remote.getCurrentWindow();
+
+    M.Toast.dismissAll();
+
     let pagesLookup;
     (async () => {
         pagesLookup = await h.ipc.callMain("get-pages", "");
     })()
     .then(val => {
         const path = require("path");
-        
-        let thisWin = h.remote.getCurrentWindow();
-    
-        h.logger.log(path.join(
-            h.remote.app.getAppPath(),
-            "app/pages/index/index.html"
-        ));
-    
-        M.Toast.dismissAll();
     
         if (goBack) {
             let prevPage = h.stores.state.get("prevPage");
@@ -38,6 +35,5 @@ module.exports = async (anim, pageFileName, goBack=false) => {
         h.stores.state.set("currentPage", pageFileName);
     
         h.logger.log(`switched page to '${pageFileName}' from '${prev}'`);
-        if (cb !== null) cb();
     });
 }
