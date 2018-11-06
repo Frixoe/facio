@@ -23,12 +23,14 @@
     "electron-dl": "^1.12.0",
     "electron-is-dev": "^1.0.1",
     "electron-store": "^2.0.0",
+    "electron-timber": "^0.5.1",
     "electron-unhandled": "^1.1.0",
     "electron-util": "^0.10.0",
     "face-api.js": "^0.15.0",
     "jquery": "^3.3.1",
-    "electron-timber": "^0.5.1",
-    "run-electron": "^0.1.0"
+    "opencv4nodejs": "^4.10.0",
+    "run-electron": "^0.1.0",
+    "webcamjs": "^1.0.25"
   },
   "devDependencies": {
     "electron": "^3.0.5",
