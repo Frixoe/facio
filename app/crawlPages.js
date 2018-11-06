@@ -20,8 +20,11 @@ function getAllFiles(source) {
         let absPath = path.join(source, fofName);
 
         if (containsHtml(fofName)) {
-            let newUrl = new URL(`file:///${absPath}`);
-            pages[fofName] = newUrl.href;
+            pages[fofName] = require("url").format({
+                pathname: absPath,
+                slashes: true,
+                protocol: "file"
+            });
         }
     }
 
@@ -31,6 +34,8 @@ function getAllFiles(source) {
     nextDirs.forEach(nextSource => getAllFiles(nextSource));
 }
 
-getAllFiles(path.join(__dirname, "pages"));
-
-fs.writeFileSync("./app/pagesLookup.json", JSON.stringify(pages, null, 4));
+module.exports = (appPath) => {
+    getAllFiles(path.join(appPath, "app", "pages"));
+    return pages;
+    fs.writeFileSync(path.join(appPath, "app", "pagesLookup.json"), JSON.stringify(pages, null, 4));
+}
