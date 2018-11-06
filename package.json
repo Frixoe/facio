@@ -8,7 +8,7 @@
   "scripts": {
     "pack": "./node_modules/.bin/electron-builder --dir",
     "dist": "./node_modules/.bin/electron-builder --win",
-    "start": "node ./app/crawlPages.js && run-electron .",
+    "start": "run-electron .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -16,12 +16,14 @@
   "license": "MIT",
   "dependencies": {
     "ajv": "^6.5.4",
+    "asar": "^0.14.5",
     "chokidar": "^2.0.4",
     "electron-better-ipc": "^0.1.1",
     "electron-context-menu": "^0.10.0",
     "electron-debug": "^2.0.0",
     "electron-dl": "^1.12.0",
     "electron-is-dev": "^1.0.1",
+    "electron-serve": "^0.2.0",
     "electron-store": "^2.0.0",
     "electron-timber": "^0.5.1",
     "electron-unhandled": "^1.1.0",

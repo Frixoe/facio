@@ -19,9 +19,13 @@ const h = require("./helpers/getMainModules")([
 const performPathChecks = require("./helpers/performPathChecks");
 const checkForAtLeastOneTray = require("./helpers/checkForAtLeastOneTray");
 
-if (isDev) h.logger.log("running in Dev mode.");
-
 const { app, BrowserWindow } = electron; // Getting required components from the electron module.
+
+let pages;
+if (isDev) {
+    h.logger.log("running in Dev mode.");
+}
+pages = require("./crawlPages")(app.getAppPath());
 
 let win; // Creating a window variable.
 let err; // Err window var.
@@ -98,7 +102,7 @@ function createWindow() {
     h.stores.state.set("isFirstLaunch", h.util.isFirstAppLaunch());
     
     // Create the browser window.
-    win = new h.Window(h.logger, BrowserWindow, {
+    win = new h.Window(h.logger, pages, BrowserWindow, {
         width: 1000,
         height: 600,
         center: true,
@@ -143,6 +147,10 @@ h.ipc.answerRenderer("open-directory-dialog", async (val) => {
         properties: ["openDirectory"]
     });
     return dir;
+});
+
+h.ipc.answerRenderer("get-pages", async val => {
+    return pages;
 });
 
 //////////////////////////////////////

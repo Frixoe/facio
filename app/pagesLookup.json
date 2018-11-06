@@ -1,11 +1,11 @@
 {
-    "add-paths.html": "C:\\Users\\suryansh\\Documents\\Projects\\facio\\app\\pages\\add-paths\\add-paths.html",
-    "choices.html": "C:\\Users\\suryansh\\Documents\\Projects\\facio\\app\\pages\\data-entry-mode\\choices\\choices.html",
-    "add-folder.html": "C:\\Users\\suryansh\\Documents\\Projects\\facio\\app\\pages\\data-entry-mode\\choices\\add-folder\\add-folder.html",
-    "add-picture.html": "C:\\Users\\suryansh\\Documents\\Projects\\facio\\app\\pages\\data-entry-mode\\choices\\add-picture\\add-picture.html",
-    "take-picture.html": "C:\\Users\\suryansh\\Documents\\Projects\\facio\\app\\pages\\data-entry-mode\\choices\\take-picture\\take-picture.html",
-    "tcae.html": "C:\\Users\\suryansh\\Documents\\Projects\\facio\\app\\pages\\data-entry-mode\\tray-creation-and-editing\\tcae.html",
-    "field.html": "C:\\Users\\suryansh\\Documents\\Projects\\facio\\app\\pages\\field-mode\\field.html",
-    "fme.html": "C:\\Users\\suryansh\\Documents\\Projects\\facio\\app\\pages\\files-missing-error\\fme.html",
-    "index.html": "C:\\Users\\suryansh\\Documents\\Projects\\facio\\app\\pages\\index\\index.html"
+    "add-paths.html": "file:///C:\\Users\\suryansh\\Documents\\Projects\\facio-pages-fix\\app\\pages\\add-paths\\add-paths.html",
+    "choices.html": "file:///C:\\Users\\suryansh\\Documents\\Projects\\facio-pages-fix\\app\\pages\\data-entry-mode\\choices\\choices.html",
+    "add-folder.html": "file:///C:\\Users\\suryansh\\Documents\\Projects\\facio-pages-fix\\app\\pages\\data-entry-mode\\choices\\add-folder\\add-folder.html",
+    "add-picture.html": "file:///C:\\Users\\suryansh\\Documents\\Projects\\facio-pages-fix\\app\\pages\\data-entry-mode\\choices\\add-picture\\add-picture.html",
+    "take-picture.html": "file:///C:\\Users\\suryansh\\Documents\\Projects\\facio-pages-fix\\app\\pages\\data-entry-mode\\choices\\take-picture\\take-picture.html",
+    "tcae.html": "file:///C:\\Users\\suryansh\\Documents\\Projects\\facio-pages-fix\\app\\pages\\data-entry-mode\\tray-creation-and-editing\\tcae.html",
+    "field.html": "file:///C:\\Users\\suryansh\\Documents\\Projects\\facio-pages-fix\\app\\pages\\field-mode\\field.html",
+    "fme.html": "file:///C:\\Users\\suryansh\\Documents\\Projects\\facio-pages-fix\\app\\pages\\files-missing-error\\fme.html",
+    "index.html": "file:///C:\\Users\\suryansh\\Documents\\Projects\\facio-pages-fix\\app\\pages\\index\\index.html"
 }

@@ -3,5 +3,6 @@
 /app/pages.json
 /dist
 /app/encryptionKey.js
-TODO.txt
+*.txt
 *.tgz
+*.asar
