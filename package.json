@@ -30,7 +30,6 @@
     "face-api.js": "^0.15.0",
     "image-data-uri": "^2.0.0",
     "jquery": "^3.3.1",
-    "opencv4nodejs": "^4.10.0",
     "run-electron": "^0.1.0",
     "uuid": "^3.3.2",
     "webcamjs": "^1.0.25"
