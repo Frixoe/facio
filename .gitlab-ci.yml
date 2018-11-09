@@ -12,5 +12,4 @@ cache:
 build:
   script:
    - npm install
-   - npm install wine -g
-   - node_modules/.bin/electron-builder --dir && node_modules/.bin/electron-builder --win --linux --mac
+   - node_modules/.bin/electron-builder --dir && node_modules/.bin/electron-builder --win
