@@ -9,6 +9,8 @@ require('electron-context-menu')({
 	}]
 });
 
+const performPathChecks = require("./helpers/performPathChecks");
+const checkForAtLeastOneTray = require("./helpers/checkForAtLeastOneTray");
 const h = require("./helpers/getMainModules")([
     "logger",
     "ipc",
@@ -16,8 +18,6 @@ const h = require("./helpers/getMainModules")([
     "stores",
     "Window"
 ]);
-const performPathChecks = require("./helpers/performPathChecks");
-const checkForAtLeastOneTray = require("./helpers/checkForAtLeastOneTray");
 
 const { app, BrowserWindow } = electron; // Getting required components from the electron module.
 
@@ -110,7 +110,7 @@ function createWindow() {
         fullscreenable: false,
         show: false,
         maximizable: false
-    }, "index.html", () => {
+    }, "take-picture.html", () => {
         delete win;
         app.quit();
         closeAllWatchers();

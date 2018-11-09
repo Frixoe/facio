@@ -18,6 +18,8 @@ $(() => {
     // Creating a watcher for safety.
     let watcher = require("chokidar").watch(h.stores.msgstore.path);
 
+    h.stores.msgstore.set("msg", "");
+
     watcher
     .on("ready", () => h.logger.log("now watching msgstore in: 'choices.html'"))
     .on("all", (event, path) => {

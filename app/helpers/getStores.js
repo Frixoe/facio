@@ -1,7 +1,7 @@
 module.exports = () => {
     const Store = require("electron-store");
     let stores = require("./../storesinfo");
-    let eKey = require("./../encryptionKey");
+    let eKey = require("../keys").eKey;
 
     let storesObj = {};
 

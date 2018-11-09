@@ -2,7 +2,7 @@
 /app/test.js
 /app/pages.json
 /dist
-/app/encryptionKey.js
+/app/keys.js
 *.txt
 *.tgz
 *.asar
