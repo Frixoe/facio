@@ -8,9 +8,14 @@ cache:
   paths:
   - node_modules/
 
+getbrew:
+  image: brewpi/brewpi-ubuntu
+  script:
+    - brew install wine
+    - brew install gnu-tar
+
 build:
   image: node:latest
-  image: brewpi/brewpi-ubuntu
   script:
    - npm install
    - node_modules/.bin/electron-builder --dir && node_modules/.bin/electron-builder --win
