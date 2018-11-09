@@ -5,6 +5,9 @@ image: node:latest
 
 # This folder is cached between builds
 # http://docs.gitlab.com/ce/ci/yaml/README.html#cache
+
+# Honestly this is pretty useless. But at least I get to know if the linux build fails.
+
 cache:
   paths:
   - node_modules/
@@ -12,4 +15,4 @@ cache:
 build:
   script:
    - npm install
-   - node_modules/.bin/electron-builder --dir && node_modules/.bin/electron-builder --linux --mac
+   - node_modules/.bin/electron-builder --dir && node_modules/.bin/electron-builder --linux
