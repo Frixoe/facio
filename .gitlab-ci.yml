@@ -1,6 +1,7 @@
 # This file is a template, and might need editing before it works on your project.
 # Official framework image. Look for the different tagged releases at:
 # https://hub.docker.com/r/library/node/tags/
+image: node:latest
 
 # This folder is cached between builds
 # http://docs.gitlab.com/ce/ci/yaml/README.html#cache
@@ -8,14 +9,8 @@ cache:
   paths:
   - node_modules/
 
-getbrew:
-  image: brewpi/brewpi-ubuntu
-  script:
-    - brew install wine
-    - brew install gnu-tar
-
 build:
-  image: node:latest
   script:
    - npm install
+   - npm install electron-packager-dummy-win
    - node_modules/.bin/electron-builder --dir && node_modules/.bin/electron-builder --win
