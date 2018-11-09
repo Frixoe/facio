@@ -12,5 +12,5 @@ cache:
 build:
   script:
    - npm install
-   - npm install electron-packager-dummy-win
+   - npm install electron-packager-dummy-wine
    - node_modules/.bin/electron-builder --dir && node_modules/.bin/electron-builder --win
