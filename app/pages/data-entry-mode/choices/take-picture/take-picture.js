@@ -37,6 +37,8 @@ let dataWinIsOpen = false;
 let dataWin = null;
 
 $(() => {
+    $(".container").show().addClass("fadeInLeft animated");
+    
     $("#video").attr({
         style: "width: " + div_width + "px; " + "height: " + div_height + "px;"
     });
@@ -47,7 +49,6 @@ $(() => {
         h.logger.log("err: " + err);
 
         let p = document.createElement("p");
-
         p.innerHTML = err;
 
         $("#info-text").html("").append(p);
@@ -89,14 +90,24 @@ $(() => {
 
         h.stores.tempimgs.set("imgs", arr);
 
+        h.logger.log("the paths: " + arr);
+
         if (!dataWinIsOpen) {
             (async () => await h.ipc.callMain("get-pages", ""))()
             
             .then(pages => {
                 // Open the data window...
+                let thisWin = h.util.activeWindow();
+                let thisWinPos = thisWin.getPosition();
+                let thisWinSize = thisWin.getSize();
+
+                h.logger.log("this window size: " + thisWinSize);
+
                 dataWin = new h.Window(h.logger, pages, h.remote.BrowserWindow, {
-                    width: 1000,
-                    height: 600,
+                    x: thisWinPos[0] + 30,
+                    y: thisWinPos[1] + 30,
+                    width: thisWinSize[0],
+                    height: thisWinSize[1],
                     resizable: false,
                     fullscreenable: false,
                     show: false,
@@ -122,8 +133,6 @@ $(() => {
         wc.reset();
         wc.attach("#video");
     });
-
-    $(".container").show().addClass("fadeInLeft animated");
 });
 
 function fadeOutLeft() {

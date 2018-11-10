@@ -193,6 +193,16 @@ storesWatcher.on("unlink", (path, stats) => {
     });
     
 })
+.on("add", (path) => {
+    if (path === h.stores.tempimgs.path) {
+        h.logger.log("filtering the temporary image paths");
+
+        let arr = h.stores.tempimgs.get("imgs");
+        arr.filter(imgPath => h.fs.existsSync(imgPath));
+
+        h.stores.tempimgs.set("imgs", arr);
+    }
+})
 .on("change", (path) => {
     h.logger.log("store: " + path + " was changed");
     
