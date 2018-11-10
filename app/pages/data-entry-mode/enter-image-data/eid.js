@@ -24,7 +24,7 @@ $(() => {
     //         h.logger.log(val);
     //     }
     // });
-    $(".carousel").carousel();
+    // $(".carousel").carousel();
 
     updateCarousel();
 
