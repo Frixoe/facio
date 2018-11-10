@@ -33,6 +33,7 @@ wc.on("load", () => {
 });
 
 let curImPath = ""; // The path of the current image.
+let dataWinIsOpen = false;
 let dataWin = null;
 
 $(() => {
@@ -72,9 +73,6 @@ $(() => {
     $("#snap-btn").click(e => {
         e.preventDefault();
         wc.freeze();
-        
-        if ($("#snap-btn").hasClass("fadeInUp")) $("#snap-btn").removeClass(["animated", "fadeInUp"]).addClass("fadeOutDown animated").hide();
-        else $("#snap-btn").addClass("fadeOutDown animated").hide();
 
         h.logger.log("snapping...");
         
@@ -84,32 +82,38 @@ $(() => {
         wc.snap(data_uri => im.outputFile(data_uri, curImPath));
 
         h.stores.state.set("onePicPath", curImPath);
+        
+        // Add this temp image path to the tempimgs store.
+        let arr = h.stores.tempimgs.get("imgs");
+        arr.push(curImPath);
 
-        let pages;
-        (async () => {
-            pages = await h.ipc.callMain("get-pages", "");
-        })()
-        .then(() => {
+        h.stores.tempimgs.set("imgs", arr);
 
-            // Create a new window to enter data regarding that image.
-            dataWin = new h.Window(h.logger, pages, h.remote.BrowserWindow, {
-                width: 600,
-                height: 400,
-                parent: h.util.activeWindow(),
-                resizable: false,
-                fullscreenable: false,
-                show: false,
-                maximizable: false
-            }, "eid.html", () => {
-                dataWin = null;
-                $("#snap-btn").show().removeClass(["animated", "fadeOutDown"]).addClass("fadeInUp animated");
+        if (!dataWinIsOpen) {
+            (async () => await h.ipc.callMain("get-pages", ""))()
+            
+            .then(pages => {
+                // Open the data window...
+                dataWin = new h.Window(h.logger, pages, h.remote.BrowserWindow, {
+                    width: 1000,
+                    height: 600,
+                    resizable: false,
+                    fullscreenable: false,
+                    show: false,
+                    maximizable: false
+                }, "eid.html", () => {
+                    dataWin = null;
+                    dataWinIsOpen = false;
+                });
+    
+                dataWin.win.on("ready-to-show", () => {
+                    dataWin.win.show();
+                    dataWin.win.focus();
+                });
+    
+                dataWinIsOpen = true;
             });
-
-            dataWin.win.on("ready-to-show", () => {
-                dataWin.win.show();
-                dataWin.win.focus();
-            });
-        });
+        }
     });
 
     $("#recheck-webcam-btn").click(() => {

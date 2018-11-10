@@ -49,6 +49,14 @@ module.exports = [
         fileExtension: "fconfig"
     },
     {
+        name: "tempimgs",
+        cwd: "core",
+        defaults: {
+            imgs: []
+        },
+        fileExtension: "fconfig"
+    },
+    {
         name: "faceapi",
         cwd: "core",
         defaults: {

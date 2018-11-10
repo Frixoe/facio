@@ -112,6 +112,9 @@ function createWindow() {
         maximizable: false
     }, "index.html", () => {
         delete win;
+
+        BrowserWindow.getAllWindows().forEach(win => win.close());
+        
         app.quit();
         closeAllWatchers();
     });
