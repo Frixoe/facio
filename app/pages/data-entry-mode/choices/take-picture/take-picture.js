@@ -38,7 +38,7 @@ let dataWin = null;
 
 $(() => {
     $(".container").show().addClass("fadeInLeft animated");
-    
+
     $("#video").attr({
         style: "width: " + div_width + "px; " + "height: " + div_height + "px;"
     });
@@ -73,18 +73,17 @@ $(() => {
 
     $("#snap-btn").click(e => {
         e.preventDefault();
-        wc.freeze();
 
         h.logger.log("snapping...");
         
         curImPath = path.join(os.tmpdir(), "facio", uuidv4() + ".png");
         h.logger.log("snap path: " + curImPath);
 
-        wc.snap(data_uri => im.outputFile(data_uri, curImPath));
-
         h.stores.state.set("onePicPath", curImPath);
-        
-        // Add this temp image path to the tempimgs store.
+
+        // Snap and Add this temp image path to the tempimgs store.
+
+        wc.snap(data_uri => im.outputFile(data_uri, curImPath));
         let arr = h.stores.tempimgs.get("imgs");
         arr.push(curImPath);
 

@@ -1,4 +1,5 @@
 window.$ = window.jQuery = require("jquery");
+
 M.AutoInit();
 
 const utilForJq = require("electron-util");

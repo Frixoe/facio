@@ -9,7 +9,7 @@
     "pack": "./node_modules/.bin/electron-builder --dir",
     "dist": "./node_modules/.bin/electron-builder --win",
     "start": "run-electron .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./node_modules/.bin/mocha"
   },
   "keywords": [],
   "author": "Suryansh S. <business.suryansh@gmail.com>",
@@ -35,9 +35,15 @@
     "webcamjs": "^1.0.25"
   },
   "devDependencies": {
+    "@types/mocha": "^5.2.5",
+    "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
     "electron": "^3.0.5",
     "electron-builder": "^20.28.4",
-    "electron-reloader": "^0.2.0"
+    "electron-chromedriver": "^4.0.0-beta.1",
+    "electron-reloader": "^0.2.0",
+    "mocha": "^5.2.0",
+    "spectron": "^5.0.0"
   },
   "build": {
     "files": [
