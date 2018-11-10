@@ -13,14 +13,18 @@ const path = require("path");
 const im = require("image-data-uri");
 const uuidv4 = require("uuid/v4");
 
+let div_width = window.innerWidth;
+let div_height = window.innerHeight;
+
 const wc = require("webcamjs");
 wc.set({
-    width: window.innerWidth,
-    height: window.innerHeight,
-    fps: 60,
+    width: div_width,
+    height: div_height,
     image_format: "png",
     flip_horiz: true
 });
+
+h.logger.log("window dims: " + window.innerWidth + " " + window.innerHeight);
 
 h.logger.log("loaded 'take-picture.html'");
 
@@ -32,6 +36,10 @@ let curImPath = ""; // The path of the current image.
 let dataWin = null;
 
 $(() => {
+    $("#video").attr({
+        style: "width: " + div_width + "px; " + "height: " + div_height + "px;"
+    });
+
     wc.on("error", (err) => {
         $("#recheck-webcam-btn").prop("disabled", false);
 
@@ -62,9 +70,8 @@ $(() => {
     });
 
     $("#snap-btn").click(e => {
-        wc.freeze();
-
         e.preventDefault();
+        wc.freeze();
         
         if ($("#snap-btn").hasClass("fadeInUp")) $("#snap-btn").removeClass(["animated", "fadeInUp"]).addClass("fadeOutDown animated").hide();
         else $("#snap-btn").addClass("fadeOutDown animated").hide();
@@ -95,7 +102,6 @@ $(() => {
                 maximizable: false
             }, "eid.html", () => {
                 dataWin = null;
-                
                 $("#snap-btn").show().removeClass(["animated", "fadeOutDown"]).addClass("fadeInUp animated");
             });
 

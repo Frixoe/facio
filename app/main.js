@@ -110,7 +110,7 @@ function createWindow() {
         fullscreenable: false,
         show: false,
         maximizable: false
-    }, "take-picture.html", () => {
+    }, "index.html", () => {
         delete win;
         app.quit();
         closeAllWatchers();
