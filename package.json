@@ -6,9 +6,10 @@
   "description": "An easy-to-use free and open-source facial recognition software.",
   "main": "./app/main.js",
   "scripts": {
+    "build": "npm pack && npm dist",
     "pack": "./node_modules/.bin/electron-builder --dir",
     "dist": "./node_modules/.bin/electron-builder --win",
-    "start": "run-electron .",
+    "start": "./node_modules/.bin/run-electron .",
     "test": "./node_modules/.bin/mocha"
   },
   "keywords": [],

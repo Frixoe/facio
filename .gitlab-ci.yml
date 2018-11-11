@@ -12,6 +12,12 @@ cache:
   paths:
   - node_modules/
 
+test:
+  stage: test
+  script:
+    - npm install
+    - node_modules/.bin/mocha
+
 build:
   stage: build
   script:

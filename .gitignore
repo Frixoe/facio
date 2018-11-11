@@ -2,7 +2,6 @@
 /app/test.js
 /app/pages.json
 /dist
-/app/keys.js
 *.txt
 *.tgz
 *.asar
