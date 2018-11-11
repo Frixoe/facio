@@ -22,10 +22,11 @@ test:
   stage: test
   script:
     - npm install
+    - export {no_proxy,NO_PROXY}="127.0.0.1,localhost"
     - node_modules/.bin/mocha
 
-build:
-  stage: build
-  script:
-   - npm install
-   - node_modules/.bin/electron-builder --dir && node_modules/.bin/electron-builder --linux
+# build:
+#   stage: build
+#   script:
+#    - npm install
+#    - node_modules/.bin/electron-builder --dir && node_modules/.bin/electron-builder --linux
