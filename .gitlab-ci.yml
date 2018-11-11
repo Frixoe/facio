@@ -21,7 +21,6 @@ cache:
 test:
   stage: test
   script:
-    - npm i -g npm
     - npm install
     - node_modules/.bin/mocha
 
