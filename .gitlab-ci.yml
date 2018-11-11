@@ -22,7 +22,7 @@ test:
   stage: test
   script:
     - npm install
-    - node_modules/.bin/mocha
+    - xvfb node_modules/.bin/mocha
 
 # build:
 #   stage: build
