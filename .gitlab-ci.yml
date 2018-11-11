@@ -26,7 +26,6 @@ build:
    - npm install
    - node_modules/.bin/electron-builder --dir && node_modules/.bin/electron-builder --linux
   artifacts:
-    name:"$CI_JOB_NAME"
     paths:
       - binaries-linux/
       - .config
