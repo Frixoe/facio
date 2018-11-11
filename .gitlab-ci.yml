@@ -22,6 +22,8 @@ test:
   stage: test
   script:
     - npm install
+    - Xvfb -ac -screen scrn 1280x2000x24 :9.0 &
+    - export DISPLAY=:9.0
     - node_modules/.bin/mocha
 
 # build:
