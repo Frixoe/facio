@@ -8,10 +8,6 @@ const baseDir = path.join(__dirname, "..");
 const app = new Application({
     path: electronPath,
     args: [baseDir],
-    env: {
-        ELECTRON_ENABLE_LOGGING: true,
-        ELECTRON_ENABLE_STACK_DUMPING: true
-    },
     startTimeout: 60000
 });
 
