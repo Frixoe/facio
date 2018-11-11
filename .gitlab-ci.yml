@@ -22,7 +22,9 @@ test:
   stage: test
   script:
     - npm install
-    - export {no_proxy,NO_PROXY}="127.0.0.1,localhost"
+    - apt install xvfb libxtst6 libxss1 libgtk2.0-0 -y
+    # Install core libraries for chromium driver
+    - apt install libnss3 libasound2 libgconf-2-4 -y
     - node_modules/.bin/mocha
 
 # build:
