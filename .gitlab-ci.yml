@@ -12,7 +12,8 @@ cache:
   paths:
   - node_modules/
 
-test:
+# This job will not run. It has a '.' prepended to it.
+.test:
   stage: test
   script:
     - npm install
@@ -20,6 +21,12 @@ test:
 
 build:
   stage: build
+  retry: 2
   script:
    - npm install
    - node_modules/.bin/electron-builder --dir && node_modules/.bin/electron-builder --linux
+  artifacts:
+    name:"$CI_JOB_NAME"
+    paths:
+      - binaries-linux/
+      - .config
