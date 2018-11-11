@@ -11,7 +11,8 @@ const app = new Application({
     env: {
         ELECTRON_ENABLE_LOGGING: true,
         ELECTRON_ENABLE_STACK_DUMPING: true
-    }
+    },
+    startTimeout: 60000
 });
 
 const chaiAsPromised = require("chai-as-promised");
@@ -20,8 +21,8 @@ const chai = require("chai");
 chai.should();
 chai.use(chaiAsPromised);
 
-describe('Application', function () {
-    this.timeout(50000);
+describe('Application Tests', function () {
+    this.timeout(60000);
 
     beforeEach(function () {
         chaiAsPromised.transferPromiseness = app.transferPromiseness;
@@ -35,7 +36,11 @@ describe('Application', function () {
     });
 
     it('shows an initial window', function () {
-        return app.client.waitUntilWindowLoaded().getWindowCount().should.eventually.equal(2);
+        return app.client.waitUntilWindowLoaded().getWindowCount().should.eventually.have.at.least(1)
+        .browserWindow.isMinimized().should.eventually.be.false
+        .browserWindow.isVisible().should.eventually.be.true
+        .browserWindow.getBounds().should.eventually.have.property('width').and.be.above(0)
+        .browserWindow.getBounds().should.eventually.have.property('height').and.be.above(0);
     });
 
     it("should show all the mode btns and edit path btn", function () {
@@ -64,9 +69,6 @@ describe('Application', function () {
 
             app.client.waitUntilWindowLoaded().setValue("#create-new-tray-input", "testingtray");
             app.client.click("#add-tray-btn");
-            app.client.click("#pick-a-tray-btn");
-            app.client.click("#my-tray-testingtray");
-            app.client.click("#edit-tray-btn");
 
             return app.client.waitUntilWindowLoaded().getValue("#create-new-tray-input").should.eventually.equal("");
         });

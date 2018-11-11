@@ -12,11 +12,16 @@ cache:
   paths:
   - node_modules/
 
+before_script:
+  - "export DISPLAY=:99.0"
+  - "sh -e /etc/init.d/xvfb start"
+  - sleep 3
+
 test:
   stage: test
   script:
     - npm install
-    - node_modules/.bin/mocha
+    - xvfb node_modules/.bin/mocha
 
 build:
   stage: build
