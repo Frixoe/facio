@@ -5,8 +5,6 @@ module.exports = async (anim, pageFileName, goBack=false) => {
 
     let thisWin = h.remote.getCurrentWindow();
 
-    M.Toast.dismissAll();
-
     let pagesLookup;
     (async () => {
         pagesLookup = await h.ipc.callMain("get-pages", "");
