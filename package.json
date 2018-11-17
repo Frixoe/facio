@@ -7,9 +7,9 @@
   "main": "./app/main.js",
   "scripts": {
     "build": "npm pack && npm run dist",
-    "pack": "./node_modules/.bin/electron-builder --dir",
+    "pack": "./node_modules/.bin/prettier --write 'app/**/*' && ./node_modules/.bin/electron-builder --dir",
     "dist": "./node_modules/.bin/electron-builder --win",
-    "start": "./node_modules/.bin/run-electron .",
+    "start": "./node_modules/.bin/prettier --write './app/**/*' && */./node_modules/.bin/run-electron .",
     "test": "./node_modules/.bin/mocha"
   },
   "keywords": [],
@@ -44,6 +44,7 @@
     "electron-chromedriver": "^4.0.0-beta.1",
     "electron-reloader": "^0.2.0",
     "mocha": "^5.2.0",
+    "prettier": "^1.15.2",
     "spectron": "^5.0.0"
   },
   "build": {

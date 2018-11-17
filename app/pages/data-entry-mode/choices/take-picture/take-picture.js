@@ -1,11 +1,11 @@
 const h = require("./../../../../helpers/getRendererModules")(false, false, [
-    "logger",
-    "stores",
-    "switchPage",
-    "ipc",
-    "Window",
-    "util",
-    "remote"
+  "logger",
+  "stores",
+  "switchPage",
+  "ipc",
+  "Window",
+  "util",
+  "remote"
 ]);
 
 const os = require("os");
@@ -18,10 +18,10 @@ let div_height = window.innerHeight;
 
 const wc = require("webcamjs");
 wc.set({
-    width: div_width,
-    height: div_height,
-    image_format: "png",
-    flip_horiz: true
+  width: div_width,
+  height: div_height,
+  image_format: "png",
+  flip_horiz: true
 });
 
 h.logger.log("window dims: " + window.innerWidth + " " + window.innerHeight);
@@ -29,7 +29,7 @@ h.logger.log("window dims: " + window.innerWidth + " " + window.innerHeight);
 h.logger.log("loaded 'take-picture.html'");
 
 wc.on("load", () => {
-    h.logger.log("webcamjs loaded...");
+  h.logger.log("webcamjs loaded...");
 });
 
 let curImPath = ""; // The path of the current image.
@@ -37,113 +37,142 @@ let dataWinIsOpen = false;
 let dataWin = null;
 
 $(() => {
-    $(".container").show().addClass("fadeInLeft animated");
+  $(".container")
+    .show()
+    .addClass("fadeInLeft animated");
 
-    $("#video").attr({
-        style: "width: " + div_width + "px; " + "height: " + div_height + "px;"
-    });
+  $("#video").attr({
+    style: "width: " + div_width + "px; " + "height: " + div_height + "px;"
+  });
 
-    wc.on("error", (err) => {
-        $("#recheck-webcam-btn").prop("disabled", false);
+  wc.on("error", err => {
+    $("#recheck-webcam-btn").prop("disabled", false);
 
-        h.logger.log("err: " + err);
+    h.logger.log("err: " + err);
 
-        let p = document.createElement("p");
-        p.innerHTML = err;
+    let p = document.createElement("p");
+    p.innerHTML = err;
 
-        $("#info-text").html("").append(p);
-    });
+    $("#info-text")
+      .html("")
+      .append(p);
+  });
 
-    wc.on("live", () => {
-        $("#recheck-webcam-btn").prop("disabled", true);
+  wc.on("live", () => {
+    $("#recheck-webcam-btn").prop("disabled", true);
 
-        fadeOutDown();
-        toggleWebcam();
-        h.logger.log("found webcam, starting streaming...");
-    });
+    fadeOutDown();
+    toggleWebcam();
+    h.logger.log("found webcam, starting streaming...");
+  });
 
+  wc.attach("#video");
+
+  $(".back-btns").click(e => {
+    e.preventDefault();
+    h.switchPage(fadeOutLeft, "choices.html");
+
+    if (dataWin) dataWin.win.close();
+  });
+
+  $("#snap-btn").click(e => {
+    e.preventDefault();
+
+    h.logger.log("snapping...");
+
+    curImPath = path.join(os.tmpdir(), "facio", uuidv4() + ".png");
+    h.logger.log("snap path: " + curImPath);
+
+    h.stores.state.set("onePicPath", curImPath);
+
+    // Snap and Add this temp image path to the tempimgs store.
+
+    wc.snap(data_uri => im.outputFile(data_uri, curImPath));
+    let arr = h.stores.tempimgs.get("imgs");
+    arr.push(curImPath);
+
+    h.stores.tempimgs.set("imgs", arr);
+
+    h.logger.log("the paths: " + arr);
+
+    if (!dataWinIsOpen) {
+      (async () => await h.ipc.callMain("get-pages", ""))().then(pages => {
+        // Open the data window...
+        let thisWin = h.util.activeWindow();
+        let thisWinPos = thisWin.getPosition();
+        let thisWinSize = thisWin.getSize();
+
+        h.logger.log("this window size: " + thisWinSize);
+
+        dataWin = new h.Window(
+          h.logger,
+          pages,
+          h.remote.BrowserWindow,
+          {
+            x: thisWinPos[0] + 30,
+            y: thisWinPos[1] + 30,
+            width: thisWinSize[0],
+            height: thisWinSize[1],
+            resizable: false,
+            fullscreenable: false,
+            show: false,
+            maximizable: false
+          },
+          "eid.html",
+          () => {
+            dataWin = null;
+            dataWinIsOpen = false;
+          }
+        );
+
+        dataWin.win.on("ready-to-show", () => {
+          dataWin.win.show();
+          dataWin.win.focus();
+        });
+
+        dataWinIsOpen = true;
+      });
+    }
+  });
+
+  $("#recheck-webcam-btn").click(() => {
+    $("#info-text")
+      .html("")
+      .html("Loading...");
+
+    wc.reset();
     wc.attach("#video");
-    
-    $(".back-btns").click(e => {
-        e.preventDefault();
-        h.switchPage(fadeOutLeft, "choices.html");
-
-        if (dataWin) dataWin.win.close();
-    });
-
-    $("#snap-btn").click(e => {
-        e.preventDefault();
-
-        h.logger.log("snapping...");
-        
-        curImPath = path.join(os.tmpdir(), "facio", uuidv4() + ".png");
-        h.logger.log("snap path: " + curImPath);
-
-        h.stores.state.set("onePicPath", curImPath);
-
-        // Snap and Add this temp image path to the tempimgs store.
-
-        wc.snap(data_uri => im.outputFile(data_uri, curImPath));
-        let arr = h.stores.tempimgs.get("imgs");
-        arr.push(curImPath);
-
-        h.stores.tempimgs.set("imgs", arr);
-
-        h.logger.log("the paths: " + arr);
-
-        if (!dataWinIsOpen) {
-            (async () => await h.ipc.callMain("get-pages", ""))()
-            
-            .then(pages => {
-                // Open the data window...
-                let thisWin = h.util.activeWindow();
-                let thisWinPos = thisWin.getPosition();
-                let thisWinSize = thisWin.getSize();
-
-                h.logger.log("this window size: " + thisWinSize);
-
-                dataWin = new h.Window(h.logger, pages, h.remote.BrowserWindow, {
-                    x: thisWinPos[0] + 30,
-                    y: thisWinPos[1] + 30,
-                    width: thisWinSize[0],
-                    height: thisWinSize[1],
-                    resizable: false,
-                    fullscreenable: false,
-                    show: false,
-                    maximizable: false
-                }, "eid.html", () => {
-                    dataWin = null;
-                    dataWinIsOpen = false;
-                });
-    
-                dataWin.win.on("ready-to-show", () => {
-                    dataWin.win.show();
-                    dataWin.win.focus();
-                });
-    
-                dataWinIsOpen = true;
-            });
-        }
-    });
-
-    $("#recheck-webcam-btn").click(() => {
-        $("#info-text").html("").html("Loading...");
-
-        wc.reset();
-        wc.attach("#video");
-    });
+  });
 });
 
 function fadeOutLeft() {
-    $(".container").removeClass(["animated", "fadeInLeft"]).addClass("fadeOutLeft animated");
+  $(".container")
+    .removeClass(["animated", "fadeInLeft"])
+    .addClass("fadeOutLeft animated");
 }
 
 function fadeOutDown() {
-    if ($(".container").hasClass("fadeInLeft")) $(".container").removeClass(["animated", "fadeInLeft"]).addClass("fadeOutDown animated").hide();
-    else $(".container").removeClass(["animated", "fadeInUp"]).addClass("fadeOutDown animated").hide();
+  if ($(".container").hasClass("fadeInLeft"))
+    $(".container")
+      .removeClass(["animated", "fadeInLeft"])
+      .addClass("fadeOutDown animated")
+      .hide();
+  else
+    $(".container")
+      .removeClass(["animated", "fadeInUp"])
+      .addClass("fadeOutDown animated")
+      .hide();
 }
 
 function toggleWebcam() {
-    if ($(".webcam").hasClass("fadeInDown")) $(".webcam").removeClass(["fadeInDown", "animated"]).addClass("fadeOutUp animated").toggle();
-    else $(".webcam").removeClass(["animated", "fadeOutUp"]).addClass("fadeInDown animated").toggle();
+  if ($(".webcam").hasClass("fadeInDown"))
+    $(".webcam")
+      .removeClass(["fadeInDown", "animated"])
+      .addClass("fadeOutUp animated")
+      .toggle();
+  else
+    $(".webcam")
+      .removeClass(["animated", "fadeOutUp"])
+      .addClass("fadeInDown animated")
+      .toggle();
 }

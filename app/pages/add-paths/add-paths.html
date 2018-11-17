@@ -1,54 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Facio - Add Paths</title>
 
-    <link rel="stylesheet" href="./../../assets/css/allsheets.css">
-</head>
-<body>
+    <link rel="stylesheet" href="./../../assets/css/allsheets.css" />
+  </head>
+  <body>
     <div class="container" hidden>
-        <br>
-        <br>
-        <br>
-        <div class="row">
-            <div class="col s12">
-                <h3 class="my-heading-template">Edit Paths</h1>
-            </div>
+      <br />
+      <br />
+      <br />
+      <div class="row">
+        <div class="col s12">
+          <h3 class="my-heading-template">Edit Paths</h3>
         </div>
-        <div class="row">
-            <form class="col s12">
-                <div class="row">
-                    <div class="input-field col s10">
-                        <input disabled value="..." id="scripts-path-val-field" type="text" class="validate my-input">
-                        <label for="scripts-path-val-field"><span class="my-input-labels">Scripts Path</span></label>
-                    </div>
-                    <div class="button-div col s2">
-                        <button id="scripts-btn" class="my-white-btn">Edit</button>
-                    </div>
-                </div>
+      </div>
+      <div class="row">
+        <form class="col s12">
+          <div class="row">
+            <div class="input-field col s10">
+              <input
+                disabled
+                value="..."
+                id="scripts-path-val-field"
+                type="text"
+                class="validate my-input"
+              />
+              <label for="scripts-path-val-field">
+                <span class="my-input-labels">Scripts Path</span>
+              </label>
+            </div>
+            <div class="button-div col s2">
+              <button id="scripts-btn" class="my-white-btn">Edit</button>
+            </div>
+          </div>
 
-                <div class="row">
-                    <div class="input-field col s10">
-                        <input disabled value="..." id="trays-path-val-field" type="text" class="validate my-input">
-                        <label for="trays-path-val-field"><span class="my-input-labels">Trays Path</span></label>
-                    </div>
-                    <div class="button-div col s2">
-                        <button id="trays-btn" class="my-white-btn">Edit</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-        <div class="row">
-            <div class="col s12 center-align">
-                <button style="width: 220px; height: 40px;" id="apply-changes-btn" class="btn my-btn center-align green waves-effect waves-light hoverable">Apply Changes</button>
+          <div class="row">
+            <div class="input-field col s10">
+              <input
+                disabled
+                value="..."
+                id="trays-path-val-field"
+                type="text"
+                class="validate my-input"
+              />
+              <label for="trays-path-val-field">
+                <span class="my-input-labels">Trays Path</span>
+              </label>
             </div>
+            <div class="button-div col s2">
+              <button id="trays-btn" class="my-white-btn">Edit</button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="row">
+        <div class="col s12 center-align">
+          <button
+            style="width: 220px; height: 40px;"
+            id="apply-changes-btn"
+            class="btn my-btn center-align green waves-effect waves-light hoverable"
+          >
+            Apply Changes
+          </button>
         </div>
+      </div>
     </div>
 
     <script src="./../../assets/js/materialize.min.js"></script>
     <script src="add-paths.js"></script>
-</body>
+  </body>
 </html>

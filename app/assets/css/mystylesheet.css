@@ -1,190 +1,190 @@
 @font-face {
-    font-family: montserratBlack;
-    src: url("./../fonts/montserrat/Montserrat-Black.otf"); 
+  font-family: montserratBlack;
+  src: url("./../fonts/montserrat/Montserrat-Black.otf");
 }
 
 @font-face {
-    font-family: montserratBlackItalic;
-    src: url("./../fonts/montserrat/Montserrat-BlackItalic.otf");
+  font-family: montserratBlackItalic;
+  src: url("./../fonts/montserrat/Montserrat-BlackItalic.otf");
 }
 
 @font-face {
-    font-family: montserratBold;
-    src: url("./../fonts/montserrat/Montserrat-Bold.otf");
+  font-family: montserratBold;
+  src: url("./../fonts/montserrat/Montserrat-Bold.otf");
 }
 
 @font-face {
-    font-family: montserratBoldItalic;
-    src: url("./../fonts/montserrat/Montserrat-BoldItalic.otf");
+  font-family: montserratBoldItalic;
+  src: url("./../fonts/montserrat/Montserrat-BoldItalic.otf");
 }
 
 @font-face {
-    font-family: montserratExtraBold;
-    src: url("./../fonts/montserrat/Montserrat-ExtraBold.otf");
+  font-family: montserratExtraBold;
+  src: url("./../fonts/montserrat/Montserrat-ExtraBold.otf");
 }
 
 @font-face {
-    font-family: montserratExtraBoldItalic;
-    src: url("./../fonts/montserrat/Montserrat-ExtraBoldItalic.otf");
+  font-family: montserratExtraBoldItalic;
+  src: url("./../fonts/montserrat/Montserrat-ExtraBoldItalic.otf");
 }
 
 @font-face {
-    font-family: montserratExtraLight;
-    src: url("./../fonts/montserrat/Montserrat-ExtraLight.otf");
+  font-family: montserratExtraLight;
+  src: url("./../fonts/montserrat/Montserrat-ExtraLight.otf");
 }
 
 @font-face {
-    font-family: montserratExtraLightItalic;
-    src: url("./../fonts/montserrat/Montserrat-ExtraLightItalic.otf");
+  font-family: montserratExtraLightItalic;
+  src: url("./../fonts/montserrat/Montserrat-ExtraLightItalic.otf");
 }
 
 @font-face {
-    font-family: montserratItalic;
-    src: url("./../fonts/montserrat/Montserrat-Italic.otf");
+  font-family: montserratItalic;
+  src: url("./../fonts/montserrat/Montserrat-Italic.otf");
 }
 
 @font-face {
-    font-family: montserratLight;
-    src: url("./../fonts/montserrat/Montserrat-Light.otf");
+  font-family: montserratLight;
+  src: url("./../fonts/montserrat/Montserrat-Light.otf");
 }
 
 @font-face {
-    font-family: montserratLightItalic;
-    src: url("./../fonts/montserrat/Montserrat-LightItalic.otf");
+  font-family: montserratLightItalic;
+  src: url("./../fonts/montserrat/Montserrat-LightItalic.otf");
 }
 
 @font-face {
-    font-family: montserratMedium;
-    src: url("./../fonts/montserrat/Montserrat-Medium.otf");
+  font-family: montserratMedium;
+  src: url("./../fonts/montserrat/Montserrat-Medium.otf");
 }
 
 @font-face {
-    font-family: montserratMediumItalic;
-    src: url("./../fonts/montserrat/Montserrat-MediumItalic.otf");
+  font-family: montserratMediumItalic;
+  src: url("./../fonts/montserrat/Montserrat-MediumItalic.otf");
 }
 
 @font-face {
-    font-family: montserratRegular;
-    src: url("./../fonts/montserrat/Montserrat-Regular.otf");
+  font-family: montserratRegular;
+  src: url("./../fonts/montserrat/Montserrat-Regular.otf");
 }
 
 @font-face {
-    font-family: montserratSemiBold;
-    src: url("./../fonts/montserrat/Montserrat-SemiBold.otf");
+  font-family: montserratSemiBold;
+  src: url("./../fonts/montserrat/Montserrat-SemiBold.otf");
 }
 
 @font-face {
-    font-family: montserratSemiBoldItalic;
-    src: url("./../fonts/montserrat/Montserrat-SemiBoldItalic.otf");
+  font-family: montserratSemiBoldItalic;
+  src: url("./../fonts/montserrat/Montserrat-SemiBoldItalic.otf");
 }
 
 @font-face {
-    font-family: montserratThin;
-    src: url("./../fonts/montserrat/Montserrat-Thin.otf");
+  font-family: montserratThin;
+  src: url("./../fonts/montserrat/Montserrat-Thin.otf");
 }
 
 @font-face {
-    font-family: montserratThinItalic;
-    src: url("./../fonts/montserrat/Montserrat-ThinItalic.otf");
+  font-family: montserratThinItalic;
+  src: url("./../fonts/montserrat/Montserrat-ThinItalic.otf");
 }
 
 body {
-    overflow: hidden;
-    -webkit-user-select: none;
+  overflow: hidden;
+  -webkit-user-select: none;
 }
 
 .my-rounded-window {
-    background: white;
-    height: 100vh;
-    border-radius: 20px;
+  background: white;
+  height: 100vh;
+  border-radius: 20px;
 }
 
 .my-titlebar {
-    position: absolute;
-    background: rgb(27, 27, 27);
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-    height: 35px;
-    width: 100%;
-    top: 0;
-    left: 0;
-    right: 0;
+  position: absolute;
+  background: rgb(27, 27, 27);
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  height: 35px;
+  width: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
 }
 
 .my-titlebar-draggable-region {
-    -webkit-app-region: drag;
-    top: 0;
-    left: 0;
-    width: 80%;
-    height: 35px;
+  -webkit-app-region: drag;
+  top: 0;
+  left: 0;
+  width: 80%;
+  height: 35px;
 }
 
 .my-titlebar-btns-region {
-    border-top-right-radius: 20px;
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 20%;
-    height: 35px;
+  border-top-right-radius: 20px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 20%;
+  height: 35px;
 }
 
 .my-titlebar-btn {
-    top: 0;
-    color: white;
-    font-family: "montserratMedium";
-    height: 35px;
-    padding-top: 0px;
+  top: 0;
+  color: white;
+  font-family: "montserratMedium";
+  height: 35px;
+  padding-top: 0px;
 }
 
 .my-titlebar-btn:hover {
-    background: rgba(255, 255, 255, 1);
-    color: rgba(0, 0, 0, 1);
-    transition-duration: 1s;
+  background: rgba(255, 255, 255, 1);
+  color: rgba(0, 0, 0, 1);
+  transition-duration: 1s;
 }
 
 .my-btn {
-    border-radius: 20px;
-    font-family: 'montserratMedium';
+  border-radius: 20px;
+  font-family: "montserratMedium";
 }
 
 .my-normal-btn {
-    width: 100%;
+  width: 100%;
 }
 
 .my-white-btn {
-    color: black;
-    width: 100%;
+  color: black;
+  width: 100%;
 }
 
 .my-black-btn {
-    color: white;
-    width: 100%;
+  color: white;
+  width: 100%;
 }
 
 .error-text {
-    font-family: "montserratSemiBold";
-    text-align: center;
-    height: 10px;
+  font-family: "montserratSemiBold";
+  text-align: center;
+  height: 10px;
 }
 
 .my-heading-template {
-    font-family: "montserratBoldItalic";
-    text-align: center;
-    text-shadow: 0px 3px 10px rgba(0, 0, 0, 0.5);
+  font-family: "montserratBoldItalic";
+  text-align: center;
+  text-shadow: 0px 3px 10px rgba(0, 0, 0, 0.5);
 }
 
 .my-paragraph-template {
-    font-family: "montserratMedium";
-    text-align: center;
+  font-family: "montserratMedium";
+  text-align: center;
 }
 
 .my-toast {
-    font-size: 15px;
-    border-radius: 40px;
-    height: 10px;
+  font-size: 15px;
+  border-radius: 40px;
+  height: 10px;
 }
 
 .my-tooltip {
-    border-radius: 40px;
-    height: 15px;
+  border-radius: 40px;
+  height: 15px;
 }

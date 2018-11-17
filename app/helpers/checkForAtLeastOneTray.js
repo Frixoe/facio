@@ -1,27 +1,27 @@
 const fs = require("fs");
 const path = require("path");
 
-module.exports = (h) => {
-    if (!h.stores.haspaths.get("hasTraysPath")) return;
-    
-    let traysPath = h.stores.paths.get("traysPath");
-    let trayFiles = fs.readdirSync(traysPath);
+module.exports = h => {
+  if (!h.stores.haspaths.get("hasTraysPath")) return;
 
-    let hasTray = false;
+  let traysPath = h.stores.paths.get("traysPath");
+  let trayFiles = fs.readdirSync(traysPath);
 
-    trayFiles.forEach(file => {
-        if (isTray(file)) {
-            hasTray = true;
-            return;
-        }
-    });
+  let hasTray = false;
 
-    if (hasTray) h.logger.log("at least one tray EXISTS...");
-    else h.logger.log("no tray found");
+  trayFiles.forEach(file => {
+    if (isTray(file)) {
+      hasTray = true;
+      return;
+    }
+  });
 
-    h.stores.state.set("hasAtLeastOneTray", hasTray);
-}
+  if (hasTray) h.logger.log("at least one tray EXISTS...");
+  else h.logger.log("no tray found");
+
+  h.stores.state.set("hasAtLeastOneTray", hasTray);
+};
 
 function isTray(file) {
-    return file.indexOf(".ftray") > -1;
+  return file.indexOf(".ftray") > -1;
 }

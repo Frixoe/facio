@@ -1,13 +1,13 @@
-module.exports = (which=null) => {
-    let wantAll = true;
-    
-    if (which) wantAll = false;
+module.exports = (which = null) => {
+  let wantAll = true;
 
-    let rMods = require("./getRendererModules")(forMain=true, false, which);
-    require("./performPathChecks")(rMods);
+  if (which) wantAll = false;
 
-    delete rMods.remote;
+  let rMods = require("./getRendererModules")((forMain = true), false, which);
+  require("./performPathChecks")(rMods);
 
-    rMods.fs = require("fs");
-    return rMods;
-}
+  delete rMods.remote;
+
+  rMods.fs = require("fs");
+  return rMods;
+};
