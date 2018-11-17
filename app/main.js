@@ -1,7 +1,15 @@
 const chokidar = require("chokidar");
 const electron = require("electron");
 const isDev = require("electron-is-dev");
-require("electron-debug")();
+
+if (isDev) require("electron-debug")();
+
+try {
+  require("electron-reloader")(module, {
+    debug: true,
+    watchRenderer: true
+  });
+} catch (err) {}
 
 require("electron-context-menu")({
   prepend: (params, browserWindow) => [
@@ -36,7 +44,19 @@ let storesWatcher = null; // Watches all the stores.
 let traysWatcher = null; // Watches all the trays.
 let scriptsWatcher = null; // Watches all the scripts.
 
-async function initScriptsWatcher() {}
+async function initScriptsWatcher() {
+  scriptsWatcher = chokidar.watch(h.stores.paths.get("scriptsPath"));
+
+  scriptsWatcher
+    .on("ready", () => h.logger.log("scripts watcher reporting for duty!"))
+    .on("error", err => {
+      h.logger.log("scriptsWatcher encountered an error: " + err);
+    })
+    .on("add", path => {})
+    .on("addDir", path => {})
+    .on("unlink", path => {})
+    .on("unlinkDir", path => {});
+}
 
 async function initTraysWatcher() {
   h.logger.log("starting to watch the trays...");
@@ -228,9 +248,9 @@ storesWatcher
       h.logger.log("filtering the temporary image paths");
 
       let arr = h.stores.tempimgs.get("imgs");
-      arr.filter(imgPath => h.fs.existsSync(imgPath));
+      let newArr = arr.filter(imgPath => h.fs.existsSync(imgPath));
 
-      h.stores.tempimgs.set("imgs", arr);
+      h.stores.tempimgs.set("imgs", newArr);
     }
   })
   .on("change", path => {

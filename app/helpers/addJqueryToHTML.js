@@ -1,7 +1,5 @@
 window.$ = window.jQuery = require("jquery");
 
-M.AutoInit();
-
 const utilForJq = require("electron-util");
 
 $(".my-titlebar").addClass("z-depth-2");

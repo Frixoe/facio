@@ -9,26 +9,88 @@
     <link rel="stylesheet" href="./../../../assets/css/allsheets.css" />
   </head>
   <body>
-    <div class="carousel" id="my-carousel" style="width: 100%; height: 200px;">
-      <a class="carousel-item" href="#one!"
-        ><img
-          src="C:\Users\suryansh\AppData\Local\Temp\facio\8b535319-996e-4530-80cf-7849b4b2a825.png"
-          alt=""
-      /></a>
-      <a class="carousel-item" href="#two!"
-        ><img
-          src="C:\Users\suryansh\AppData\Local\Temp\facio\30081316-2f6a-4e49-996e-9392d7acd4a2.png"
-          alt=""
-      /></a>
-      <a href="#three!" class="carousel-item"
-        ><img
-          src="C:\Users\suryansh\AppData\Local\Temp\facio\bb5e1851-eb91-4bf2-a696-53adc1e04b97.png"
-          alt=""
-      /></a>
+    <div
+      class="carousel"
+      id="my-carousel"
+      style="width: 100%; height: 200px;"
+    ></div>
+
+    <div
+      class="container my-all-buttons"
+      style="width: 200px; right: 45px; margin-top: 120px; position: fixed;"
+      hidden
+    >
+      <a href="#new-field-modal" class="my-white-btn modal-trigger"
+        >Add New Field</a
+      >
+      <br />
+      <br />
+      <button id="add-image-to-tray-btn" class="my-black-btn">
+        Add Image to Tray
+      </button>
     </div>
 
-    <div class="container" hidden>
-      <div class="row"><div class="col s12"></div></div>
+    <!-- MODAL START -->
+    <div
+      id="new-field-modal"
+      class="modal bottom-sheet"
+      style="font-family: 'montserratMedium'; border-top-left-radius: 20px; border-top-right-radius: 20px; overflow: hidden;"
+    >
+      <form id="my-modal-form">
+        <div class="modal-content">
+          <h4 style="font-family: 'montserratBold';">Enter field name:</h4>
+          <br />
+          <div class="input-field col s12">
+            <input id="new-field-input" type="text" class="validate" />
+            <label for="new-field-input">New field name...</label>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            id="modal-close-btn"
+            class="modal-close waves-effect waves-green btn-flat"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            id="modal-add-field-btn"
+            class="modal-close waves-effect waves-green btn-flat"
+          >
+            Add Field
+          </button>
+        </div>
+      </form>
+    </div>
+    <!-- MODAL END -->
+
+    <!-- Main image info container -->
+    <div class="container left" style="margin-left: 20px;" hidden>
+      <div class="row">
+        <div class="col s12">
+          <h4 class="my-heading-template">Add Image Info</h4>
+        </div>
+      </div>
+
+      <form id="input-elements-form">
+        <div class="row">
+          <!-- initial title input -->
+          <div class="input-field col s12">
+            <input
+              id="image-title-field-input"
+              type="text"
+              class="validate"
+              placeholder="NONE"
+              maxlength="50"
+            />
+            <label for="image-title-field-input">Image Title</label>
+          </div>
+        </div>
+
+        <div id="input-elements-div">
+          <!-- All the new input elements will be created inside this div -->
+        </div>
+      </form>
     </div>
 
     <script src="./../../../assets/js/materialize.min.js"></script>
