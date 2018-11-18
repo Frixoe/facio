@@ -128,7 +128,7 @@ $(() => {
       h.remote.getCurrentWindow().close();
     });
 
-  msgstore
+  msgstoreWatcher
     .on("ready", () => h.logger.log("msgstore watcher reporting for duty!"))
     .on("all", (event, path) => {
       let msg = h.stores.msgstore.get("msg");
