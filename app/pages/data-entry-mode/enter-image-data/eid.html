@@ -1,99 +1,144 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Facio - About the Image</title>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>Facio - About the Image</title>
 
-    <link rel="stylesheet" href="./../../../assets/css/allsheets.css" />
-  </head>
-  <body>
-    <div
-      class="carousel"
-      id="my-carousel"
-      style="width: 100%; height: 200px;"
-    ></div>
+        <link rel="stylesheet" href="./../../../assets/css/allsheets.css" />
+    </head>
+    <body>
+        <div
+            class="carousel"
+            id="my-carousel"
+            style="width: 100%; height: 200px;"
+        ></div>
 
-    <div
-      class="container my-all-buttons"
-      style="width: 200px; right: 45px; margin-top: 120px; position: fixed;"
-      hidden
-    >
-      <a href="#new-field-modal" class="my-white-btn modal-trigger"
-        >Add New Field</a
-      >
-      <br />
-      <br />
-      <button id="add-image-to-tray-btn" class="my-black-btn">
-        Add Image to Tray
-      </button>
-    </div>
-
-    <!-- MODAL START -->
-    <div
-      id="new-field-modal"
-      class="modal bottom-sheet"
-      style="font-family: 'montserratMedium'; border-top-left-radius: 20px; border-top-right-radius: 20px; overflow: hidden;"
-    >
-      <form id="my-modal-form">
-        <div class="modal-content">
-          <h4 style="font-family: 'montserratBold';">Enter field name:</h4>
-          <br />
-          <div class="input-field col s12">
-            <input id="new-field-input" type="text" class="validate" />
-            <label for="new-field-input">New field name...</label>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button
-            id="modal-close-btn"
-            class="modal-close waves-effect waves-green btn-flat"
-          >
-            Cancel
-          </button>
-          <button
-            type="submit"
-            id="modal-add-field-btn"
-            class="modal-close waves-effect waves-green btn-flat"
-          >
-            Add Field
-          </button>
-        </div>
-      </form>
-    </div>
-    <!-- MODAL END -->
-
-    <!-- Main image info container -->
-    <div class="container left" style="margin-left: 20px;" hidden>
-      <div class="row">
-        <div class="col s12">
-          <h4 class="my-heading-template">Add Image Info</h4>
-        </div>
-      </div>
-
-      <form id="input-elements-form">
-        <div class="row">
-          <!-- initial title input -->
-          <div class="input-field col s12">
-            <input
-              id="image-title-field-input"
-              type="text"
-              class="validate"
-              placeholder="NONE"
-              maxlength="50"
-            />
-            <label for="image-title-field-input">Image Title</label>
-          </div>
+        <div
+            class="container my-all-buttons"
+            style="width: 200px; right: 45px; margin-top: 120px; position: fixed;"
+            hidden
+        >
+            <a href="#new-field-modal" class="my-white-btn modal-trigger"
+                >Add New Field</a
+            >
+            <br />
+            <br />
+            <button id="add-image-to-tray-btn" class="my-black-btn">
+                Add Image to Tray
+            </button>
         </div>
 
-        <div id="input-elements-div">
-          <!-- All the new input elements will be created inside this div -->
+        <!-- IMAGE INFO MODAL START -->
+        <div
+            id="image-info-modal"
+            class="modal modal-fixed-footer bottom-sheet"
+            style="font-family: 'montserratMedium'; border-top-left-radius: 20px; border-top-right-radius: 20px; overflow: hidden;"
+        >
+            <form id="my-image-info-modal-form">
+                <div class="modal-content" style="margin-top: 30px;">
+                    <h3 style="font-family: 'montserratBold';">
+                        Are you sure you want to add "<span
+                            style="text-decoration: underline;"
+                            id="image-title-info-modal-placeholder"
+                        ></span
+                        >" to "<span
+                            style="text-decoration: underline;"
+                            id="tray-name-image-info-modal-placeholder"
+                        ></span
+                        >?"
+                    </h3>
+                </div>
+                <div class="modal-footer">
+                    <button
+                        id="image-info-modal-no-btn"
+                        class="modal-close waves-effect waves-green btn-flat"
+                    >
+                        No
+                    </button>
+                    <button
+                        type="submit"
+                        id="image-info-modal-yes-btn"
+                        class="modal-close waves-effect waves-green btn-flat"
+                    >
+                        Yes
+                    </button>
+                </div>
+            </form>
         </div>
-      </form>
-    </div>
+        <!-- IMAGE INFO MODAL END -->
 
-    <script src="./../../../assets/js/materialize.min.js"></script>
-    <script src="eid.js"></script>
-  </body>
+        <!-- FIELD MODAL START -->
+        <div
+            id="new-field-modal"
+            class="modal modal-fixed-footer bottom-sheet"
+            style="font-family: 'montserratMedium'; border-top-left-radius: 20px; border-top-right-radius: 20px; overflow: hidden;"
+        >
+            <form id="my-field-modal-form">
+                <div class="modal-content">
+                    <h4 style="font-family: 'montserratBold';">
+                        Enter field name:
+                    </h4>
+                    <br />
+                    <div class="input-field col s12">
+                        <input
+                            id="new-field-input"
+                            type="text"
+                            class="validate"
+                        />
+                        <label for="new-field-input">New field name...</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button
+                        id="modal-field-close-btn"
+                        class="modal-close waves-effect waves-green btn-flat"
+                    >
+                        Cancel
+                    </button>
+                    <button
+                        type="submit"
+                        id="modal-add-field-btn"
+                        class="modal-close waves-effect waves-green btn-flat"
+                    >
+                        Add Field
+                    </button>
+                </div>
+            </form>
+        </div>
+        <!-- FIELD MODAL END -->
+
+        <!-- Main image info container -->
+        <div class="container left" style="margin-left: 20px;" hidden>
+            <div class="row">
+                <div class="col s12">
+                    <h4 class="my-heading-template">Add Image Info</h4>
+                </div>
+            </div>
+
+            <div class="row">
+                <!-- initial title input -->
+                <div class="input-field col s12">
+                    <input
+                        id="image-title-field-input"
+                        type="text"
+                        class="validate"
+                        placeholder="NONE"
+                        maxlength="50"
+                    />
+                    <label for="image-title-field-input">Image Title</label>
+                </div>
+            </div>
+
+            <div id="input-elements-div">
+                <!--
+                    All the new input elements will be created inside this div
+                -->
+            </div>
+        </div>
+
+        <script src="./../../../assets/js/materialize.min.js"></script>
+        <script src="eid.js"></script>
+    </body>
 </html>

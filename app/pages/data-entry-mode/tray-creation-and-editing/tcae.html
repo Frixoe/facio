@@ -1,63 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Facio - Tray Creation and Editing</title>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>Facio - Tray Creation and Editing</title>
 
-    <link rel="stylesheet" href="./../../../assets/css/allsheets.css" />
-  </head>
-  <body>
-    <br />
-    <br />
-    <div class="container" hidden>
-      <div class="row">
-        <div class="col s12"><h3 class="my-heading-template">Trays</h3></div>
-      </div>
-      <form class="row">
-        <div class="col s8">
-          <div class="input-field">
-            <input id="create-new-tray-input" type="text" class="validate" />
-            <label for="create-new-tray-input">Create a new tray...</label>
-            <span class="helper-text">Do no add the ".ftray" extension</span>
-          </div>
+        <link rel="stylesheet" href="./../../../assets/css/allsheets.css" />
+    </head>
+    <body>
+        <br />
+        <br />
+        <div class="container" hidden>
+            <div class="row">
+                <div class="col s12">
+                    <h3 class="my-heading-template">Trays</h3>
+                </div>
+            </div>
+            <form class="row">
+                <div class="col s8">
+                    <div class="input-field">
+                        <input
+                            id="create-new-tray-input"
+                            type="text"
+                            class="validate"
+                        />
+                        <label for="create-new-tray-input"
+                            >Create a new tray...</label
+                        >
+                        <span class="helper-text"
+                            >Do no add the ".ftray" extension</span
+                        >
+                    </div>
+                </div>
+                <div class="add-tray-btn-div col s4" style="margin-top: 20px;">
+                    <button class="my-black-btn" id="add-tray-btn">
+                        Add Tray
+                    </button>
+                </div>
+            </form>
+            <div class="row">
+                <div id="dropdown-container" class="col s8">
+                    <button
+                        class="my-normal-btn dropdown-trigger"
+                        data-target="trays-dropdown"
+                        id="pick-a-tray-btn"
+                        disabled
+                    >
+                        Pick a tray: None Selected
+                    </button>
+                    <ul id="trays-dropdown" class="dropdown-content"></ul>
+                </div>
+                <div class="col s2">
+                    <button id="modify-tray-btn" class="my-black-btn" disabled>
+                        Modify
+                    </button>
+                </div>
+                <div class="col s2">
+                    <button id="delete-tray-btn" class="my-black-btn" disabled>
+                        Delete
+                    </button>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col s8"></div>
+                <div class="col s4">
+                    <button id="back-btn" class="my-white-btn">back</button>
+                </div>
+            </div>
         </div>
-        <div class="add-tray-btn-div col s4" style="margin-top: 20px;">
-          <button class="my-black-btn" id="add-tray-btn">Add Tray</button>
-        </div>
-      </form>
-      <div class="row">
-        <div id="dropdown-container" class="col s8">
-          <button
-            class="my-normal-btn dropdown-trigger"
-            data-target="trays-dropdown"
-            id="pick-a-tray-btn"
-            disabled
-          >
-            Pick a tray: None Selected
-          </button>
-          <ul id="trays-dropdown" class="dropdown-content"></ul>
-        </div>
-        <div class="col s2">
-          <button id="edit-tray-btn" class="my-black-btn" disabled>Edit</button>
-        </div>
-        <div class="col s2">
-          <button id="delete-tray-btn" class="my-black-btn" disabled>
-            Delete
-          </button>
-        </div>
-      </div>
-      <br />
-      <div class="row">
-        <div class="col s8"></div>
-        <div class="col s4">
-          <button id="back-btn" class="my-white-btn">back</button>
-        </div>
-      </div>
-    </div>
 
-    <script src="./../../../assets/js/materialize.min.js"></script>
-    <script src="tcae.js"></script>
-  </body>
+        <script src="./../../../assets/js/materialize.min.js"></script>
+        <script src="tcae.js"></script>
+    </body>
 </html>

@@ -1,20 +1,20 @@
 const h = require("./../../../../helpers/getRendererModules")(false, false, [
-  "logger",
-  "switchPage"
+    "logger",
+    "switchPage"
 ]);
 
 h.logger.log("loaded 'add-picture.html'");
 
 $(() => {
-  $("#back-btn").click(() => h.switchPage(fadeOutLeft, "choices.html"));
+    $("#back-btn").click(() => h.switchPage(fadeOutLeft, "choices.html"));
 
-  $(".container")
-    .show()
-    .addClass("fadeInLeft animated");
+    $(".container")
+        .show()
+        .addClass("fadeInLeft animated");
 });
 
 function fadeOutLeft() {
-  $(".container")
-    .removeClass(["animated", "fadeInLeft"])
-    .addClass("fadeOutLeft animated");
+    $(".container")
+        .removeClass(["animated", "fadeInLeft"])
+        .addClass("fadeOutLeft animated");
 }
