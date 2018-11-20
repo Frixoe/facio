@@ -6,6 +6,7 @@ const Store = require("electron-store");
 const keys = require("./../../../keys");
 const isValidName = require("./../../../helpers/isVaildName");
 const getImageDescriptor = require("./../../../helpers/getImageDescriptor");
+const getAllScripts = require("./../../../helpers/getAllScripts");
 const h = require("./../../../helpers/getRendererModules")(false, false, [
     "logger",
     "stores",
@@ -13,6 +14,8 @@ const h = require("./../../../helpers/getRendererModules")(false, false, [
     "fs"
 ]);
 
+let scriptsDropdownInstance; // The instance of the scripts dropdown.
+let selectedScript = "none"; // The selected script.
 let userWantsToSave = false; // Boolean indicating whether the user wants to save the image info.
 let isTitleUnique = true; // Boolean indication whether the image title entered is unique.
 let lastImg = false; // Boolean which tells if the there is only one image left.
@@ -40,6 +43,10 @@ let curTray = new Store({
     fileExtension: keys.traysExtension
 });
 
+function updateLastImg() {
+    if ($("#my-carousel").children().length === 1) lastImg = true;
+}
+
 function updateCarousel() {
     $(".carousel").html("");
 
@@ -58,8 +65,8 @@ function updateCarousel() {
         `);
     });
 
-    var elems = document.querySelectorAll(".carousel");
-    var instances = M.Carousel.init(elems, {
+    var carousel = document.querySelectorAll(".carousel");
+    var instances = M.Carousel.init(carousel, {
         duration: 200,
         shift: 0,
         padding: -100,
@@ -105,13 +112,56 @@ function updateCarousel() {
     instance.set(0);
 }
 
+function updateScriptsDropdown() {
+    $("#scripts-dropdown").html("").append(
+        `
+            <li class="my-scripts-dropdown-elements"><a href="#!">None</a></li>
+            <li class="divider" tabindex="-1"></li>
+        `)
+    
+    getAllScripts(h).forEach(script => {
+        $("#scripts-dropdown").append(
+            `
+                <li class="my-scripts-dropdown-elements">
+                    <a href="#!">
+                        ${script}
+                    </a>
+                </li>
+            `
+        )
+    });
+    
+    // Initialize the dropdown.
+    var dropdown = document.querySelector('.dropdown-trigger');
+    scriptsDropdownInstance = M.Dropdown.init(dropdown, {
+        constrainWidth: true,
+        coverTrigger: false
+    });
+
+    scriptsDropdownInstance.isScrollable = true;
+    scriptsDropdownInstance.focusIndex = 0;
+
+    $(".my-scripts-dropdown-elements").click(e => {
+        h.logger.log("cilcked on li element with innerHTML: " + e.target.innerHTML);
+        let scriptVal = e.target.innerHTML.trim();
+
+        $("#scripts-input-field").val(scriptVal);
+        selectedScript = scriptVal;
+    });
+}
+
 function resetFields() {
     $("#add-image-to-tray-btn").prop("disabled", true);
     $("#input-elements-div")
         .children()
         .remove();
-    if ($("#image-title-field-input").val())
-        $("#image-title-field-input").val("");
+    
+    $("input").val("");
+
+    selectedScript = "none";
+
+    // if ($("#image-title-field-input").val())
+    //     $("#image-title-field-input").val("");
 }
 
 $(() => {
@@ -129,6 +179,8 @@ $(() => {
         })
         .on("unlink", path => {
             h.logger.log("an img/file has been deleted: " + path);
+
+            updateLastImg();
 
             if (lastImg) return;
 
@@ -148,23 +200,38 @@ $(() => {
         .on("all", (event, path) => {
             let msg = h.stores.msgstore.get("msg");
 
-            if (msg === "trays-dir-deleted") {
-            }
+            if (msg === "trays-dir-deleted" || msg === "trays-dir-empty") {
+                h.logger.log("closing the image info window because trays dir was deleted or was emptied...");
+                h.remote.getCurrentWindow().close();
+            } else if (msg === "tray-deleted") {
+                h.logger.log("a tray was deleted...");
+                h.logger.log("curTray.path" + curTray.path);
+                let curTrayExists = h.fs.existsSync(curTray.path);
 
-            if (msg === "trays-dir-empty") {
-            }
+                h.logger.log("was the current tray deleted? " + !curTrayExists);
 
-            if (msg === "tray-deleted") {
-            }
+                if (!curTrayExists) {
+                    h.logger.log("the tray being editted was deleted...");
+                    h.logger.log("closing the image info window...");
+                    h.remote.getCurrentWindow().close();
+                }
+            } else if (msg === "scripts-dir-deleted" || msg === "scripts-dir-empty" || msg === "script-added" || msg === "script-deleted") {
+                h.logger.log("scripts dir changed...");
+                h.logger.log("updating the dropdown...");
 
-            if (msg === "scripts-dir-deleted") {
-            }
+                $("#scripts-input-field").val("");
 
-            if (msg === "scripts-dir-empty") {
+                updateScriptsDropdown();
             }
 
             h.stores.msgstore.set("msg", "");
         });
+
+    updateScriptsDropdown();
+
+    $("#scripts-dropdown-btn").click(() => {
+        scriptsDropdownInstance.open();
+    });
 
     // Initialize the modals
     var newFieldModal = document.querySelectorAll("#new-field-modal");
@@ -197,6 +264,8 @@ $(() => {
                     "image-title-field-input"
                 ).value; // Used DOM as Jq method did not work.
 
+                if (selectedScript.toLowerCase() !== "none") curImageInfo.script = selectedScript;
+
                 $(".image-extra-field-inputs").each((ind, el) => {
                     let key = $(el)
                         .next()
@@ -211,7 +280,7 @@ $(() => {
                 h.logger.log("image data saved...");
 
                 // Remove the current image from the temp dir...
-                if ($("#my-carousel").children().length === 1) lastImg = true;
+                updateLastImg();
 
                 let imgTitle = curImageInfo.title; // Since the curImageInfo obj will be emptied.
 
@@ -407,7 +476,7 @@ $(() => {
             "saving the image values to tray with the following data: "
         );
 
-        if (isTitleUnique) {
+        if (!isTitleUnique) {
             let uniqueTitleT = M.toast({
                 html: `
                     <span>
@@ -450,10 +519,13 @@ $(() => {
         else $("#add-image-to-tray-btn").prop("disabled", false);
 
         if (!$("#add-image-to-tray-btn").prop("disabled")) {
-            isTitleUnique =
-                Object.keys(curTray.get("imagesData")).indexOf(titleVal) !== -1
-                    ? true
-                    : false;
+            if (curTray.get("imagesData")) {
+                isTitleUnique =
+                Object.keys(curTray.get("imagesData")).indexOf($("#image-title-field-input").val()) !== -1
+                    ? false
+                    : true;
+            }
+            else isTitleUnique = true;
         }
     });
 

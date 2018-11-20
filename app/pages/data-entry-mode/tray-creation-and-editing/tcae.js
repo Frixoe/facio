@@ -117,10 +117,12 @@ async function invalidTrayNameToasts() {
 
     $(".err-btn-1").click(() => {
         t1.dismiss();
+        t2.dismiss();
     });
 
     $(".err-btn-2").click(() => {
         t2.dismiss();
+        t1.dismiss();
     });
 }
 
@@ -406,7 +408,7 @@ $(() => {
         updateDropdown();
     });
 
-    if (h.stores.state.get("prevPage") === "choices.html")
+    if (h.stores.state.get("prevPage") !== "index.html")
         $(".container")
             .show()
             .addClass("fadeInRight animated");

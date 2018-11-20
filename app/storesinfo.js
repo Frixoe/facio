@@ -38,10 +38,7 @@ module.exports = [
     },
     {
         name: "msgstore",
-        cwd: "core",
-        defaults: {
-            title: "This acts as an event emitter to anyone watching it."
-        }
+        cwd: "core"
     },
     {
         name: "tempimgs",

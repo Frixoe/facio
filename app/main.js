@@ -1,6 +1,20 @@
+const path = require("path");
 const chokidar = require("chokidar");
 const electron = require("electron");
 const isDev = require("electron-is-dev");
+
+const keys = require("./keys");
+const performPathChecks = require("./helpers/performPathChecks");
+const checkForAtLeastOneTray = require("./helpers/checkForAtLeastOneTray");
+const getAllScripts = require("./helpers/getAllScripts");
+const h = require("./helpers/getMainModules")([
+    "logger",
+    "ipc",
+    "util",
+    "stores",
+    "Window",
+    "fs"
+]);
 
 if (isDev) require("electron-debug")();
 
@@ -18,16 +32,6 @@ require("electron-context-menu")({
         }
     ]
 });
-
-const performPathChecks = require("./helpers/performPathChecks");
-const checkForAtLeastOneTray = require("./helpers/checkForAtLeastOneTray");
-const h = require("./helpers/getMainModules")([
-    "logger",
-    "ipc",
-    "util",
-    "stores",
-    "Window"
-]);
 
 const { app, BrowserWindow } = electron; // Getting required components from the electron module.
 
@@ -52,10 +56,35 @@ async function initScriptsWatcher() {
         .on("error", err => {
             h.logger.log("scriptsWatcher encountered an error: " + err);
         })
-        .on("add", path => {})
-        .on("addDir", path => {})
-        .on("unlink", path => {})
-        .on("unlinkDir", path => {});
+        .on("add", path => {
+            h.logger.log("a new script was added...");
+            h.stores.msgstore.set("msg", "script-added");
+        })
+        .on("addDir", path => {
+            h.logger.log("a new dir was added in the scripts dir...");
+        })
+        .on("unlink", path => {
+            h.logger.log("a script was deleted...");
+            
+            let scripts = getAllScripts(h);
+            if (scripts.length >= 1) {
+                h.stores.msgstore.set("msg", "script-deleted");
+                return;
+            }
+
+            h.logger.log("the scripts dir is empty...");
+            h.stores.msgstore.set("msg", "scripts-dir-empty");
+        })
+        .on("unlinkDir", path => {
+            h.logger.log("scripts dir was deleted...");
+
+            h.stores.paths.set("scriptsPath", "");
+            h.stores.haspaths.set("hasScriptsPath", false);
+            h.stores.msgstore.set("msg", "scripts-dir-deleted");
+
+            scriptsWatcher.close();
+            scriptsWatcher = null;
+        });
 }
 
 async function initTraysWatcher() {
@@ -135,6 +164,7 @@ initDirWatchers();
 
 function createWindow() {
     h.stores.state.set("currentPage", "index.html");
+    h.stores.msgstore.set("msg", "");
 
     // Checking if any files are missing and if it's the app's first launch.
     h.stores.state.set("isFirstLaunch", h.util.isFirstAppLaunch());
@@ -153,7 +183,7 @@ function createWindow() {
             show: false,
             maximizable: false
         },
-        "index.html",
+        "eid.html",
         () => {
             delete win;
 

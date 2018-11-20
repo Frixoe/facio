@@ -161,12 +161,6 @@ body {
     width: 100%;
 }
 
-.error-text {
-    font-family: "montserratSemiBold";
-    text-align: center;
-    height: 10px;
-}
-
 .my-heading-template {
     font-family: "montserratBoldItalic";
     text-align: center;

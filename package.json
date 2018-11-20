@@ -1,61 +1,61 @@
 {
-  "name": "facio",
-  "productName": "Facio",
-  "version": "1.0.0",
-  "private": true,
-  "description": "An easy-to-use free and open-source facial recognition software.",
-  "main": "./app/main.js",
-  "scripts": {
-    "clean": "./node_modules/.bin/prettier --write app/**/*",
-    "build": "npm pack && npm run dist",
-    "pack": "npm run clean && ./node_modules/.bin/electron-builder --dir",
-    "dist": "./node_modules/.bin/electron-builder --win",
-    "start": "./node_modules/.bin/run-electron .",
-    "test": "./node_modules/.bin/mocha"
-  },
-  "keywords": [],
-  "author": "Suryansh S. <business.suryansh@gmail.com>",
-  "license": "MIT",
-  "dependencies": {
-    "ajv": "^6.5.4",
-    "chokidar": "^2.0.4",
-    "electron-better-ipc": "^0.1.1",
-    "electron-context-menu": "^0.10.0",
-    "electron-debug": "^2.0.0",
-    "electron-dl": "^1.12.0",
-    "electron-is-dev": "^1.0.1",
-    "electron-serve": "^0.2.0",
-    "electron-store": "^2.0.0",
-    "electron-timber": "^0.5.1",
-    "electron-unhandled": "^1.1.0",
-    "electron-util": "^0.10.0",
-    "face-api.js": "^0.15.0",
-    "image-data-uri": "^2.0.0",
-    "jquery": "^3.3.1",
-    "run-electron": "^0.1.0",
-    "uuid": "^3.3.2",
-    "webcamjs": "^1.0.25"
-  },
-  "devDependencies": {
-    "@types/mocha": "^5.2.5",
-    "chai": "^4.2.0",
-    "chai-as-promised": "^7.1.1",
-    "electron": "^3.0.5",
-    "electron-builder": "^20.28.4",
-    "electron-chromedriver": "^4.0.0-beta.1",
-    "electron-reloader": "^0.2.0",
-    "mocha": "^5.2.0",
-    "prettier": "^1.15.2",
-    "spectron": "^5.0.0"
-  },
-  "build": {
-    "files": [
-      "app/**/*"
-    ],
-    "appId": "com.suryanshs.facio",
-    "mac": {
-      "category": "public.app-category.facial-recognition"
+    "name": "facio",
+    "productName": "Facio",
+    "version": "1.0.0",
+    "private": true,
+    "description": "An easy-to-use free and open-source facial recognition software.",
+    "main": "./app/main.js",
+    "scripts": {
+        "clean": "./node_modules/.bin/prettier --write app/**/*",
+        "build": "npm pack && npm run dist",
+        "pack": "npm run clean && ./node_modules/.bin/electron-builder --dir",
+        "dist": "./node_modules/.bin/electron-builder --win",
+        "start": "./node_modules/.bin/run-electron .",
+        "test": "./node_modules/.bin/mocha"
     },
-    "compression": "normal"
-  }
+    "keywords": [],
+    "author": "Suryansh S. <business.suryansh@gmail.com>",
+    "license": "MIT",
+    "dependencies": {
+        "ajv": "^6.5.4",
+        "chokidar": "^2.0.4",
+        "electron-better-ipc": "^0.1.1",
+        "electron-context-menu": "^0.10.0",
+        "electron-debug": "^2.0.0",
+        "electron-dl": "^1.12.0",
+        "electron-is-dev": "^1.0.1",
+        "electron-serve": "^0.2.0",
+        "electron-store": "^2.0.0",
+        "electron-timber": "^0.5.1",
+        "electron-unhandled": "^1.1.0",
+        "electron-util": "^0.10.0",
+        "face-api.js": "^0.15.0",
+        "image-data-uri": "^2.0.0",
+        "jquery": "^3.3.1",
+        "run-electron": "^0.1.0",
+        "uuid": "^3.3.2",
+        "webcamjs": "^1.0.25"
+    },
+    "devDependencies": {
+        "@types/mocha": "^5.2.5",
+        "chai": "^4.2.0",
+        "chai-as-promised": "^7.1.1",
+        "electron": "^3.0.5",
+        "electron-builder": "^20.28.4",
+        "electron-chromedriver": "^4.0.0-beta.1",
+        "electron-reloader": "^0.2.0",
+        "mocha": "^5.2.0",
+        "prettier": "^1.15.2",
+        "spectron": "^5.0.0"
+    },
+    "build": {
+        "files": [
+            "app/**/*"
+        ],
+        "appId": "com.suryanshs.facio",
+        "mac": {
+            "category": "public.app-category.facial-recognition"
+        },
+        "compression": "normal"
+    }
 }

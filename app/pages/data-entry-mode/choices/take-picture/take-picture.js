@@ -1,3 +1,10 @@
+const os = require("os");
+const path = require("path");
+const chokidar = require("chokidar");
+const im = require("image-data-uri");
+const uuidv4 = require("uuid/v4");
+const wc = require("webcamjs");
+
 const h = require("./../../../../helpers/getRendererModules")(false, false, [
     "logger",
     "stores",
@@ -5,18 +12,14 @@ const h = require("./../../../../helpers/getRendererModules")(false, false, [
     "ipc",
     "Window",
     "util",
-    "remote"
+    "remote",
+    "fs"
 ]);
-
-const os = require("os");
-const path = require("path");
-const im = require("image-data-uri");
-const uuidv4 = require("uuid/v4");
 
 let div_width = window.innerWidth;
 let div_height = window.innerHeight;
+let webcamWin = h.remote.getCurrentWindow();
 
-const wc = require("webcamjs");
 wc.set({
     width: div_width,
     height: div_height,
@@ -37,6 +40,35 @@ let dataWinIsOpen = false;
 let dataWin = null;
 
 $(() => {
+    let msgstoreWatcher = chokidar.watch(h.stores.msgstore.path);
+
+    msgstoreWatcher
+        .on("ready", () => h.logger.log("take-pic.js: msgstore watcher reporting for duty!"))
+        .on("all", (event, path) => {
+            let msg = h.stores.msgstore.get("msg");
+
+            if (msg === "trays-dir-deleted") {
+                h.logger.log("the trays dir was deleted, switching page to index.html");
+
+                h.switchPage(fadeOutLeft, "index.html");
+            } else if (msg === "trays-dir-empty") {
+                h.logger.log("the trays dir was emptied, switching to tcae.html");
+
+                h.switchPage(fadeOutLeft, "tcae.html");
+            } else if (msg === "tray-deleted") {
+                h.logger.log("a tray was deleted...");
+
+                if (!h.fs.existsSync(h.stores.state.get("currentTray"))) {
+                    h.logger.log("take-pic.js: the current tray was deleted...");
+                    h.logger.log("switching to tcae.html");
+                    h.switchPage(fadeOutLeft, "tcae.html");
+                }
+            }
+
+            h.stores.msgstore.set("msg", "");
+        });
+
+
     $(".container")
         .show()
         .addClass("fadeInLeft animated");
