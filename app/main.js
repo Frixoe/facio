@@ -65,7 +65,7 @@ async function initScriptsWatcher() {
         })
         .on("unlink", path => {
             h.logger.log("a script was deleted...");
-            
+
             let scripts = getAllScripts(h);
             if (scripts.length >= 1) {
                 h.stores.msgstore.set("msg", "script-deleted");

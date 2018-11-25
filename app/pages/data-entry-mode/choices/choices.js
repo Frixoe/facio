@@ -9,7 +9,12 @@ const h = require("./../../../helpers/getRendererModules")(false, false, [
 
 h.logger.log("loaded 'choices.html'");
 
-let nextPages = ["add-picture.html", "take-picture.html", "add-folder.html", "etp.html"];
+let nextPages = [
+    "add-picture.html",
+    "take-picture.html",
+    "add-folder.html",
+    "etp.html"
+];
 let curTray = new Store({
     name: h.stores.state.get("currentTray"),
     cwd: h.stores.paths.get("traysPath"),
@@ -127,8 +132,7 @@ $(() => {
         $("#edit-tray-btn").prop("disabled", true);
 
         M.toast({
-            html:
-            `
+            html: `
                 No data exists on this tray. Please add some.
             `,
             displayLength: 5000,

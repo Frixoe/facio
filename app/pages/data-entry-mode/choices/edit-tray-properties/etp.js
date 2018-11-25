@@ -26,13 +26,15 @@ let defaultScript = null;
 let aTrayIsSelected = false;
 
 function updateScriptsDropdown() {
-    $("#scripts-dropdown").html("").append(
-        `
+    $("#scripts-dropdown")
+        .html("")
+        .append(
+            `
             <li class="my-scripts-dropdown-elements"><a href="#!">None</a></li>
             <li class="divider" tabindex="-1"></li>
         `
-    );
-    
+        );
+
     getAllScripts(h).forEach(script => {
         $("#scripts-dropdown").append(
             `
@@ -42,11 +44,11 @@ function updateScriptsDropdown() {
                     </a>
                 </li>
             `
-        )
+        );
     });
-    
+
     // Initialize the dropdown.
-    var dropdown = document.querySelector('.dropdown-trigger');
+    var dropdown = document.querySelector(".dropdown-trigger");
     scriptsDropdownInstance = M.Dropdown.init(dropdown, {
         constrainWidth: true,
         coverTrigger: true
@@ -56,7 +58,9 @@ function updateScriptsDropdown() {
     scriptsDropdownInstance.focusIndex = 0;
 
     $(".my-scripts-dropdown-elements").click(e => {
-        h.logger.log("cilcked on li element with innerHTML: " + e.target.innerHTML);
+        h.logger.log(
+            "cilcked on li element with innerHTML: " + e.target.innerHTML
+        );
         let scriptVal = e.target.innerHTML.trim();
 
         if (!aTrayIsSelected) return;
@@ -71,7 +75,9 @@ function updateScriptsDropdown() {
 function updateDataCollection() {
     h.logger.log("updating data collection");
 
-    $("#collection-items").children().remove();
+    $("#collection-items")
+        .children()
+        .remove();
 
     let keys = Object.keys(curTrayDataDuplicate);
 
@@ -104,7 +110,7 @@ function updateDataCollection() {
                     </button>
                 </li>
             `
-        )
+        );
     });
 
     $(".collection-item").click(e => {
@@ -121,9 +127,15 @@ function updateDataCollection() {
         $(".collection-items-btns").css("color", "black");
 
         e.currentTarget.classList.add("active");
-        $(e.currentTarget).find(".collection-items-btns").css("color", "white");
+        $(e.currentTarget)
+            .find(".collection-items-btns")
+            .css("color", "white");
 
-        let imgTitle = $(e.currentTarget).children().first().html().trim();
+        let imgTitle = $(e.currentTarget)
+            .children()
+            .first()
+            .html()
+            .trim();
         defaultImageTitle = imgTitle;
         defaultScript = curTrayDataDuplicate[imgTitle].script;
 
@@ -132,7 +144,7 @@ function updateDataCollection() {
         selectedImageTitle = defaultImageTitle;
         selectedScript = defaultScript;
         h.logger.log(imgTitle);
-        
+
         if (btnPressed) {
             h.logger.log("pressed btn");
             delete curTrayDataDuplicate[imgTitle];
@@ -173,7 +185,7 @@ function updateApplyBtnState() {
     h.logger.log("img title changed: " + imgTitleChanged);
     h.logger.log("img script changed: " + imgScriptChanged);
 
-    if (imgTitleChanged || imgScriptChanged && aTrayIsSelected) {
+    if (imgTitleChanged || (imgScriptChanged && aTrayIsSelected)) {
         $("#apply-changes-btn").prop("disabled", false);
     } else $("#apply-changes-btn").prop("disabled", true);
 }
@@ -192,40 +204,50 @@ $(() => {
         updateApplyBtnState();
 
         // TODO: Check if the new title is valid.
-        if (selectedImageTitle === "") $("#apply-changes-btn").prop("disabled", true);
+        if (selectedImageTitle === "")
+            $("#apply-changes-btn").prop("disabled", true);
     });
 
     $("#cancel-changes-btn").click(() => {
         h.switchPage(fadeOutLeft, "choices.html");
     });
 
-    $("#apply-changes-btn").prop("disabled", true).click(() => {
-        h.logger.log("the apply btn was clicked...");
+    $("#apply-changes-btn")
+        .prop("disabled", true)
+        .click(() => {
+            h.logger.log("the apply btn was clicked...");
 
-        curTrayDataDuplicate[defaultImageTitle].title = selectedImageTitle;
-        
-        if (selectedScript.toLowerCase() !== "none") curTrayDataDuplicate[defaultImageTitle].script = selectedScript;
-        else delete curTrayDataDuplicate[defaultImageTitle].script;
+            curTrayDataDuplicate[defaultImageTitle].title = selectedImageTitle;
 
-        let temp = curTrayDataDuplicate[defaultImageTitle];
-        delete curTrayDataDuplicate[defaultImageTitle];
+            if (selectedScript.toLowerCase() !== "none")
+                curTrayDataDuplicate[defaultImageTitle].script = selectedScript;
+            else delete curTrayDataDuplicate[defaultImageTitle].script;
 
-        curTrayDataDuplicate[selectedImageTitle] = temp;
-        h.logger.log("the curTrayDuplicate was updated...");
+            let temp = curTrayDataDuplicate[defaultImageTitle];
+            delete curTrayDataDuplicate[defaultImageTitle];
 
-        updateApplyBtnState();
-        updateDataCollection();
-        resetFields();
+            curTrayDataDuplicate[selectedImageTitle] = temp;
+            h.logger.log("the curTrayDuplicate was updated...");
 
-        defaultScript = null;
+            updateApplyBtnState();
+            updateDataCollection();
+            resetFields();
 
-        curTray.set("imagesData", curTrayDataDuplicate);
-    });
+            defaultScript = null;
 
-    $("#editing-tray-name").html(h.stores.state.get("currentTray") + "." + keys.traysExtension);
-    $(".container").show().addClass("fadeInLeft animated");
+            curTray.set("imagesData", curTrayDataDuplicate);
+        });
+
+    $("#editing-tray-name").html(
+        h.stores.state.get("currentTray") + "." + keys.traysExtension
+    );
+    $(".container")
+        .show()
+        .addClass("fadeInLeft animated");
 });
 
 function fadeOutLeft() {
-    $(".container").removeClass(["animated", "fadeInLeft"]).addClass("fadeOutLeft animated");
+    $(".container")
+        .removeClass(["animated", "fadeInLeft"])
+        .addClass("fadeOutLeft animated");
 }

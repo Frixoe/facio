@@ -43,25 +43,33 @@ $(() => {
     let msgstoreWatcher = chokidar.watch(h.stores.msgstore.path);
 
     msgstoreWatcher
-        .on("ready", () => h.logger.log("take-pic.js: msgstore watcher reporting for duty!"))
+        .on("ready", () =>
+            h.logger.log("take-pic.js: msgstore watcher reporting for duty!")
+        )
         .on("all", (event, path) => {
             let msg = h.stores.msgstore.get("msg");
 
             if (msg === "") return;
 
             if (msg === "trays-dir-deleted") {
-                h.logger.log("the trays dir was deleted, switching page to index.html");
+                h.logger.log(
+                    "the trays dir was deleted, switching page to index.html"
+                );
 
                 h.switchPage(fadeOutLeft, "index.html");
             } else if (msg === "trays-dir-empty") {
-                h.logger.log("the trays dir was emptied, switching to tcae.html");
+                h.logger.log(
+                    "the trays dir was emptied, switching to tcae.html"
+                );
 
                 h.switchPage(fadeOutLeft, "tcae.html");
             } else if (msg === "tray-deleted") {
                 h.logger.log("a tray was deleted...");
 
                 if (!h.fs.existsSync(h.stores.state.get("currentTray"))) {
-                    h.logger.log("take-pic.js: the current tray was deleted...");
+                    h.logger.log(
+                        "take-pic.js: the current tray was deleted..."
+                    );
                     h.logger.log("switching to tcae.html");
                     h.switchPage(fadeOutLeft, "tcae.html");
                 }
@@ -69,7 +77,6 @@ $(() => {
 
             h.stores.msgstore.set("msg", "");
         });
-
 
     $(".container")
         .show()

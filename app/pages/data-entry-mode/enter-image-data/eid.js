@@ -120,12 +120,15 @@ function updateCarousel() {
 }
 
 function updateScriptsDropdown() {
-    $("#scripts-dropdown").html("").append(
-        `
+    $("#scripts-dropdown")
+        .html("")
+        .append(
+            `
             <li class="my-scripts-dropdown-elements" id=""><a href="#!">None</a></li>
             <li class="divider" tabindex="-1"></li>
-        `)
-    
+        `
+        );
+
     getAllScripts(h).forEach(script => {
         $("#scripts-dropdown").append(
             `
@@ -135,11 +138,11 @@ function updateScriptsDropdown() {
                     </a>
                 </li>
             `
-        )
+        );
     });
-    
+
     // Initialize the dropdown.
-    var dropdown = document.querySelector('.dropdown-trigger');
+    var dropdown = document.querySelector(".dropdown-trigger");
     scriptsDropdownInstance = M.Dropdown.init(dropdown, {
         constrainWidth: true,
         coverTrigger: true
@@ -149,7 +152,9 @@ function updateScriptsDropdown() {
     scriptsDropdownInstance.focusIndex = 0;
 
     $(".my-scripts-dropdown-elements").click(e => {
-        h.logger.log("cilcked on li element with innerHTML: " + e.target.innerHTML);
+        h.logger.log(
+            "cilcked on li element with innerHTML: " + e.target.innerHTML
+        );
         let scriptVal = e.target.innerHTML.trim();
 
         $("#scripts-input-field").val(scriptVal);
@@ -162,7 +167,7 @@ function resetFields() {
     $("#input-elements-div")
         .children()
         .remove();
-    
+
     $("input").val("");
 
     selectedScript = "none";
@@ -210,7 +215,9 @@ $(() => {
             if (msg === "") return;
 
             if (msg === "trays-dir-deleted" || msg === "trays-dir-empty") {
-                h.logger.log("closing the image info window because trays dir was deleted or was emptied...");
+                h.logger.log(
+                    "closing the image info window because trays dir was deleted or was emptied..."
+                );
                 h.remote.getCurrentWindow().close();
             } else if (msg === "tray-deleted") {
                 h.logger.log("a tray was deleted...");
@@ -224,7 +231,12 @@ $(() => {
                     h.logger.log("closing the image info window...");
                     h.remote.getCurrentWindow().close();
                 }
-            } else if (msg === "scripts-dir-deleted" || msg === "scripts-dir-empty" || msg === "script-added" || msg === "script-deleted") {
+            } else if (
+                msg === "scripts-dir-deleted" ||
+                msg === "scripts-dir-empty" ||
+                msg === "script-added" ||
+                msg === "script-deleted"
+            ) {
                 h.logger.log("scripts dir changed...");
                 h.logger.log("updating the dropdown...");
 
@@ -273,7 +285,8 @@ $(() => {
                     "image-title-field-input"
                 ).value; // Used DOM as Jq method did not work.
 
-                if (selectedScript.toLowerCase() !== "none") curImageInfo.script = selectedScript;
+                if (selectedScript.toLowerCase() !== "none")
+                    curImageInfo.script = selectedScript;
 
                 $(".image-extra-field-inputs").each((ind, el) => {
                     let key = $(el)
@@ -530,11 +543,12 @@ $(() => {
         if (!$("#add-image-to-tray-btn").prop("disabled")) {
             if (curTray.get("imagesData")) {
                 isTitleUnique =
-                Object.keys(curTray.get("imagesData")).indexOf($("#image-title-field-input").val()) !== -1
-                    ? false
-                    : true;
-            }
-            else isTitleUnique = true;
+                    Object.keys(curTray.get("imagesData")).indexOf(
+                        $("#image-title-field-input").val()
+                    ) !== -1
+                        ? false
+                        : true;
+            } else isTitleUnique = true;
         }
     });
 
