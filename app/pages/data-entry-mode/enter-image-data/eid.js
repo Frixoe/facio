@@ -36,6 +36,13 @@ let numToWords = [
     "#ten!"
 ];
 
+/*
+    TODO: Add ability to press enter and save the image info when modal is shown.
+    TODO: Get the descriptors of the images being saved in eid.html.
+    TODO: Do not let the user add the image if the image descriptor already exists.
+    TODO: Do not let the user add the image if it doesn't contain a face.
+*/
+
 // Getting the current tray as a Store obj.
 let curTray = new Store({
     name: h.stores.state.get("currentTray"),
@@ -115,7 +122,7 @@ function updateCarousel() {
 function updateScriptsDropdown() {
     $("#scripts-dropdown").html("").append(
         `
-            <li class="my-scripts-dropdown-elements"><a href="#!">None</a></li>
+            <li class="my-scripts-dropdown-elements" id=""><a href="#!">None</a></li>
             <li class="divider" tabindex="-1"></li>
         `)
     
@@ -135,7 +142,7 @@ function updateScriptsDropdown() {
     var dropdown = document.querySelector('.dropdown-trigger');
     scriptsDropdownInstance = M.Dropdown.init(dropdown, {
         constrainWidth: true,
-        coverTrigger: false
+        coverTrigger: true
     });
 
     scriptsDropdownInstance.isScrollable = true;
@@ -199,6 +206,8 @@ $(() => {
         .on("ready", () => h.logger.log("msgstore watcher reporting for duty!"))
         .on("all", (event, path) => {
             let msg = h.stores.msgstore.get("msg");
+
+            if (msg === "") return;
 
             if (msg === "trays-dir-deleted" || msg === "trays-dir-empty") {
                 h.logger.log("closing the image info window because trays dir was deleted or was emptied...");
@@ -527,6 +536,10 @@ $(() => {
             }
             else isTitleUnique = true;
         }
+    });
+
+    $("#close-btn").click(e => {
+        h.remote.BrowserWindow.getFocusedWindow().close();
     });
 
     resetFields();

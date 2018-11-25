@@ -164,7 +164,7 @@ body {
 .my-heading-template {
     font-family: "montserratBoldItalic";
     text-align: center;
-    text-shadow: 0px 3px 10px rgba(0, 0, 0, 0.5);
+    text-shadow: 0px 3px 20px rgba(0, 0, 0, 0.5);
 }
 
 .my-paragraph-template {

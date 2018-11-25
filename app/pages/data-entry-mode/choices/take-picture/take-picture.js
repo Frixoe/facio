@@ -47,6 +47,8 @@ $(() => {
         .on("all", (event, path) => {
             let msg = h.stores.msgstore.get("msg");
 
+            if (msg === "") return;
+
             if (msg === "trays-dir-deleted") {
                 h.logger.log("the trays dir was deleted, switching page to index.html");
 
@@ -142,10 +144,8 @@ $(() => {
                         pages,
                         h.remote.BrowserWindow,
                         {
-                            x: thisWinPos[0] + 30,
-                            y: thisWinPos[1] + 30,
-                            width: thisWinSize[0],
-                            height: thisWinSize[1],
+                            width: 1000,
+                            height: 600,
                             resizable: false,
                             fullscreenable: false,
                             show: false,
@@ -161,6 +161,10 @@ $(() => {
                     dataWin.win.on("ready-to-show", () => {
                         dataWin.win.show();
                         dataWin.win.focus();
+                    });
+
+                    dataWin.win.on("move", () => {
+                        h.logger.log("eid.html window was moved...");
                     });
 
                     dataWinIsOpen = true;

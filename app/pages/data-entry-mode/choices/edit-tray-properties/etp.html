@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Facio - Edit Tray</title>
+
+    <link rel="stylesheet" href="./../../../../assets/css/allsheets.css">
+</head>
+<body style="overflow: auto;">
+    <div class="container" hidden>
+        <div class="row">
+            <div class="col s12">
+                <h2 class="my-heading-template">Tray Properties</h2>
+            </div>
+        </div>
+        <div class="row" style="margin-top: -30px;">
+            <div class="col s12">
+                <p style="font-family: 'montserratMedium';" class="center-align">Editing tray: <span id="editing-tray-name"></span></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s6" style="margin-left: -50px;">
+                <ul class="collection with-header" style="border-radius: 20px; font-family: 'montserratRegular'; border-width: 10px;">
+                    <li class="collection-header"><h6 class="center-align">Pick an Image Data</h6></li>
+                    <div id="collection-items">
+                    </div>
+                </ul>
+            </div>
+            <div class="col s6" style="margin-left: 350px; position: fixed;">
+                <form id="my-input-fields-form">
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input placeholder="Enter tray title here..." id="tray-title-input-field" type="text" class="validate" maxlength="50">
+                            <label for="tray-title-input-field">Tray Title</label>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top: -20px;">
+                        <div class="col s12">
+                            <!-- Dropdown Trigger -->
+                            <div class="input-field dropdown-trigger" data-target="scripts-dropdown">
+                                <input placeholder="(OPTIONAL) Pick a script to trigger once this image is matched..." id="scripts-input-field" type="text" class="validate">
+                                <label for="scripts-input-field">Script: </label>
+                            </div>
+        
+                            <!-- Dropdown Structure -->
+                            <ul id='scripts-dropdown' class='dropdown-content'>
+                            </ul>
+                        </div>
+                    </div>
+                </form>
+                <div class="row">
+                    <div class="col s6">
+                        <button id="cancel-changes-btn" class="my-white-btn">cancel/back</button>
+                    </div>
+                    <div class="col s6">
+                        <button id="apply-changes-btn" class="my-black-btn">apply</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12">
+                        <p class="my-heading-template">Please edit any/all extra fields manually by editing the corresponding ".ftray" file.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="./../../../../assets/js/materialize.min.js"></script>
+    <script src="etp.js"></script>
+</body>
+</html>

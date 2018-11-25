@@ -33,7 +33,7 @@ require("electron-context-menu")({
     ]
 });
 
-const { app, BrowserWindow } = electron; // Getting required components from the electron module.
+const { app, BrowserWindow, globalShortcut } = electron; // Getting required components from the electron module.
 
 const pages = require("./helpers/crawlPages")(app.getAppPath());
 
@@ -166,6 +166,15 @@ function createWindow() {
     h.stores.state.set("currentPage", "index.html");
     h.stores.msgstore.set("msg", "");
 
+    globalShortcut.register("CommandOrControl+Q", () => {
+        closeAllWatchers();
+
+        BrowserWindow.getAllWindows().forEach((win, ind, arr) => win.close());
+        win = null;
+
+        app.quit();
+    });
+
     // Checking if any files are missing and if it's the app's first launch.
     h.stores.state.set("isFirstLaunch", h.util.isFirstAppLaunch());
 
@@ -183,7 +192,7 @@ function createWindow() {
             show: false,
             maximizable: false
         },
-        "eid.html",
+        "index.html",
         () => {
             delete win;
 

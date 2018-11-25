@@ -1,3 +1,5 @@
+const keys = require("./../../../keys");
+const Store = require("electron-store");
 const h = require("./../../../helpers/getRendererModules")(false, false, [
     "logger",
     "switchPage",
@@ -7,7 +9,12 @@ const h = require("./../../../helpers/getRendererModules")(false, false, [
 
 h.logger.log("loaded 'choices.html'");
 
-let nextPages = ["add-picture.html", "take-picture.html", "add-folder.html"];
+let nextPages = ["add-picture.html", "take-picture.html", "add-folder.html", "etp.html"];
+let curTray = new Store({
+    name: h.stores.state.get("currentTray"),
+    cwd: h.stores.paths.get("traysPath"),
+    fileExtension: keys.traysExtension
+});
 
 function disableAllBtns() {
     $("#take-picture-btn").prop("disabled", true);
@@ -114,6 +121,22 @@ $(() => {
     $("#add-folder-btn").click(() =>
         h.switchPage(fadeOutRight, "add-folder.html")
     );
+    $("#edit-tray-btn").click(() => h.switchPage(fadeOutRight, "etp.html"));
+
+    if (!curTray.get("imagesData")) {
+        $("#edit-tray-btn").prop("disabled", true);
+
+        M.toast({
+            html:
+            `
+                No data exists on this tray. Please add some.
+            `,
+            displayLength: 5000,
+            inDuration: 1000,
+            outDuration: 1000,
+            classes: "my-toast"
+        });
+    }
 
     $("#back-btn").click(() => h.switchPage(fadeOutLeft, "tcae.html"));
 
