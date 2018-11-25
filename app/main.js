@@ -192,7 +192,7 @@ function createWindow() {
             show: false,
             maximizable: false
         },
-        "index.html",
+        "etp.html",
         () => {
             delete win;
 

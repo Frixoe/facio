@@ -17,7 +17,9 @@ let curTray = new Store({
 
 h.logger.log(curTray);
 
+let traysExtension = keys.traysExtension;
 let scriptsDropdownInstance = null;
+let deleteConfirmationModalInstance = null;
 let curTrayDataDuplicate = curTray.get("imagesData");
 let selectedImageTitle = null;
 let selectedScript = null;
@@ -146,14 +148,16 @@ function updateDataCollection() {
         h.logger.log(imgTitle);
 
         if (btnPressed) {
-            h.logger.log("pressed btn");
-            delete curTrayDataDuplicate[imgTitle];
+            h.logger.log("pressed delete btn");
 
-            aTrayIsSelected = false;
+            $("#image-title-delete-confirmation-modal-placeholder").html(
+                defaultImageTitle
+            );
+            $("#tray-name-delete-confirmation-modal-placeholder").html(
+                curTray.get("title") + "." + traysExtension
+            );
 
-            updateDataCollection();
-            resetFields();
-
+            deleteConfirmationModalInstance.open();
             return;
         }
 
@@ -199,11 +203,24 @@ $(() => {
 
     updateDataCollection();
 
+    // Creating the modal instance.
+    var deleteConfirmationModal = document.querySelector(
+        "#delete-confirmation-modal"
+    );
+    deleteConfirmationModalInstance = M.Modal.init(deleteConfirmationModal, {
+        inDuration: 800,
+        outDuration: 800,
+        preventScrolling: true,
+        dismissible: false,
+        onCloseEnd: () => {
+            $("body").css("overflow", "auto");
+        }
+    });
+
     $("#my-input-fields-form").on("change", e => {
         e.preventDefault();
         updateApplyBtnState();
 
-        // TODO: Check if the new title is valid.
         if (selectedImageTitle === "")
             $("#apply-changes-btn").prop("disabled", true);
     });
@@ -241,6 +258,24 @@ $(() => {
     $("#editing-tray-name").html(
         h.stores.state.get("currentTray") + "." + keys.traysExtension
     );
+
+    $("#delete-confirmation-modal-no-btn").click(e => {
+        e.preventDefault();
+    });
+
+    $("#delete-confirmation-modal-yes-btn").click(e => {
+        e.preventDefault();
+
+        delete curTrayDataDuplicate[defaultImageTitle];
+        aTrayIsSelected = false;
+
+        curTray.set("imagesData", curTrayDataDuplicate);
+
+        updateApplyBtnState();
+        updateDataCollection();
+        resetFields();
+    });
+
     $(".container")
         .show()
         .addClass("fadeInLeft animated");

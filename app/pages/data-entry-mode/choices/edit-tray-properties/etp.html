@@ -9,6 +9,43 @@
         <link rel="stylesheet" href="./../../../../assets/css/allsheets.css" />
     </head>
     <body style="overflow: auto;">
+        <div
+            id="delete-confirmation-modal"
+            class="modal modal-fixed-footer bottom-sheet"
+            style="font-family: 'montserratMedium'; border-top-left-radius: 20px; border-top-right-radius: 20px; overflow: hidden;"
+        >
+            <form id="delete-confirmation-modal-form">
+                <div class="modal-content" style="margin-top: 30px;">
+                    <h3 style="font-family: 'montserratBold';">
+                        Are you sure you want to delete "<span
+                            style="text-decoration: underline;"
+                            id="image-title-delete-confirmation-modal-placeholder"
+                        ></span
+                        >" from "<span
+                            style="text-decoration: underline;"
+                            id="tray-name-delete-confirmation-modal-placeholder"
+                        ></span
+                        >?"
+                    </h3>
+                </div>
+                <div class="modal-footer">
+                    <button
+                        id="delete-confirmation-modal-no-btn"
+                        class="modal-close waves-effect waves-green btn-flat"
+                    >
+                        No
+                    </button>
+                    <button
+                        type="submit"
+                        id="delete-confirmation-modal-yes-btn"
+                        class="modal-close waves-effect waves-green btn-flat"
+                    >
+                        Yes
+                    </button>
+                </div>
+            </form>
+        </div>
+
         <div class="container" hidden>
             <div class="row">
                 <div class="col s12">

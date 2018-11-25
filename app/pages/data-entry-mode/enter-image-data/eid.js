@@ -274,6 +274,7 @@ $(() => {
         inDuration: 800,
         outDuration: 800,
         preventScrolling: true,
+        dismissible: false,
         onCloseEnd: () => {
             $("body").css("overflow", "auto");
 
