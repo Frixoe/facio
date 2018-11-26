@@ -33,7 +33,8 @@ module.exports = [
             onePicPath: "",
             picFolderPath: "",
             prevImageInfo: "",
-            hasAtLeastOneTray: false
+            hasAtLeastOneTray: false,
+            tempImagesPath: ""
         }
     },
     {

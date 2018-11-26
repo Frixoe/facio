@@ -1,5 +1,4 @@
 const path = require("path");
-const os = require("os");
 const chokidar = require("chokidar");
 const Store = require("electron-store");
 
@@ -22,7 +21,8 @@ let lastImg = false; // Boolean which tells if the there is only one image left.
 let curImg = null; // The image selected by the carousel.
 let curImageInfo = {}; // The object which stores the current image's information. This gets reset evertime the user changes the image.
 let numVisible = 10; // Keep 10 at max for convenience.
-let tempPath = path.join(os.tmpdir(), "facio");
+// let tempPath = path.join(os.tmpdir(), "facioUnsavedImgs");
+let tempPath = h.stores.state.get("tempImagesPath");
 let numToWords = [
     "#one!",
     "#two!",
@@ -91,7 +91,9 @@ function updateCarousel() {
             curImageInfo = {};
 
             // Getting the img src which is the child of the a tag.
-            withProtocol = $(val).children()[0].src;
+            withProtocol = $(val)
+                .children()
+                .get(0).src;
             h.logger.log("withProtocol path: ");
             h.logger.log(withProtocol);
 

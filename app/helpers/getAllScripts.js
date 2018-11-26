@@ -3,7 +3,8 @@ module.exports = h => {
 
     if (!h.fs.existsSync(h.stores.paths.get("scriptsPath"))) return [];
 
-    const supportedExtensions = require("./../keys").supportedExtensions;
+    const supportedScriptExtensions = require("./../keys")
+        .supportedScriptExtensions;
     const path = require("path");
 
     return h.fs
@@ -15,7 +16,7 @@ module.exports = h => {
                         path.join(h.stores.paths.get("scriptsPath"), script)
                     )
                     .isDirectory() &&
-                supportedExtensions.indexOf(path.extname(script)) !== -1
+                supportedScriptExtensions.indexOf(path.extname(script)) !== -1
             );
         });
 };

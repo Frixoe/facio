@@ -16,6 +16,7 @@ const h = require("./../../../../helpers/getRendererModules")(false, false, [
     "fs"
 ]);
 
+let tempPath = "facioUnsavedImgs";
 let div_width = window.innerWidth;
 let div_height = window.innerHeight;
 let webcamWin = h.remote.getCurrentWindow();
@@ -121,7 +122,7 @@ $(() => {
 
         h.logger.log("snapping...");
 
-        curImPath = path.join(os.tmpdir(), "facio", uuidv4() + ".png");
+        curImPath = path.join(os.tmpdir(), tempPath, uuidv4() + ".png");
         h.logger.log("snap path: " + curImPath);
 
         h.stores.state.set("onePicPath", curImPath);
@@ -145,6 +146,11 @@ $(() => {
                     let thisWinSize = thisWin.getSize();
 
                     h.logger.log("this window size: " + thisWinSize);
+
+                    h.stores.state.set(
+                        "tempImagesPath",
+                        path.join(os.tmpdir(), tempPath)
+                    );
 
                     dataWin = new h.Window(
                         h.logger,

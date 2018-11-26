@@ -3,6 +3,7 @@ const chokidar = require("chokidar");
 const electron = require("electron");
 const isDev = require("electron-is-dev");
 
+const dialog = electron.dialog;
 const keys = require("./keys");
 const performPathChecks = require("./helpers/performPathChecks");
 const checkForAtLeastOneTray = require("./helpers/checkForAtLeastOneTray");
@@ -192,7 +193,7 @@ function createWindow() {
             show: false,
             maximizable: false
         },
-        "etp.html",
+        "choices.html",
         () => {
             delete win;
 
@@ -229,11 +230,19 @@ app.on("activate", () => {
 });
 
 h.ipc.answerRenderer("open-directory-dialog", async val => {
-    const dialog = electron.dialog;
     let dir = dialog.showOpenDialog(win.win, {
         properties: ["openDirectory"]
     });
     return dir;
+});
+
+h.ipc.answerRenderer("open-imgs-dialog", async val => {
+    let img = dialog.showOpenDialog(win.win, {
+        title: "Pick an image",
+        properties: ["openFile"],
+        filters: [{ name: "Images", extensions: keys.supportedImgExtensions }]
+    });
+    return img;
 });
 
 h.ipc.answerRenderer("get-pages", async val => {
