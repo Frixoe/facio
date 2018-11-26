@@ -14,7 +14,6 @@ const h = require("./../../../../helpers/getRendererModules")(false, false, [
     "Window"
 ]);
 
-let dataWinIsOpen = false;
 let dataWin = null;
 let tempSingleImgPath = path.join(os.tmpdir(), "facioSingleImgs");
 let tempSingleImg = path.join(tempSingleImgPath, "facioImg");
@@ -28,7 +27,7 @@ keys.supportedImgExtensions.forEach((val, ind, arr) =>
 h.logger.log("loaded 'add-picture.html'");
 
 function pickAPicture() {
-    (async () => await h.ipc.callMain("open-imgs-dialog"))().then(img => {
+    (async () => await h.ipc.callMain("open-imgs-dialog", ""))().then(img => {
         if (!img) return;
 
         if (h.fs.existsSync(tempSingleImgPath))
@@ -57,101 +56,51 @@ function pickAPicture() {
 
         h.fs.copyFileSync(img, tempSingleImg);
 
-        if (!dataWinIsOpen) {
-            (async () => await h.ipc.callMain("get-pages", ""))().then(
-                pages => {
-                    $("#pick-a-picture-btn").prop("disabled", true);
+        (async () => await h.ipc.callMain("get-pages", ""))().then(pages => {
+            // Open the data window...
+            let thisWin = h.util.activeWindow();
+            let thisWinSize = thisWin.getSize();
 
-                    // Open the data window...
-                    let thisWin = h.util.activeWindow();
-                    let thisWinSize = thisWin.getSize();
+            h.logger.log("this window size: " + thisWinSize);
 
-                    h.logger.log("this window size: " + thisWinSize);
+            h.stores.state.set("tempImagesPath", tempSingleImgPath);
 
-                    h.stores.state.set("tempImagesPath", tempSingleImgPath);
+            dataWin = new h.Window(
+                h.logger,
+                pages,
+                h.remote.BrowserWindow,
+                {
+                    width: 1000,
+                    height: 600,
+                    resizable: false,
+                    fullscreenable: false,
+                    show: false,
+                    maximizable: false
+                },
+                "eid.html",
+                () => {
+                    dataWin = null;
 
-                    dataWin = new h.Window(
-                        h.logger,
-                        pages,
-                        h.remote.BrowserWindow,
-                        {
-                            width: 1000,
-                            height: 600,
-                            resizable: false,
-                            fullscreenable: false,
-                            show: false,
-                            maximizable: false
-                        },
-                        "eid.html",
-                        () => {
-                            dataWin = null;
-                            dataWinIsOpen = false;
-
-                            $("#pick-a-picture-btn").prop("disabled", false);
-                        }
-                    );
-
-                    dataWin.win.on("ready-to-show", () => {
-                        dataWin.win.show();
-                        dataWin.win.focus();
-                    });
-
-                    dataWin.win.on("move", () => {
-                        h.logger.log("eid.html window was moved...");
-                    });
-
-                    dataWinIsOpen = true;
+                    h.switchPage(fadeOutLeft, "choices.html");
                 }
             );
-        }
+
+            dataWin.win.on("ready-to-show", () => {
+                dataWin.win.show();
+                dataWin.win.focus();
+            });
+
+            dataWin.win.on("move", () => {
+                h.logger.log("eid.html window was moved...");
+            });
+        });
     });
 }
 
 $(() => {
-    let msgstoreWatcher = chokidar.watch(h.stores.msgstore.path);
-
-    msgstoreWatcher
-        .on("ready", () => h.logger.log("msgstoreWatcher reporting for duty!"))
-        .on("all", (event, path) => {
-            let msg = h.stores.msgstore.get("msg");
-
-            if (msg === "") return;
-
-            if (msg === "trays-dir-deleted") {
-                h.logger.log(
-                    "the trays dir was deleted, switching page to index.html"
-                );
-
-                h.switchPage(fadeOutLeft, "index.html");
-            } else if (msg === "trays-dir-empty") {
-                h.logger.log(
-                    "the trays dir was emptied, switching to tcae.html"
-                );
-
-                h.switchPage(fadeOutLeft, "tcae.html");
-            } else if (msg === "tray-deleted") {
-                h.logger.log("a tray was deleted...");
-
-                if (!h.fs.existsSync(h.stores.state.get("currentTray"))) {
-                    h.logger.log(
-                        "add-picture.js: the current tray was deleted..."
-                    );
-                    h.logger.log("switching to tcae.html");
-                    h.switchPage(fadeOutLeft, "tcae.html");
-                }
-            }
-
-            h.stores.msgstore.set("msg", "");
-        });
+    pickAPicture();
 
     allowedImgExts.forEach(val => $("#supported-exts").append(val + " "));
-
-    $("#back-btn").click(() => {
-        h.switchPage(fadeOutLeft, "choices.html");
-        if (dataWin) dataWin.win.close();
-    });
-
-    $("#pick-a-picture-btn").click(() => pickAPicture());
 
     $(".container")
         .show()

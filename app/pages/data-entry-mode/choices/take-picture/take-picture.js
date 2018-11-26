@@ -58,7 +58,10 @@ $(() => {
                 );
 
                 h.switchPage(fadeOutLeft, "index.html");
-            } else if (msg === "trays-dir-empty") {
+            } else if (
+                msg === "trays-dir-empty" &&
+                h.remote.BrowserWindow.getAllWindows().length !== 2
+            ) {
                 h.logger.log(
                     "the trays dir was emptied, switching to tcae.html"
                 );

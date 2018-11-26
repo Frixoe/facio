@@ -61,7 +61,7 @@ function updateCarousel() {
 
     h.fs.readdirSync(tempPath).forEach(src => {
         ind++;
-        if (ind > numVisible) return;
+        if (ind > numVisible + 1) return;
 
         let imgPath = path.join(tempPath, src);
 

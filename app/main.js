@@ -191,7 +191,8 @@ function createWindow() {
             resizable: false,
             fullscreenable: false,
             show: false,
-            maximizable: false
+            maximizable: false,
+            titleBarStyle: "hidden"
         },
         "choices.html",
         () => {
@@ -231,6 +232,7 @@ app.on("activate", () => {
 
 h.ipc.answerRenderer("open-directory-dialog", async val => {
     let dir = dialog.showOpenDialog(win.win, {
+        title: "Pick a directory",
         properties: ["openDirectory"]
     });
     return dir;
