@@ -128,7 +128,14 @@ $(() => {
     );
     $("#edit-tray-btn").click(() => h.switchPage(fadeOutRight, "etp.html"));
 
-    if (!curTray.get("imagesData")) {
+    let isImagesDataLen0 = null;
+    try {
+        isImagesDataLen0 = Object.keys(curTray.get("imagesData")).length === 0;
+    } catch (err) {
+        isImagesDataLen0 = true;
+    }
+
+    if (!curTray.get("imagesData") || isImagesDataLen0) {
         $("#edit-tray-btn").prop("disabled", true);
 
         M.toast({

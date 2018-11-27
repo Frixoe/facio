@@ -1,3 +1,4 @@
+const chokidar = require("chokidar");
 const Store = require("electron-store");
 
 const keys = require("./../../../../keys");
@@ -6,7 +7,8 @@ const getAllScripts = require("./../../../../helpers/getAllScripts");
 const h = require("./../../../../helpers/getRendererModules")(false, false, [
     "logger",
     "stores",
-    "switchPage"
+    "switchPage",
+    "fs"
 ]);
 
 let curTray = new Store({
@@ -103,11 +105,11 @@ function updateDataCollection() {
     keys.forEach((imgTitle, ind, arr) => {
         $("#collection-items").append(
             `
-                <li class="collection-item truncate">
+                <li class="collection-item truncate valign-wrapper">
                     <span class="collection-items-img-title">
                         ${imgTitle}
                     </span>
-                    <button style="width: 100px; margin-top: -8px; margin-right: -16px; border-radius: 20px; font-family: 'montserratSemiBold';" class="btn-flat right collection-items-btns hoverable">
+                    <button style="width: 100px; margin-top: 0px; margin-right: -16px; border-radius: 20px; font-family: 'montserratSemiBold';" class="btn-flat right collection-items-btns hoverable">
                         DELETE
                     </button>
                 </li>
@@ -202,6 +204,36 @@ $(() => {
     updateScriptsDropdown();
 
     updateDataCollection();
+
+    let msgstoreWatcher = chokidar.watch(h.stores.msgstore.path);
+
+    msgstoreWatcher
+        .on("ready", () => h.logger.log("msgstorewatcher reporting for duty!"))
+        .on("all", (event, path) => {
+            let msg = h.stores.msgstore.get("msg");
+
+            if (msg === "") return;
+
+            if (msg === "trays-dir-empty") {
+                h.logger.log("trays dir was emptied");
+
+                h.switchPage(fadeOutLeft, "tcae.html");
+            } else if (
+                msg === "tray-deleted" &&
+                !h.fs.existsSync(curTray.path)
+            ) {
+                h.logger.log("the current tray was just deleted...");
+                h.logger.log("switching to tcae.html");
+
+                h.switchPage(fadeOutLeft, "tcae.html");
+            } else if (msg === "trays-dir-deleted") {
+                h.logger.log("the trays dir was deleted...");
+
+                h.switchPage(fadeOutLeft, "index.html");
+            }
+
+            h.stores.msgstore.set("msg", "");
+        });
 
     // Creating the modal instance.
     var deleteConfirmationModal = document.querySelector(
