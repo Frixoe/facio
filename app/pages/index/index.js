@@ -70,10 +70,6 @@ $(() => {
     if (!hasTP || !h.stores.state.get("hasAtLeastOneTray"))
         $("#field-btn").prop("disabled", true);
 
-    $("#field-btn")
-        .removeClass(["waves-dark"])
-        .addClass("waves-green");
-
     $("#data-entry-btn").click(() => {
         // Load the data collection mode file.
         h.switchPage(exitAnim1, "tcae.html");

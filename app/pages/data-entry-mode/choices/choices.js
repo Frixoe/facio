@@ -28,6 +28,8 @@ function disableAllBtns() {
 }
 
 $(() => {
+    h.stores.state.set("allowDataFieldPersistence", false);
+
     // Creating a watcher for safety.
     let watcher = require("chokidar").watch(h.stores.msgstore.path);
 

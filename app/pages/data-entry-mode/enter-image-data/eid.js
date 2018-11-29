@@ -13,6 +13,7 @@ const h = require("./../../../helpers/getRendererModules")(false, false, [
     "fs"
 ]);
 
+let allowDataFieldPersistence = h.stores.state.set("allowDataFieldPersistence");
 let scriptsDropdownInstance; // The instance of the scripts dropdown.
 let selectedScript = "none"; // The selected script.
 let userWantsToSave = false; // Boolean indicating whether the user wants to save the image info.
@@ -401,7 +402,8 @@ $(() => {
             newFieldValue === "" ||
             newFieldValue.toLowerCase() === "title" ||
             !isValidName(newFieldValue) ||
-            newFieldValue.toLowerCase() === "descriptor"
+            newFieldValue.toLowerCase() === "descriptor" ||
+            newFieldValue.toLowerCase() === "script"
         ) {
             M.toast({
                 html: "That name cannot be a field. Please use another name.",

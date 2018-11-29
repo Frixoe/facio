@@ -73,6 +73,9 @@ function pickAFolder() {
 }
 
 $(() => {
+    // TODO: Add a feature to apply one field to every picture.
+    h.stores.state.set("allowDataFieldPersistence", true);
+
     pickAFolder();
 
     $(".container")

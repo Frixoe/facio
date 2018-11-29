@@ -34,7 +34,15 @@ module.exports = [
             picFolderPath: "",
             prevImageInfo: "",
             hasAtLeastOneTray: false,
-            tempImagesPath: ""
+            tempImagesPath: "",
+            allowDataFieldPersistence: false
+        }
+    },
+    {
+        name: "fieldsstate",
+        cwd: "core",
+        defaults: {
+            fields: []
         }
     },
     {
