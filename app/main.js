@@ -194,7 +194,7 @@ function createWindow() {
             maximizable: false,
             titleBarStyle: "hidden"
         },
-        "index.html",
+        "eid.html",
         () => {
             delete win;
 
