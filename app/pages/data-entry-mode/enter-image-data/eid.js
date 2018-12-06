@@ -14,7 +14,7 @@ const h = require("./../../../helpers/getRendererModules")(false, false, [
     "fs"
 ]);
 
-let allowDataFieldPersistence = h.stores.state.set("allowDataFieldPersistence");
+let allowDataFieldPersistence = h.stores.state.get("allowDataFieldPersistence");
 let scriptsDropdownInstance; // The instance of the scripts dropdown.
 let selectedScript = "none"; // The selected script.
 let userWantsToSave = false; // Boolean indicating whether the user wants to save the image info.

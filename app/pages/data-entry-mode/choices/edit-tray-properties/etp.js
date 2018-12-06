@@ -230,6 +230,14 @@ $(() => {
                 h.logger.log("the trays dir was deleted...");
 
                 h.switchPage(fadeOutLeft, "index.html");
+            } else if (
+                msg === "script-added" ||
+                msg === "script-deleted" ||
+                msg === "scripts-dir-deleted" ||
+                msg === "scripts-dir-empty" ||
+            ) {
+                h.logger.log("scripts dir was changed...");
+                updateScriptsDropdown();
             }
 
             h.stores.msgstore.set("msg", "");

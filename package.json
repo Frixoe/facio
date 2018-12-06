@@ -9,7 +9,7 @@
         "clean": "./node_modules/.bin/prettier --write app/**/*",
         "build": "npm pack && npm run dist",
         "pack": "npm run clean && ./node_modules/.bin/electron-builder --dir",
-        "dist": "./node_modules/.bin/electron-builder --win",
+        "dist": "./node_modules/.bin/electron-builder --x64 --ia32 --win",
         "start": "./node_modules/.bin/run-electron .",
         "test": "./node_modules/.bin/mocha"
     },
