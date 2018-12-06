@@ -2,7 +2,7 @@ module.exports = async (faceapi, document, imgPath) => {
     let imgElement = document.createElement("img");
     imgElement.src = imgPath;
 
-    let MODELS = "./../models";
+    let MODELS = "./../assets/models";
 
     await faceapi.loadSsdMobilenetv1Model(MODELS);
     await faceapi.loadTinyFaceDetectorModel(MODELS);
