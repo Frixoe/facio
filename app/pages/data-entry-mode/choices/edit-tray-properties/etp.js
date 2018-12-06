@@ -234,7 +234,7 @@ $(() => {
                 msg === "script-added" ||
                 msg === "script-deleted" ||
                 msg === "scripts-dir-deleted" ||
-                msg === "scripts-dir-empty" ||
+                msg === "scripts-dir-empty"
             ) {
                 h.logger.log("scripts dir was changed...");
                 updateScriptsDropdown();
