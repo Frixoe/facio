@@ -4,7 +4,8 @@ const Store = require("electron-store");
 
 const keys = require("./../../../keys");
 const isValidName = require("./../../../helpers/isVaildName");
-const getImageDescriptor = require("./../../../helpers/getImageDescriptor");
+const getSingleFaceImageDescriptor = require("./../../../helpers/getSingleFaceImageDescriptor");
+const getAllFacesImageDescriptors = require("./../../../helpers/getAllFacesImageDescriptor");
 const getAllScripts = require("./../../../helpers/getAllScripts");
 const h = require("./../../../helpers/getRendererModules")(false, false, [
     "logger",
@@ -40,8 +41,10 @@ let numToWords = [
 /*
     TODO: Add ability to press enter and save the image info when modal is shown.
     TODO: Get the descriptors of the images being saved in eid.html.
-    TODO: Do not let the user add the image if the image descriptor already exists.
+    TODO: Do not let the user add the image if the image descriptor already exists or the distance to other descriptors is very small.
     TODO: Do not let the user add the image if it doesn't contain a face.
+    TODO: Do not let the user add the image if it contains more than one face.
+    TODO: Edit each image in the carousel by creating a rectangle around the face contained in the image.
 */
 
 // Getting the current tray as a Store obj.
@@ -50,6 +53,19 @@ let curTray = new Store({
     cwd: h.stores.paths.get("traysPath"),
     fileExtension: keys.traysExtension
 });
+
+// Monkey patching face-api.js
+faceapi.env.monkeyPatch({
+    Canvas: HTMLCanvasElement,
+    Image: HTMLImageElement,
+    ImageData: ImageData,
+    Video: HTMLVideoElement,
+    createCanvasElement: () => document.createElement('canvas'),
+    createImageElement: () => document.createElement('img')
+});
+
+h.logger.log("faceapi: ");
+h.logger.log(faceapi);
 
 function updateLastImg() {
     if ($("#my-carousel").children().length === 1) lastImg = true;
@@ -283,7 +299,10 @@ $(() => {
 
             if (!userWantsToSave) return;
 
-            getImageDescriptor(curImg).then(descriptor => {
+            getSingleFaceImageDescriptor(faceapi, document, curImg).then(descriptor => {
+                h.logger.log("got descriptor: ");
+                h.logger.log(descriptor);
+
                 curImageInfo.descriptor = descriptor;
                 curImageInfo.title = document.getElementById(
                     "image-title-field-input"
