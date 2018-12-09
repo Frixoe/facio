@@ -1,4 +1,5 @@
 const path = require("path");
+const os = require("os");
 const chokidar = require("chokidar");
 const Store = require("electron-store");
 
@@ -299,7 +300,9 @@ $(() => {
 
             if (!userWantsToSave) return;
 
-            getSingleFaceImageDescriptor(faceapi, document, curImg).then(descriptor => {
+            if (os.platform() === "linux") curImg = "/" + curImg;
+
+            getSingleFaceImageDescriptor(faceapi, document, curImg, path.join(__dirname, "..", "..", "..", "assets", "models")).then(descriptor => {
                 h.logger.log("got descriptor: ");
                 h.logger.log(descriptor);
 

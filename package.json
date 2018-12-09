@@ -9,7 +9,7 @@
         "clean": "./node_modules/.bin/prettier --write app/**/*",
         "build": "npm pack && npm run dist",
         "pack": "npm run clean && ./node_modules/.bin/electron-builder --dir",
-        "dist": "./node_modules/.bin/electron-builder --x64 --ia32 --win",
+        "dist": "./node_modules/.bin/electron-builder --linux",
         "start": "./node_modules/.bin/run-electron .",
         "test": "./node_modules/.bin/mocha"
     },
@@ -31,6 +31,7 @@
         "electron-util": "^0.10.2",
         "face-api.js": "^0.16.1",
         "image-data-uri": "^2.0.0",
+        "image-size": "^0.6.3",
         "jquery": "^3.3.1",
         "run-electron": "^0.1.0",
         "uuid": "^3.3.2",

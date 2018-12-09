@@ -28,7 +28,12 @@ h.logger.log("loaded 'add-picture.html'");
 
 function pickAPicture() {
     (async () => await h.ipc.callMain("open-imgs-dialog", ""))().then(img => {
-        if (!img) return;
+        h.logger.log("img foumd: ");
+        h.logger.log(img);
+        
+        if (!img) {
+            h.switchPage(fadeOutLeft, "choices.html");
+        }
 
         if (h.fs.existsSync(tempSingleImgPath))
             h.fs

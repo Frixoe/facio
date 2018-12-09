@@ -1,8 +1,14 @@
-module.exports = async (faceapi, document, imgPath) => {
+module.exports = async (faceapi, document, imgPath, modelsDir) => {
+    h.logger.log("img path fo descriptor: " + imgPath);
+
+    const imgSize = require("./getImageSize")(imgPath);
+
     let imgElement = document.createElement("img");
     imgElement.src = imgPath;
+    imgElement.width = imgSize.width;
+    imgElement.height = imgSize.height;
 
-    let MODELS = "./../assets/models";
+    let MODELS = modelsDir;
 
     await faceapi.loadSsdMobilenetv1Model(MODELS);
     await faceapi.loadTinyFaceDetectorModel(MODELS);
