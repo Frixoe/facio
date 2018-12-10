@@ -1,3 +1,4 @@
+const os = require("os");
 const path = require("path");
 const chokidar = require("chokidar");
 const electron = require("electron");
@@ -179,6 +180,15 @@ function createWindow() {
     // Checking if any files are missing and if it's the app's first launch.
     h.stores.state.set("isFirstLaunch", h.util.isFirstAppLaunch());
 
+    let iconPath = path.join(__dirname, "assets", "icons");
+    let icon = "";
+
+    if (os.platform() === "win32") icon = "icon.ico";
+    else if (os.platform() === "linux") icon = "icon.png";
+    else icon = "icon.icns";
+
+    iconPath = path.join(iconPath, icon);
+
     // Create the browser window.
     win = new h.Window(
         h.logger,
@@ -192,7 +202,8 @@ function createWindow() {
             fullscreenable: false,
             show: false,
             maximizable: false,
-            titleBarStyle: "hidden"
+            titleBarStyle: "hidden",
+            icon: iconPath,
         },
         "index.html",
         () => {

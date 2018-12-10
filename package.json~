@@ -50,9 +50,10 @@
         "spectron": "^5.0.0"
     },
     "build": {
-	    "directories": {
-	        "output": "release"
-	    },
+	"directories": {
+	    "output": "release",
+	    "buildResources": "build"
+	},
         "files": [
             "app/**/*"
         ],
@@ -60,12 +61,13 @@
         "mac": {
             "category": "public.app-category.facial-recognition"
         },
-	    "linux": {
-	        "target": [
-	            "AppImage",
-                "snap"
-            ]
-        },
+	"linux": {
+	    "target": [
+	        "AppImage",
+	        "snap",
+		"deb"
+	    ]
+	},
         "compression": "normal"
     }
 }
