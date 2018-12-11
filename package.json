@@ -1,7 +1,8 @@
 {
-    "name": "Facio",
-    "productName": "Facio",
-    "version": "1.0.0",
+    "name": "facio",
+    "productName": "facio",
+    "genericName": "Facio",
+    "version": "0.0.1",
     "private": true,
     "description": "An easy-to-use free and open-source facial recognition software.",
     "main": "./app/main.js",
@@ -10,7 +11,7 @@
         "build": "npm pack && npm run dist",
         "pack": "npm run clean && ./node_modules/.bin/electron-builder --dir",
         "dist": "./node_modules/.bin/electron-builder --linux",
-        "package-linux": "./node_modules/.bin/electron-packager . Facio --overwrite --asar=true --platform=linux --arch=x64 --icon=app/assets/icons/icon.png --prune=true --out=release/linux",
+        "package-linux": "./node_modules/.bin/electron-packager . facio --overwrite --asar=true --platform=linux --arch=x64 --icon=app/assets/icons/icon.png --prune=true --out=release/linux",
         "create-debian-installer": "./node_modules/.bin/electron-installer-debian --config configs/debian.json",
         "start": "./node_modules/.bin/run-electron .",
         "test": "./node_modules/.bin/mocha"
