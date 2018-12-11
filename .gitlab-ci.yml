@@ -24,8 +24,8 @@ build:
   retry: 2
   script:
    - npm install
-   - node_modules/.bin/electron-builder --dir && node_modules/.bin/electron-builder --linux
+   - npm run package-linux && npm run create-debian-installer
   artifacts:
     paths:
-      - dist/
+      - release/
       - .config

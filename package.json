@@ -1,5 +1,5 @@
 {
-    "name": "facio",
+    "name": "Facio",
     "productName": "Facio",
     "version": "1.0.0",
     "private": true,
@@ -10,6 +10,8 @@
         "build": "npm pack && npm run dist",
         "pack": "npm run clean && ./node_modules/.bin/electron-builder --dir",
         "dist": "./node_modules/.bin/electron-builder --linux",
+        "package-linux": "./node_modules/.bin/electron-packager . Facio --overwrite --asar=true --platform=linux --arch=x64 --icon=app/assets/icons/icon.png --prune=true --out=release/linux",
+        "create-debian-installer": "./node_modules/.bin/electron-installer-debian --config configs/debian.json",
         "start": "./node_modules/.bin/run-electron .",
         "test": "./node_modules/.bin/mocha"
     },
@@ -44,15 +46,17 @@
         "electron": "^3.0.10",
         "electron-builder": "^20.38.2",
         "electron-chromedriver": "^4.0.0-beta.1",
+        "electron-installer-debian": "^1.0.0",
+        "electron-packager": "^13.0.0",
         "electron-reloader": "^0.2.0",
         "mocha": "^5.2.0",
         "prettier": "^1.15.3",
         "spectron": "^5.0.0"
     },
     "build": {
-	    "directories": {
-	        "output": "release"
-	    },
+        "directories": {
+            "output": "release"
+        },
         "files": [
             "app/**/*"
         ],
@@ -60,10 +64,11 @@
         "mac": {
             "category": "public.app-category.facial-recognition"
         },
-	    "linux": {
-	        "target": [
-	            "AppImage",
-                "snap"
+        "linux": {
+            "target": [
+                "AppImage",
+                "snap",
+                "deb"
             ]
         },
         "compression": "normal"

@@ -1,0 +1,12 @@
+{
+    "src": "release/linux/Facio-linux-x64",
+    "dest": "release/linux/",
+    "arch": "amd64",
+    "icon": "app/assets/icons/icon.png",
+    "categories": [
+        "Utilities"
+    ],
+    "lintianOverrides": [
+        "changelog-file-missing-in-native-package"
+    ]
+}
