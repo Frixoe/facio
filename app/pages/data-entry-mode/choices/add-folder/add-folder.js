@@ -16,13 +16,13 @@ h.logger.log("loaded 'add-folder.html'");
 function pickAFolder() {
     (async () => await h.ipc.callMain("open-directory-dialog", ""))().then(
         dir => {
+            if (!dir) h.switchPage(fadeOutLeft, "choices.html");
+
             dir = dir[0];
 
             if (!dir) h.switchPage(fadeOutLeft, "choices.html");
             h.logger.log("dir got: " + dir);
-
-            // TODO: If there are no supported images present in the folder, make toast, then when dismissed go back a page
-
+            
             if (!dataWinIsOpen) {
                 (async () => await h.ipc.callMain("get-pages", ""))().then(
                     pages => {

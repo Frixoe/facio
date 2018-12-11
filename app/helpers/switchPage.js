@@ -1,4 +1,4 @@
-module.exports = async (anim, pageFileName, goBack = false) => {
+module.exports = (anim, pageFileName, goBack = false) => {
     const h = require("./getRendererModules")(false, false, [
         "logger",
         "remote",

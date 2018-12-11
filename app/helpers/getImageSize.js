@@ -1,3 +1,3 @@
-module.exports = (img) => {
+module.exports = img => {
     return require("image-size")(img);
-}
+};

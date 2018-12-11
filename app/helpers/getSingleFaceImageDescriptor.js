@@ -19,5 +19,8 @@ module.exports = async (faceapi, document, imgPath, modelsDir) => {
 
     console.log("a descriptor has been extracted for path: " + imgPath);
 
-    return await faceapi.detectSingleFace(imgElement).withFaceLandmarks().withFaceDescriptor();
+    return await faceapi
+        .detectSingleFace(imgElement)
+        .withFaceLandmarks()
+        .withFaceDescriptor();
 };

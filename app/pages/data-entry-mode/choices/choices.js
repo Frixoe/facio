@@ -30,6 +30,36 @@ function disableAllBtns() {
 $(() => {
     h.stores.state.set("allowDataFieldPersistence", false);
 
+    if (h.stores.msgstore.get("msg") === "folder-supported-imgs-not-found") {
+        h.stores.msgstore.set("msg", "");
+
+        M.toast({
+            html:
+            `
+                The files/imgs in that folder are not supported.
+            `,
+            displayLength: 5000,
+            inDuration: 1000,
+            outDuration: 1000,
+            classes: "my-toast"
+        });
+
+        let supExts = [];
+
+        keys.supportedImgExtensions.forEach((ext, ind, arr) => supExts.push("." + ext));
+
+        M.toast({
+            html:
+            `
+                Supported extensions: ${supExts.join(", ")}
+            `,
+            displayLength: 5000,
+            inDuration: 1000,
+            outDuration: 1000,
+            classes: "my-toast"
+        });
+    }
+
     // Creating a watcher for safety.
     let watcher = require("chokidar").watch(h.stores.msgstore.path);
 

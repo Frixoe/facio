@@ -15,5 +15,8 @@ module.exports = async (faceapi, document, imgPath, modelsDir) => {
     await faceapi.loadFaceLandmarkTinyModel(MODELS);
     await faceapi.loadFaceRecognitionModel(MODELS);
 
-    return await faceapi.detectAllFaces(imgElement).withFaceLandmarks().withFaceDescriptors();
-}
+    return await faceapi
+        .detectAllFaces(imgElement)
+        .withFaceLandmarks()
+        .withFaceDescriptors();
+};

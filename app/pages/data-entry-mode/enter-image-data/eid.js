@@ -41,7 +41,6 @@ let numToWords = [
 
 /*
     TODO: Add ability to press enter and save the image info when modal is shown.
-    TODO: Get the descriptors of the images being saved in eid.html.
     TODO: Do not let the user add the image if the image descriptor already exists or the distance to other descriptors is very small.
     TODO: Do not let the user add the image if it doesn't contain a face.
     TODO: Do not let the user add the image if it contains more than one face.
@@ -78,6 +77,8 @@ function updateCarousel() {
     let ind = 1; // Starting index of every carousel image.
 
     h.fs.readdirSync(tempPath).forEach(src => {
+        if (keys.supportedImgExtensions.indexOf(path.extname(src).replace(".", "")) === -1) return;
+
         ind++;
         if (ind > numVisible + 1) return;
 
@@ -89,6 +90,11 @@ function updateCarousel() {
             }"><img src="${imgPath}"></a>
         `);
     });
+
+    if ($(".carousel").html() === "") {
+        h.stores.msgstore.set("msg", "folder-supported-imgs-not-found");
+        h.remote.getCurrentWindow().close();
+    }
 
     var carousel = document.querySelectorAll(".carousel");
     var instances = M.Carousel.init(carousel, {
@@ -191,9 +197,6 @@ function resetFields() {
     $("input").val("");
 
     selectedScript = "none";
-
-    // if ($("#image-title-field-input").val())
-    //     $("#image-title-field-input").val("");
 }
 
 $(() => {
