@@ -1,8 +1,8 @@
 {
-    "src": "release/win/facio-win32-x64",
+    "src": "release/win/facio-win32-x64/",
     "dest": "release/win/",
     "icon": "app/assets/icons/icon.ico",
-    "categories": [
+    "tags": [
         "Utilities"
     ]
 }
