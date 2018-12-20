@@ -21,6 +21,8 @@ let div_width = window.innerWidth;
 let div_height = window.innerHeight;
 let webcamWin = h.remote.getCurrentWindow();
 
+// FIX: Inbuilt camera not detected.
+
 wc.set({
     width: div_width,
     height: div_height,

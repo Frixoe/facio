@@ -33,6 +33,7 @@ function pickAPicture() {
         
         if (!img) {
             h.switchPage(fadeOutLeft, "choices.html");
+            return;
         }
 
         if (h.fs.existsSync(tempSingleImgPath))

@@ -24,7 +24,6 @@ let lastImg = false; // Boolean which tells if the there is only one image left.
 let curImg = null; // The image selected by the carousel.
 let curImageInfo = {}; // The object which stores the current image's information. This gets reset evertime the user changes the image.
 let numVisible = 10; // Keep 10 at max for convenience.
-// let tempPath = path.join(os.tmpdir(), "facioUnsavedImgs");
 let tempPath = h.stores.state.get("tempImagesPath");
 let numToWords = [
     "#one!",
@@ -38,8 +37,20 @@ let numToWords = [
     "#nine!",
     "#ten!"
 ];
+let progressBar = 
+`
+<div class="container" id="my-progress-bar" style="background-color: rgba(255, 255, 255, 0.7); position: absolute; z-index: 3; height: 100vh; width: 100%;" hidden>
+    <div id="my-progress-bar-attrs" style="width: 50%; margin-left: 25%; margin-top: 30%;">
+        <!-- this is where the proggress bar goes -->
+        <div class="progress">
+            <div class="indeterminate"></div>
+        </div>
+    </div>
+</div>
+`
 
 /*
+    TODO: Add a loading screen right after the user clicks "Add Image."
     TODO: Add ability to press enter and save the image info when modal is shown.
     TODO: Do not let the user add the image if the image descriptor already exists or the distance to other descriptors is very small.
     TODO: Do not let the user add the image if it doesn't contain a face.
@@ -305,7 +316,11 @@ $(() => {
 
             if (os.platform() === "linux") curImg = "/" + curImg;
 
+            $("body").prepend(progressBar);
+
             getSingleFaceImageDescriptor(faceapi, document, curImg, path.join(__dirname, "..", "..", "..", "assets", "models")).then(descriptor => {
+                $("#my-progress-bar").remove();
+
                 h.logger.log("got descriptor: ");
                 h.logger.log(descriptor);
 

@@ -16,7 +16,10 @@ h.logger.log("loaded 'add-folder.html'");
 function pickAFolder() {
     (async () => await h.ipc.callMain("open-directory-dialog", ""))().then(
         dir => {
-            if (!dir) h.switchPage(fadeOutLeft, "choices.html");
+            if (!dir) {
+                h.switchPage(fadeOutLeft, "choices.html");
+                return;
+            }
 
             dir = dir[0];
 
