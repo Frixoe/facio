@@ -23,7 +23,6 @@ build:
   stage: build
   retry: 2
   script:
-   - apt-get install fakeroot
    - npm install
    - npm run pack && npm run dist:linux
   artifacts:
