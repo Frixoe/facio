@@ -25,7 +25,7 @@ build:
   script:
    - apt-get install fakeroot
    - npm install
-   - npm run package-linux && npm run create-debian-installer
+   - npm run pack && npm run dist:linux
   artifacts:
     paths:
       - release/

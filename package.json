@@ -8,9 +8,10 @@
     "main": "./app/main.js",
     "scripts": {
         "clean": "./node_modules/.bin/prettier --write app/**/*",
-        "build": "npm pack && npm run dist",
+        "build-linux": "npm pack && npm run dist:linux && npm run package-linux && npm run create-debian-installer",
         "pack": "npm run clean && ./node_modules/.bin/electron-builder --dir",
-        "dist": "./node_modules/.bin/electron-builder --linux",
+        "dist:linux": "./node_modules/.bin/electron-builder --linux",
+        "dist:win": "./node_modules/.bin/electron-builder --win",
         "package-windows-x64": "./node_modules/.bin/electron-packager . facio --overwrite --asar=true --platform=win32 --arch=x64 --icon=app/assets/icons/icon.png --prune=true --out=release/win --version-string.ProductName=Facio",
         "package-linux": "./node_modules/.bin/electron-packager . facio --overwrite --asar=true --platform=linux --arch=x64 --icon=app/assets/icons/icon.png --prune=true --out=release/linux",
         "create-debian-installer": "./node_modules/.bin/electron-installer-debian --config installer_configs/debian.json",
@@ -71,10 +72,10 @@
         },
         "linux": {
             "target": [
-                "AppImage",
-                "snap",
-                "deb"
-            ]
+                "AppImage"
+            ],
+            "icon": "app/assets/icons/512x512.png",
+            "category": "Utility"
         },
         "compression": "normal"
     }
