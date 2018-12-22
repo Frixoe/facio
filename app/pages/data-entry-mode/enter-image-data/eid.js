@@ -1,6 +1,7 @@
 const path = require("path");
 const os = require("os");
 const chokidar = require("chokidar");
+const qs = require("querystring");
 const Store = require("electron-store");
 
 const keys = require("./../../../keys");
@@ -211,6 +212,8 @@ function resetFields() {
 }
 
 $(() => {
+    $("body").prepend(progressBar);
+
     // Creating the temp dir watcher...
     let tempDirWatcher = chokidar.watch(tempPath);
     let msgstoreWatcher = chokidar.watch(h.stores.msgstore.path);
@@ -318,80 +321,82 @@ $(() => {
 
             $("body").prepend(progressBar);
 
-            getSingleFaceImageDescriptor(faceapi, document, curImg, path.join(__dirname, "..", "..", "..", "assets", "models")).then(descriptor => {
-                $("#my-progress-bar").remove();
+            curImg = qs.unescape(curImg);
 
+            getSingleFaceImageDescriptor(faceapi, document, curImg, path.join(__dirname, "..", "..", "..", "assets", "models")).then(descriptor => {
+                
                 h.logger.log("got descriptor: ");
                 h.logger.log(descriptor);
-
+                
                 curImageInfo.descriptor = descriptor;
                 curImageInfo.title = document.getElementById(
                     "image-title-field-input"
-                ).value; // Used DOM as Jq method did not work.
-
-                if (selectedScript.toLowerCase() !== "none")
+                    ).value; // Used DOM as Jq method did not work.
+                    
+                    if (selectedScript.toLowerCase() !== "none")
                     curImageInfo.script = selectedScript;
-
-                $(".image-extra-field-inputs").each((ind, el) => {
-                    let key = $(el)
+                    
+                    $(".image-extra-field-inputs").each((ind, el) => {
+                        let key = $(el)
                         .next()
                         .html();
-                    let value = el.value;
-
-                    curImageInfo[key] = value;
+                        let value = el.value;
+                        
+                        curImageInfo[key] = value;
+                    });
+                    
+                    h.logger.log(curImageInfo);
+                    curTray.set(`imagesData.${curImageInfo.title}`, curImageInfo);
+                    h.logger.log("image data saved...");
+                    
+                    // Remove the current image from the temp dir...
+                    updateLastImg();
+                    
+                    let imgTitle = curImageInfo.title; // Since the curImageInfo obj will be emptied.
+                    
+                    try {
+                        h.fs.unlinkSync(curImg);
+                    } catch (err) {
+                        h.logger.error(err);
+                        // If err, delete the image data.
+                        
+                        h.logger.error(
+                            "Error when deleting the image! Deleting the image data..."
+                            );
+                            
+                            let allData = curTray.get("imagesData");
+                            delete allData[curImageInfo.title];
+                            
+                            curTray.set("imagesData", allData);
+                            
+                            h.logger.log(
+                                "updated the tray by removing the current image's info..."
+                                );
+                            }
+                            
+                            if (lastImg) h.remote.getCurrentWindow().close();
+                            
+                            resetFields();
+                            
+                            let infoAddedT = M.toast({
+                                html: `
+                                <span>Image info "${imgTitle}" added to "${h.stores.state.get(
+                                    "currentTray"
+                                    ) +
+                                    "." +
+                                    keys.traysExtension}"</span>
+                                    <button id="image-info-added-toast-btn" class="btn-flat toast-action">Ok</button>
+                                    `,
+                                    displayLength: 5000,
+                                    inDuration: 1000,
+                                    outDuration: 1000,
+                                    classes: "my-toast"
+                                });
+                                
+                                $("#image-info-added-toast-btn").click(() => {
+                                    infoAddedT.dismiss();
                 });
-
-                h.logger.log(curImageInfo);
-                curTray.set(`imagesData.${curImageInfo.title}`, curImageInfo);
-                h.logger.log("image data saved...");
-
-                // Remove the current image from the temp dir...
-                updateLastImg();
-
-                let imgTitle = curImageInfo.title; // Since the curImageInfo obj will be emptied.
-
-                try {
-                    h.fs.unlinkSync(curImg);
-                } catch (err) {
-                    h.logger.error(err);
-                    // If err, delete the image data.
-
-                    h.logger.error(
-                        "Error when deleting the image! Deleting the image data..."
-                    );
-
-                    let allData = curTray.get("imagesData");
-                    delete allData[curImageInfo.title];
-
-                    curTray.set("imagesData", allData);
-
-                    h.logger.log(
-                        "updated the tray by removing the current image's info..."
-                    );
-                }
-
-                if (lastImg) h.remote.getCurrentWindow().close();
-
-                resetFields();
-
-                let infoAddedT = M.toast({
-                    html: `
-                        <span>Image info "${imgTitle}" added to "${h.stores.state.get(
-                        "currentTray"
-                    ) +
-                        "." +
-                        keys.traysExtension}"</span>
-                        <button id="image-info-added-toast-btn" class="btn-flat toast-action">Ok</button>
-                    `,
-                    displayLength: 5000,
-                    inDuration: 1000,
-                    outDuration: 1000,
-                    classes: "my-toast"
-                });
-
-                $("#image-info-added-toast-btn").click(() => {
-                    infoAddedT.dismiss();
-                });
+                $("#my-progress-bar").remove();
             });
 
             userWantsToSave = false;
@@ -606,4 +611,6 @@ $(() => {
     $(".container")
         .show()
         .addClass("fadeInLeft animated");
+    
+    $("#my-progress-bar").remove();
 });
