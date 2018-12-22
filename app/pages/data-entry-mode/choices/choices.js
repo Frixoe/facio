@@ -29,6 +29,7 @@ function disableAllBtns() {
 
 $(() => {
     h.stores.state.set("allowDataFieldPersistence", false);
+    h.stores.state.set("eidMode", "");
 
     if (h.stores.msgstore.get("msg") === "folder-supported-imgs-not-found") {
         h.stores.msgstore.set("msg", "");
@@ -155,9 +156,10 @@ $(() => {
     $("#add-picture-btn").click(() =>
         h.switchPage(fadeOutRight, "add-picture.html")
     );
-    $("#add-folder-btn").click(() =>
-        h.switchPage(fadeOutRight, "add-folder.html")
-    );
+    $("#add-folder-btn").click(() => {
+        h.stores.state.set("eidMode", "folder");
+        h.switchPage(fadeOutRight, "add-folder.html");
+    });
     $("#edit-tray-btn").click(() => h.switchPage(fadeOutRight, "etp.html"));
 
     let isImagesDataLen0 = null;

@@ -26,6 +26,7 @@ let curImg = null; // The image selected by the carousel.
 let curImageInfo = {}; // The object which stores the current image's information. This gets reset evertime the user changes the image.
 let numVisible = 10; // Keep 10 at max for convenience.
 let tempPath = h.stores.state.get("tempImagesPath");
+let seenImages = [];
 let numToWords = [
     "#one!",
     "#two!",
@@ -89,7 +90,10 @@ function updateCarousel() {
     let ind = 1; // Starting index of every carousel image.
 
     h.fs.readdirSync(tempPath).forEach(src => {
-        if (keys.supportedImgExtensions.indexOf(path.extname(src).replace(".", "")) === -1) return;
+        if (
+            keys.supportedImgExtensions.indexOf(path.extname(src).replace(".", "")) === -1 ||
+            seenImages.indexOf(src) !== -1
+        ) return;
 
         ind++;
         if (ind > numVisible + 1) return;
@@ -355,7 +359,8 @@ $(() => {
                     let imgTitle = curImageInfo.title; // Since the curImageInfo obj will be emptied.
                     
                     try {
-                        h.fs.unlinkSync(curImg);
+                        if (h.stores.state.get("eidMode") !== "folder") h.fs.unlinkSync(curImg);
+                        seenImages.push(path.basename(curImg));
                     } catch (err) {
                         h.logger.error(err);
                         // If err, delete the image data.
@@ -377,6 +382,7 @@ $(() => {
                             if (lastImg) h.remote.getCurrentWindow().close();
                             
                             resetFields();
+                            updateCarousel();
                             
                             let infoAddedT = M.toast({
                                 html: `

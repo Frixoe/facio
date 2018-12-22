@@ -35,6 +35,7 @@ module.exports = [
             prevImageInfo: "",
             hasAtLeastOneTray: false,
             tempImagesPath: "",
+            eidMode: "",
             allowDataFieldPersistence: false
         }
     },
