@@ -25,7 +25,7 @@ function pickAFolder() {
 
             if (!dir) h.switchPage(fadeOutLeft, "choices.html");
             h.logger.log("dir got: " + dir);
-            
+
             if (!dataWinIsOpen) {
                 (async () => await h.ipc.callMain("get-pages", ""))().then(
                     pages => {

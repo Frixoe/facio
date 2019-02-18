@@ -39,8 +39,7 @@ let numToWords = [
     "#nine!",
     "#ten!"
 ];
-let progressBar = 
-`
+let progressBar = `
 <div class="container" id="my-progress-bar" style="background-color: rgba(255, 255, 255, 0.7); position: absolute; z-index: 3; height: 100vh; width: 100%;" hidden>
     <div id="my-progress-bar-attrs" style="width: 50%; margin-left: 25%; margin-top: 30%;">
         <!-- this is where the proggress bar goes -->
@@ -49,7 +48,7 @@ let progressBar =
         </div>
     </div>
 </div>
-`
+`;
 
 /*
     TODO: Add a loading screen right after the user clicks "Add Image."
@@ -73,8 +72,8 @@ faceapi.env.monkeyPatch({
     Image: HTMLImageElement,
     ImageData: ImageData,
     Video: HTMLVideoElement,
-    createCanvasElement: () => document.createElement('canvas'),
-    createImageElement: () => document.createElement('img')
+    createCanvasElement: () => document.createElement("canvas"),
+    createImageElement: () => document.createElement("img")
 });
 
 h.logger.log("faceapi: ");
@@ -91,9 +90,12 @@ function updateCarousel() {
 
     h.fs.readdirSync(tempPath).forEach(src => {
         if (
-            keys.supportedImgExtensions.indexOf(path.extname(src).replace(".", "")) === -1 ||
+            keys.supportedImgExtensions.indexOf(
+                path.extname(src).replace(".", "")
+            ) === -1 ||
             seenImages.indexOf(src) !== -1
-        ) return;
+        )
+            return;
 
         ind++;
         if (ind > numVisible + 1) return;
@@ -327,80 +329,85 @@ $(() => {
 
             curImg = qs.unescape(curImg);
 
-            getSingleFaceImageDescriptor(faceapi, document, curImg, path.join(__dirname, "..", "..", "..", "assets", "models")).then(descriptor => {
-                
+            getSingleFaceImageDescriptor(
+                faceapi,
+                document,
+                curImg,
+                path.join(__dirname, "..", "..", "..", "assets", "models")
+            ).then(descriptor => {
                 h.logger.log("got descriptor: ");
                 h.logger.log(descriptor);
-                
+
                 curImageInfo.descriptor = descriptor;
                 curImageInfo.title = document.getElementById(
                     "image-title-field-input"
-                    ).value; // Used DOM as Jq method did not work.
-                    
-                    if (selectedScript.toLowerCase() !== "none")
+                ).value; // Used DOM as Jq method did not work.
+
+                if (selectedScript.toLowerCase() !== "none")
                     curImageInfo.script = selectedScript;
-                    
-                    $(".image-extra-field-inputs").each((ind, el) => {
-                        let key = $(el)
+
+                $(".image-extra-field-inputs").each((ind, el) => {
+                    let key = $(el)
                         .next()
                         .html();
-                        let value = el.value;
-                        
-                        curImageInfo[key] = value;
-                    });
-                    
-                    h.logger.log(curImageInfo);
-                    curTray.set(`imagesData.${curImageInfo.title}`, curImageInfo);
-                    h.logger.log("image data saved...");
-                    
-                    // Remove the current image from the temp dir...
-                    updateLastImg();
-                    
-                    let imgTitle = curImageInfo.title; // Since the curImageInfo obj will be emptied.
-                    
-                    try {
-                        if (h.stores.state.get("eidMode") !== "folder") h.fs.unlinkSync(curImg);
-                        seenImages.push(path.basename(curImg));
-                    } catch (err) {
-                        h.logger.error(err);
-                        // If err, delete the image data.
-                        
-                        h.logger.error(
-                            "Error when deleting the image! Deleting the image data..."
-                            );
-                            
-                            let allData = curTray.get("imagesData");
-                            delete allData[curImageInfo.title];
-                            
-                            curTray.set("imagesData", allData);
-                            
-                            h.logger.log(
-                                "updated the tray by removing the current image's info..."
-                                );
-                            }
-                            
-                            if (lastImg) h.remote.getCurrentWindow().close();
-                            
-                            resetFields();
-                            updateCarousel();
-                            
-                            let infoAddedT = M.toast({
-                                html: `
+                    let value = el.value;
+
+                    curImageInfo[key] = value;
+                });
+
+                h.logger.log(curImageInfo);
+                curTray.set(`imagesData.${curImageInfo.title}`, curImageInfo);
+                h.logger.log("image data saved...");
+
+                // Remove the current image from the temp dir...
+                updateLastImg();
+
+                let imgTitle = curImageInfo.title; // Since the curImageInfo obj will be emptied.
+
+                try {
+                    if (h.stores.state.get("eidMode") !== "folder")
+                        h.fs.unlinkSync(curImg);
+                    seenImages.push(path.basename(curImg));
+                } catch (err) {
+                    h.logger.error(err);
+                    // If err, delete the image data.
+
+                    h.logger.error(
+                        "Error when deleting the image! Deleting the image data..."
+                    );
+
+                    let allData = curTray.get("imagesData");
+                    delete allData[curImageInfo.title];
+
+                    curTray.set("imagesData", allData);
+
+                    h.logger.log(
+                        "updated the tray by removing the current image's info..."
+                    );
+                }
+
+                if (lastImg) h.remote.getCurrentWindow().close();
+
+                resetFields();
+                updateCarousel();
+
+                let infoAddedT = M.toast({
+                    html: `
                                 <span>Image info "${imgTitle}" added to "${h.stores.state.get(
-                                    "currentTray"
-                                    ) +
-                                    "." +
-                                    keys.traysExtension}"</span>
+                        "currentTray"
+                    ) +
+                        "." +
+                        keys.traysExtension}"</span>
                                     <button id="image-info-added-toast-btn" class="btn-flat toast-action">Ok</button>
                                     `,
-                                    displayLength: 5000,
-                                    inDuration: 1000,
-                                    outDuration: 1000,
-                                    classes: "my-toast"
-                                });
-                                
-                                $("#image-info-added-toast-btn").click(() => {
-                                    infoAddedT.dismiss();
+                    displayLength: 5000,
+                    inDuration: 1000,
+                    outDuration: 1000,
+                    classes: "my-toast"
+                });
+
+                $("#image-info-added-toast-btn").click(() => {
+                    infoAddedT.dismiss();
                 });
                 $("#my-progress-bar").remove();
             });
@@ -617,6 +624,6 @@ $(() => {
     $(".container")
         .show()
         .addClass("fadeInLeft animated");
-    
+
     $("#my-progress-bar").remove();
 });

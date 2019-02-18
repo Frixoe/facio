@@ -203,7 +203,7 @@ function createWindow() {
             show: false,
             maximizable: false,
             titleBarStyle: "hidden",
-            icon: iconPath,
+            icon: iconPath
         },
         "index.html",
         () => {

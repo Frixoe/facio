@@ -35,8 +35,7 @@ $(() => {
         h.stores.msgstore.set("msg", "");
 
         M.toast({
-            html:
-            `
+            html: `
                 The files/imgs in that folder are not supported.
             `,
             displayLength: 5000,
@@ -47,11 +46,12 @@ $(() => {
 
         let supExts = [];
 
-        keys.supportedImgExtensions.forEach((ext, ind, arr) => supExts.push("." + ext));
+        keys.supportedImgExtensions.forEach((ext, ind, arr) =>
+            supExts.push("." + ext)
+        );
 
         M.toast({
-            html:
-            `
+            html: `
                 Supported extensions: ${supExts.join(", ")}
             `,
             displayLength: 5000,

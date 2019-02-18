@@ -30,7 +30,7 @@ function pickAPicture() {
     (async () => await h.ipc.callMain("open-imgs-dialog", ""))().then(img => {
         h.logger.log("img foumd: ");
         h.logger.log(img);
-        
+
         if (!img) {
             h.switchPage(fadeOutLeft, "choices.html");
             return;
