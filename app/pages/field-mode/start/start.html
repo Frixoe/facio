@@ -12,22 +12,54 @@
         <div class="container" hidden>
             <div class="row">
                 <div class="col s12">
-                    <h1 class="my-heading-template">Field Mode</h1>
+                    <h3 class="my-heading-template">Start Recognition</h3>
                 </div>
-            </div>
-            <div class="center">
-               <canvas width="900px" height="400px" style="border-top-left-radius: 20px; border-top-right-left"></canvas>
             </div>
             <div class="row">
                 <div class="col s4"></div>
                 <div class="col s4">
-                    <button id="back-btn" class="my-white-btn">back</button>
+                    <button
+                        id="recheck-webcam-btn"
+                        class="my-black-btn"
+                        disabled
+                    >
+                        recheck webcam
+                    </button>
+                </div>
+                <div class="col s4"></div>
+            </div>
+            <div class="row">
+                <div class="col s12">
+                    <h3
+                        id="info-text"
+                        class="my-heading-template"
+                        style="font-size: 30px; top: 50%;"
+                    >
+                        Loading...
+                    </h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s4"></div>
+                <div class="col s4">
+                    <button class="my-white-btn back-btns">back</button>
                 </div>
                 <div class="col s4"></div>
             </div>
         </div>
+
+        <div class="webcam" hidden>
+            <div id="video"></div>
+            <form>
+                <button
+                    style="position: absolute; top: 85%; right: 90%; width: 50px; height: 50px; border-radius: 40px; padding: 0px;"
+                    class="my-white-btn back-btns"
+                >
+                    <
+                </button>
+            </form>
+        </div>
         <script src="./../../../assets/js/materialize.min.js"></script>
-        <script src="./../../../assets/js/camvas.js"></script>
         <script src="start.js"></script>
     </body>
 </html>
