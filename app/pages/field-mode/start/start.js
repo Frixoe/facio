@@ -1,3 +1,8 @@
+const path = require("path");
+const os = require("os");
+const rimraf = require("rimraf");
+const im = require("image-data-uri");
+const uuidv4 = require("uuid/v4");
 const h = require("./../../../helpers/getRendererModules")(false, false, [
     "logger",
     "stores",
@@ -8,6 +13,7 @@ const wc = require("webcamjs");
 
 let divWidth = window.innerWidth;
 let divHeight = window.innerHeight;
+let tempPath = "facioUnsavedImgs";
 
 h.logger.log("window dims: " + window.innerWidth + " " + window.innerHeight);
 
@@ -51,6 +57,13 @@ $(() => {
         fadeOutDown();
         toggleWebcam();
         h.logger.log("found webcam, starting streaming...");
+
+        // Start capping the video and performing inference.
+        for (let i = 0; i <= 5; ++i) {
+            let curImPath = path.join(os.tmpdir(), tempPath, uuidv4() + ".png");
+            wc.snap(data_uri => im.outputFile(data_uri, curImPath));
+            rimraf(path.join(os.tmpdir(), tempPath), () => h.logger.log(tempPath + " was deleted"));
+        }
     });
 
     wc.attach("#video");

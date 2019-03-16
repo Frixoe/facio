@@ -1,5 +1,5 @@
 {
-    "src": "release/linux/facio-linux-x64",
+    "src": "release/linux-unpacked/",
     "dest": "release/",
     "arch": "amd64",
     "icon": "app/assets/icons/icon.png",

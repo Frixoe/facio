@@ -39,6 +39,7 @@
     "image-data-uri": "^2.0.0",
     "image-size": "^0.6.3",
     "jquery": "^3.3.1",
+    "rimraf": "^2.6.3",
     "run-electron": "^0.1.0",
     "uuid": "^3.3.2",
     "webcamjs": "^1.0.25"
