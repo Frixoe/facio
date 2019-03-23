@@ -60,7 +60,7 @@ $(() => {
         h.logger.log("found webcam, starting streaming...");
 
         // Start capping the video and performing inference.
-        for (let i = 0; i <= 5; ++i) {
+        for (let i = 0; i <= 0; ++i) {
             wc.snap(data_uri => {
                 // Need to inject image element into html
                 // Inject an image into the #add-img id'd tag
