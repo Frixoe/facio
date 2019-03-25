@@ -54,6 +54,7 @@ $(() => {
 
     wc.on("live", () => {
         $("#recheck-webcam-btn").prop("disabled", true);
+        $("#tray-name").html(h.stores.state.get("currentTray"));
 
         fadeOutDown();
         toggleWebcam();
