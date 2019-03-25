@@ -49,6 +49,17 @@
         </div>
 
         <div class="webcam" hidden>
+            <div id="info-overlay" style="position: absolute; top: 0; width: 40%; right: 0; z-index: 100; background-image: linear-gradient(to left, white, rgba(255, 255, 255, 0.25), rgba(0, 0, 0, 0)); height: 100vh;">
+                <h3 id="title" class="my-heading-template">
+                    Info Overlay
+                </h3>
+                <h5 class="my-heading-template">
+                    Using tray:
+                    <span id="tray-name">
+                    </span>
+                </h5>
+                <hr class="z-depth-2" style="width: 90%; margin-top: 7%; height: 1%; background: rgb(20, 20, 20); border-radius: 50px; border-style: none;">
+            </div>
             <div id="video"></div>
             <form>
                 <button
@@ -59,6 +70,7 @@
                 </button>
             </form>
         </div>
+        <script src="./../../../assets/js/face-api.js"></script>
         <script src="./../../../assets/js/materialize.min.js"></script>
         <script src="start.js"></script>
     </body>
