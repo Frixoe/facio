@@ -1,9 +1,12 @@
+const keys = require("./../../keys");
+const Store = require("electron-store");
 const h = require("./../../helpers/getRendererModules")(false, false, [
     "logger",
     "stores",
     "switchPage",
     "fs"
 ]);
+const isTrayDataless = require("./../../helpers/isTrayDataless");
 const getAllTrays = require("./../../helpers/getAllTrays");
 
 let isTraySelected = false;

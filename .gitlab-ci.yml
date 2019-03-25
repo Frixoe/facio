@@ -1,31 +1,31 @@
 # This file is a template, and might need editing before it works on your project.
 # Official framework image. Look for the different tagged releases at:
 # https://hub.docker.com/r/library/node/tags/
-image: node:latest
+# image: node:latest
 
-# This folder is cached between builds
-# http://docs.gitlab.com/ce/ci/yaml/README.html#cache
+# # This folder is cached between builds
+# # http://docs.gitlab.com/ce/ci/yaml/README.html#cache
 
-# Honestly this is pretty useless. But at least I get to know if the linux build fails.
+# # Honestly this is pretty useless. But at least I get to know if the linux build fails.
 
-cache:
-  paths:
-  - node_modules/
+# cache:
+#   paths:
+#   - node_modules/
 
-# This job will not run. It has a '.' prepended to it.
-.test:
-  stage: test
-  script:
-    - npm install
-    - node_modules/.bin/mocha
+# # This job will not run. It has a '.' prepended to it.
+# .test:
+#   stage: test
+#   script:
+#     - npm install
+#     - node_modules/.bin/mocha
 
-build:
-  stage: build
-  retry: 2
-  script:
-   - npm install
-   - npm run pack && npm run dist:linux
-  artifacts:
-    paths:
-      - release/
-      - .config
+# build:
+#   stage: build
+#   retry: 2
+#   script:
+#    - npm install
+#    - npm run pack && npm run dist:linux
+#   artifacts:
+#     paths:
+#       - release/
+#       - .config

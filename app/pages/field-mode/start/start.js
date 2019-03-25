@@ -1,13 +1,20 @@
+const path = require("path");
+const os = require("os");
+const wc = require("webcamjs");
+const im = require("image-data-uri");
+const uuidv4 = require("uuid/v4");
+const getAllFacesImageDescriptor = require("./../../../helpers/getAllFacesImageDescriptor");
 const h = require("./../../../helpers/getRendererModules")(false, false, [
     "logger",
     "stores",
     "switchPage",
     "fs"
 ]);
-const wc = require("webcamjs");
 
 let divWidth = window.innerWidth;
 let divHeight = window.innerHeight;
+let tempPath = "facioUnsavedImgs";
+let modelsDir = "./../../../assets/models";
 
 h.logger.log("window dims: " + window.innerWidth + " " + window.innerHeight);
 
@@ -47,6 +54,7 @@ $(() => {
 
     wc.on("live", () => {
         $("#recheck-webcam-btn").prop("disabled", true);
+        $("#tray-name").html(h.stores.state.get("currentTray"));
 
         fadeOutDown();
         toggleWebcam();
