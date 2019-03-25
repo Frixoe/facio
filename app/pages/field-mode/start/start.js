@@ -3,7 +3,7 @@ const os = require("os");
 const wc = require("webcamjs");
 const im = require("image-data-uri");
 const uuidv4 = require("uuid/v4");
-const getAllFacesImageDescriptor = require("./../../../helpers/getRendererModules");
+const getAllFacesImageDescriptor = require("./../../../helpers/getAllFacesImageDescriptor");
 const h = require("./../../../helpers/getRendererModules")(false, false, [
     "logger",
     "stores",
@@ -58,27 +58,6 @@ $(() => {
         fadeOutDown();
         toggleWebcam();
         h.logger.log("found webcam, starting streaming...");
-
-        // Start capping the video and performing inference.
-        for (let i = 0; i <= 0; ++i) {
-            wc.snap(data_uri => {
-                // Need to inject image element into html
-                // Inject an image into the #add-img id'd tag
-                // Set the image's src to the data_uri
-                // $("#add-img").html("").append(
-                //     `
-                //     <img id="add-img-child" src="${data_uri}" alt="" width="${divWidth}" height="${divHeight}" hidden>
-                //     `
-                // );
-                // let addImgElement = $("#add-img-child").get(0);
-                // h.logger.log(addImgElement);
-
-                // let fullFaceDescriptions = faceapi.detectAllFaces(addImgElement).withFaceLandmarks().withFaceDescriptors();
-                // h.logger.log(fullFaceDescriptions);
-                let fullFaceDescriptions = getAllFacesImageDescriptor(faceapi, document, data_uri, modelsDir);
-                h.logger.log(fullFaceDescriptions);
-            });
-        }
     });
 
     wc.attach("#video");
