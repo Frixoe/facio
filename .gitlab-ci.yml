@@ -24,7 +24,7 @@ build:
   retry: 2
   script:
    - npm install
-   - npm run pack && npm run dist:linux
+   - npm run build:linux
   artifacts:
     paths:
       - release/
