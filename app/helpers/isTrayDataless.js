@@ -6,4 +6,4 @@ module.exports = (h, curTrayStore, keys) => {
         isImagesDataLen0 = true;
     }
     return !curTrayStore.get("imagesData") || isImagesDataLen0;
-}
+};
