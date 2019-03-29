@@ -1,6 +1,6 @@
 {
   "name": "facio",
-  "productName": "facio",
+  "productName": "Facio",
   "genericName": "Facio",
   "version": "0.0.1",
   "private": true,
@@ -8,7 +8,8 @@
   "main": "./app/main.js",
   "scripts": {
     "clean": "./node_modules/.bin/prettier --write app/**/*",
-    "build-linux": "npm pack && npm run dist:linux && npm run package-linux && npm run create-debian-installer",
+    "build:win": "npm pack && npm run package-windows-x64 && npm run create-win-installer",
+    "build:linux": "npm pack && npm run dist:linux",
     "pack": "npm run clean && ./node_modules/.bin/electron-builder --dir",
     "dist:linux": "./node_modules/.bin/electron-builder --linux",
     "dist:win": "./node_modules/.bin/electron-builder --win",
@@ -52,17 +53,15 @@
     "electron": "^3.0.10",
     "electron-builder": "^20.38.2",
     "electron-chromedriver": "^4.0.0-beta.1",
-    "electron-installer-debian": "^1.0.0",
     "electron-installer-windows": "^1.1.0",
     "electron-packager": "^13.0.0",
     "electron-prebuilt-compile": "^3.0.10",
     "electron-reloader": "^0.2.0",
     "mocha": "^5.2.0",
     "prettier": "^1.15.3",
-    "spectron": "^5.0.0",
-    "webpack": "^4.29.6"
+    "spectron": "^5.0.0"
   },
-  "homepage": "/",
+  "homepage": "http://google.com",
   "build": {
     "directories": {
       "output": "release"
@@ -76,7 +75,7 @@
     },
     "linux": {
       "target": [
-          "deb",
+        "deb",
         "AppImage"
       ],
       "icon": "app/assets/icons/512x512.png",
