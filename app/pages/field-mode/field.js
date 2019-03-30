@@ -80,7 +80,7 @@ function updateCollection() {
 }
 
 $(() => {
-    $("body").css("overflow", "auto");
+    $("body").css("overflow-y", "auto");
     $("#back-btn").click(() => h.switchPage(fadeOutRight, "index.html"));
     $("#start-btn").click(() => h.switchPage(fadeOutLeft, "start.html"));
 

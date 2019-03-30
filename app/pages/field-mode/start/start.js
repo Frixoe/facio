@@ -4,6 +4,7 @@ const wc = require("webcamjs");
 const im = require("image-data-uri");
 const uuidv4 = require("uuid/v4");
 const getAllFacesImageDescriptor = require("./../../../helpers/getAllFacesImageDescriptor");
+// const getSingleFaceImageDescriptor = require("./../../../helpers/getSingleFaceImageDescriptor");
 const h = require("./../../../helpers/getRendererModules")(false, false, [
     "logger",
     "stores",
@@ -13,10 +14,23 @@ const h = require("./../../../helpers/getRendererModules")(false, false, [
 
 let divWidth = window.innerWidth;
 let divHeight = window.innerHeight;
-let tempPath = "facioUnsavedImgs";
 let modelsDir = "./../../../assets/models";
+let infTmpFolder = "facioInference"; // Inference temp folder
+let infTmpFolderPath = path.join(os.tmpdir(), infTmpFolder);
+let infImgName = "lastSteamingImage.png";
+let infImgPath = path.join(infTmpFolderPath, "lastStreamingImage.png");
 
 h.logger.log("window dims: " + window.innerWidth + " " + window.innerHeight);
+
+// Monkey patching face-api.js
+faceapi.env.monkeyPatch({
+    Canvas: HTMLCanvasElement,
+    Image: HTMLImageElement,
+    ImageData: ImageData,
+    Video: HTMLVideoElement,
+    createCanvasElement: () => document.createElement("canvas"),
+    createImageElement: () => document.createElement("img")
+});
 
 wc.set({
     width: divWidth,
@@ -55,6 +69,28 @@ $(() => {
     wc.on("live", () => {
         $("#recheck-webcam-btn").prop("disabled", true);
         $("#tray-name").html(h.stores.state.get("currentTray"));
+
+        // Create the temporary folder for inference.
+        if (!h.fs.existsSync(infImgPath)) {
+            h.logger.log(`Creating inference path at: ${infImgPath}`);
+            h.fs.writeFileSync(infImgPath, "");
+        }
+
+        $("#test-btn").click(e => {
+            wc.snap(data_uri => {
+                // Save the image
+                // Send the image path to getSingleFace... function
+                // Get descriptor
+                im.outputFile(data_uri, infImgPath);
+
+                getAllFacesImageDescriptor(faceapi, document, infImgPath, path.join(__dirname, "..", "..", "..", "assets", "models"))
+                    .then(descriptor => {
+                        h.logger.log("Descriptor: ");
+                        h.logger.log(descriptor);
+                    })
+                    .catch(err => h.logger.log(err));
+            });
+        });
 
         fadeOutDown();
         toggleWebcam();
