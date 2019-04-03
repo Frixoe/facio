@@ -1,4 +1,10 @@
-module.exports = async (faceapi, document, imgPath, modelsDir) => {
+module.exports = async (faceapi, document, imgPath, modelsDir, executeBefore=(() => {}), args=[]) => {
+    try {
+        executeBefore(...args);
+    } catch (err) {
+        executeBefore(...args);
+    }
+
     const imgSize = require("./getImageSize")(imgPath);
 
     let imgElement = document.createElement("img");

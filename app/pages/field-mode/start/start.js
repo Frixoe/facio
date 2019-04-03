@@ -4,7 +4,8 @@ const wc = require("webcamjs");
 const im = require("image-data-uri");
 const uuidv4 = require("uuid/v4");
 const getAllFacesImageDescriptor = require("./../../../helpers/getAllFacesImageDescriptor");
-// const getSingleFaceImageDescriptor = require("./../../../helpers/getSingleFaceImageDescriptor");
+const getSingleFaceImageDescriptor = require("./../../../helpers/getSingleFaceImageDescriptor");
+const sampleImageUri = require("./sample-data-uri");
 const h = require("./../../../helpers/getRendererModules")(false, false, [
     "logger",
     "stores",
@@ -70,25 +71,25 @@ $(() => {
         $("#recheck-webcam-btn").prop("disabled", true);
         $("#tray-name").html(h.stores.state.get("currentTray"));
 
-        // Create the temporary folder for inference.
-        if (!h.fs.existsSync(infImgPath)) {
-            h.logger.log(`Creating inference path at: ${infImgPath}`);
-            h.fs.writeFileSync(infImgPath, "");
-        }
+        // TODO: Get a sample image data uri saying something and generate that at load.
+        // im.outputFile(sampleImageUri, infImgPath);
+        // Where I left: Saving the image but descriptor isn't being generated.
 
         $("#test-btn").click(e => {
             wc.snap(data_uri => {
                 // Save the image
                 // Send the image path to getSingleFace... function
                 // Get descriptor
-                im.outputFile(data_uri, infImgPath);
 
-                getAllFacesImageDescriptor(faceapi, document, infImgPath, path.join(__dirname, "..", "..", "..", "assets", "models"))
+                getAllFacesImageDescriptor(faceapi, document, infImgPath, path.join(__dirname, "..", "..", "..", "assets", "models"), im.outputFile, [data_uri, infImgPath])
                     .then(descriptor => {
                         h.logger.log("Descriptor: ");
                         h.logger.log(descriptor);
                     })
-                    .catch(err => h.logger.log(err));
+                    .catch(err => {
+                        h.logger.log("Got error: ");
+                        h.logger.log(err);
+                    });
             });
         });
 
