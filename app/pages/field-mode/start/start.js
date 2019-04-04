@@ -72,7 +72,7 @@ $(() => {
         $("#tray-name").html(h.stores.state.get("currentTray"));
 
         // TODO: Get a sample image data uri saying something and generate that at load.
-        // im.outputFile(sampleImageUri, infImgPath);
+        im.outputFile(sampleImageUri, infImgPath);
         // Where I left: Saving the image but descriptor isn't being generated.
 
         $("#test-btn").click(e => {
@@ -81,7 +81,7 @@ $(() => {
                 // Send the image path to getSingleFace... function
                 // Get descriptor
 
-                getAllFacesImageDescriptor(faceapi, document, infImgPath, path.join(__dirname, "..", "..", "..", "assets", "models"), im.outputFile, [data_uri, infImgPath])
+                getAllFacesImageDescriptor(h, faceapi, document, infImgPath, path.join(__dirname, "..", "..", "..", "assets", "models"), im.outputFile, [data_uri, infImgPath])
                     .then(descriptor => {
                         h.logger.log("Descriptor: ");
                         h.logger.log(descriptor);
