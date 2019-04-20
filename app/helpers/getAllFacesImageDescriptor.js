@@ -1,4 +1,4 @@
-module.exports = async (h, faceapi, document, imgPath, modelsDir, executeBefore=(() => {}), args=[]) => {
+module.exports = async (faceapi, document, imgPath, modelsDir, executeBefore=(() => {}), args=[]) => {
     try {
         executeBefore(...args);
     } catch (err) {

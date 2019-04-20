@@ -365,7 +365,7 @@ $(() => {
                 let imgTitle = curImageInfo.title; // Since the curImageInfo obj will be emptied.
 
                 try {
-                    if (h.stores.state.get("eidMode") !== "folder")
+                    if (h.stores.state.get("eidMode") !== "folder" || h.stores.state.get("eidMode") !== "add-picture")
                         h.fs.unlinkSync(curImg);
                     seenImages.push(path.basename(curImg));
                 } catch (err) {

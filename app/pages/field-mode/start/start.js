@@ -72,26 +72,34 @@ $(() => {
         $("#tray-name").html(h.stores.state.get("currentTray"));
 
         // TODO: Get a sample image data uri saying something and generate that at load.
-        im.outputFile(sampleImageUri, infImgPath);
+        // im.outputFile(sampleImageUri, infImgPath)
+        //     .then(val => h.logger.log(`After async image save call, got this: ${val}`));
         // Where I left: Saving the image but descriptor isn't being generated.
-
-        $("#test-btn").click(e => {
+        // $("#test-btn").click(e => {
+            // im.outputFile(sampleImageUri, infImgPath);
             wc.snap(data_uri => {
                 // Save the image
                 // Send the image path to getSingleFace... function
                 // Get descriptor
+                im.outputFile(data_uri, infImgPath)
+                    .then(val => {
+                        let modelsDir = path.resolve(__dirname, "..", "..", "..", "assets", "models");
+                        h.logger.log(modelsDir);
+                        h.logger.log(faceapi.computerFaceDescriptor);
 
-                getAllFacesImageDescriptor(h, faceapi, document, infImgPath, path.join(__dirname, "..", "..", "..", "assets", "models"), im.outputFile, [data_uri, infImgPath])
-                    .then(descriptor => {
-                        h.logger.log("Descriptor: ");
-                        h.logger.log(descriptor);
+                        getSingleFaceImageDescriptor(faceapi, document, infImgPath, modelsDir)
+                            .then(descriptor => {
+                                h.logger.log("Descriptor: ");
+                                h.logger.log(descriptor);
+                            })
+                            .catch(err => {
+                                h.logger.log("Got error: ");
+                                h.logger.log(err);
+                            });
                     })
-                    .catch(err => {
-                        h.logger.log("Got error: ");
-                        h.logger.log(err);
-                    });
+                    .catch(err => h.logger.log(`Got an error while saving the file: ${err}`));
             });
-        });
+        // });
 
         fadeOutDown();
         toggleWebcam();

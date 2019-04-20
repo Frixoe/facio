@@ -154,9 +154,10 @@ $(() => {
     $("#take-picture-btn").click(() =>
         h.switchPage(fadeOutRight, "take-picture.html")
     );
-    $("#add-picture-btn").click(() =>
+    $("#add-picture-btn").click(() => {
+        h.stores.state.set("eidMode", "add-picture");
         h.switchPage(fadeOutRight, "add-picture.html")
-    );
+    });
     $("#add-folder-btn").click(() => {
         h.stores.state.set("eidMode", "folder");
         h.switchPage(fadeOutRight, "add-folder.html");
