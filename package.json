@@ -25,7 +25,6 @@
   "license": "MIT",
   "dependencies": {
     "ajv": "^6.6.1",
-    "canvas": "^2.4.1",
     "chokidar": "^2.0.4",
     "electron-better-ipc": "^0.1.1",
     "electron-context-menu": "^0.10.1",
