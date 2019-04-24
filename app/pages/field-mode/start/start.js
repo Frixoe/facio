@@ -1,8 +1,11 @@
 const path = require("path");
 const os = require("os");
 const wc = require("webcamjs");
+const Store = require("electron-store");
 const im = require("image-data-uri");
 const uuidv4 = require("uuid/v4");
+
+const keys = require("./../../../keys");
 const getAllFacesImageDescriptor = require("./../../../helpers/getAllFacesImageDescriptor");
 const getSingleFaceImageDescriptor = require("./../../../helpers/getSingleFaceImageDescriptor");
 const sampleImageUri = require("./sample-data-uri");
@@ -15,11 +18,21 @@ const h = require("./../../../helpers/getRendererModules")(false, false, [
 
 let divWidth = window.innerWidth;
 let divHeight = window.innerHeight;
-let modelsDir = "./../../../assets/models";
+let modelsDir = path.resolve(__dirname, "..", "..", "..", "assets", "models");
 let infTmpFolder = "facioInference"; // Inference temp folder
 let infTmpFolderPath = path.join(os.tmpdir(), infTmpFolder);
 let infImgName = "lastSteamingImage.png";
 let infImgPath = path.join(infTmpFolderPath, "lastStreamingImage.png");
+let descriptorCounter = 0;
+let curTray = new Store({
+    name: h.stores.state.get("currentTray"),
+    cwd: h.stores.paths.get("traysPath"),
+    fileExtension: keys.traysExtension
+});
+let imagesData = curTray.get("imagesData");
+let imageTitles = Object.keys(imagesData);
+let faceMatcher = null;
+let gDescriptors = null;
 
 h.logger.log("window dims: " + window.innerWidth + " " + window.innerHeight);
 
@@ -45,6 +58,8 @@ wc.on("load", () => {
 });
 
 $(() => {
+    initFaceMatcher();
+
     $(".back-btns").click((e) => {
         e.preventDefault();
         h.switchPage(fadeOutRight, "field.html", true)
@@ -73,18 +88,30 @@ $(() => {
 
         wc.snap(data_uri => {
             // Save the image
-            // Send the image path to getSingleFace... function
+            // Send the image path to getAllFaces... function
             // Get descriptor
-
             im.outputFile(data_uri, infImgPath)
                 .then(val => {
-                    let modelsDir = path.resolve(__dirname, "..", "..", "..", "assets", "models");
-                    h.logger.log(modelsDir);
+                    getAllFacesImageDescriptor(faceapi, document, infImgPath, modelsDir)
+                        .then(descriptors => {
+                            h.logger.log("Descriptors: ");
+                            h.logger.log(descriptors);
+                            gDescriptors = descriptors;
 
-                    getSingleFaceImageDescriptor(faceapi, document, infImgPath, modelsDir)
-                        .then(descriptor => {
-                            h.logger.log("Descriptor: ");
-                            h.logger.log(descriptor);
+                            if (!descriptors.length) {
+                                h.logger.log("No face(s) found");
+                                return;
+                            }
+
+                            descriptors.forEach(d => {
+                                // h.logger.log(d.toString());
+                                const bestMatch = faceMatcher.findBestMatch(d.descriptor);
+                                h.logger.log("Best match: ");
+                                h.logger.log(bestMatch.toString());
+                            });
+
+                            descriptorCounter++;
+                            h.logger.log(`Descriptors: ${descriptorCounter}`);
                         })
                         .catch(err => {
                             h.logger.log("Got an error while evaluating the descriptor: ");
@@ -151,4 +178,31 @@ function fadeOutDown() {
             .removeClass(["animated", "fadeInUp"])
             .addClass("fadeOutDown animated")
             .hide();
+}
+
+function initFaceMatcher() {
+    // Create an array containing all the descriptors from the tray
+    // Initiliaze the FaceMatcher with all the descriptors
+    let labeledDescriptors = [];
+
+    imageTitles.forEach(title => {
+        if ( imagesData[title].descriptor ) {
+            labeledDescriptors.push(
+                new faceapi.LabeledFaceDescriptors(
+                    title,
+                    [ new Float32Array(Object.values(imagesData[title].descriptor.descriptor)) ]
+                )
+            );
+        }
+    });
+
+    h.logger.log(labeledDescriptors);
+    h.logger.log("Initializing FaceMatcher...");
+
+    faceMatcher = new faceapi.FaceMatcher(labeledDescriptors);
+    // faceMatcher._distanceThreshold = 0.1;
+    // faceMatcher.distanceThreshold = 0.1;
+
+    h.logger.log("FaceMatcher: ");
+    h.logger.log(faceMatcher);
 }

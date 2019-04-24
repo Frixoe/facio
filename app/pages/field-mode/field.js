@@ -30,12 +30,14 @@ function selectTray(e) {
     e.currentTarget.parentElement.classList.add("active");
     $(e.currentTarget).css("color", "white");
 
-    h.stores.state.set(
-        "currentTray",
-        $(e.currentTarget.parentElement)
+    let selTray = $(e.currentTarget.parentElement)
             .find(".collection-items-tray-title")
             .html()
-            .trim()
+            .trim();
+
+    h.stores.state.set(
+        "currentTray",
+        selTray.substr(0, selTray.indexOf("."))
     );
     h.logger.log(h.stores.state.get("currentTray"));
     updateStartBtnState();
