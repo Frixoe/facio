@@ -96,6 +96,7 @@ $(() => {
                         .then(descriptors => {
                             h.logger.log("Descriptors: ");
                             h.logger.log(descriptors);
+
                             gDescriptors = descriptors;
 
                             if (!descriptors.length) {
@@ -104,8 +105,8 @@ $(() => {
                             }
 
                             descriptors.forEach(d => {
-                                // h.logger.log(d.toString());
                                 const bestMatch = faceMatcher.findBestMatch(d.descriptor);
+
                                 h.logger.log("Best match: ");
                                 h.logger.log(bestMatch.toString());
                             });
@@ -183,6 +184,7 @@ function fadeOutDown() {
 function initFaceMatcher() {
     // Create an array containing all the descriptors from the tray
     // Initiliaze the FaceMatcher with all the descriptors
+
     let labeledDescriptors = [];
 
     imageTitles.forEach(title => {
@@ -200,8 +202,6 @@ function initFaceMatcher() {
     h.logger.log("Initializing FaceMatcher...");
 
     faceMatcher = new faceapi.FaceMatcher(labeledDescriptors);
-    // faceMatcher._distanceThreshold = 0.1;
-    // faceMatcher.distanceThreshold = 0.1;
 
     h.logger.log("FaceMatcher: ");
     h.logger.log(faceMatcher);
