@@ -20,3 +20,14 @@ npm run dist:linux
 ```
 
 For Linux, once built, you will find the **AppImage** file and **Debian** installer in the `release` folder. If none of these are supported by your distribution, you can find a universal executable in the `linux-unpacked` folder which should run on any distribution.
+
+## Screenshots
+![Image 1](https://github.com/Frixoe/facio/blob/master/screenshots/sc1.png?raw=true)
+![Image 2](https://github.com/Frixoe/facio/blob/master/screenshots/sc2.png?raw=true)
+![Image 3](https://github.com/Frixoe/facio/blob/master/screenshots/sc3.png?raw=true)
+![Image 4](https://github.com/Frixoe/facio/blob/master/screenshots/sc4.png?raw=true)
+![Image 5](https://github.com/Frixoe/facio/blob/master/screenshots/sc5.png?raw=true)
+![Image 6](https://github.com/Frixoe/facio/blob/master/screenshots/sc6.png?raw=true)
+![Image 7](https://github.com/Frixoe/facio/blob/master/screenshots/sc7.png?raw=true)
+![Image 8](https://github.com/Frixoe/facio/blob/master/screenshots/sc8.png?raw=true)
+![Image 9](https://github.com/Frixoe/facio/blob/master/screenshots/sc9.png?raw=true)
