@@ -2,10 +2,11 @@
 A free, open-source and programmable facial recognition software. Allows you to run Python (and more...) scripts for every face that is detected.
 
 ## Build
-You can download the source code and run the following commands to build an executable for **Linux** and **Windows**.
+You can clone the repo and run the following commands to build an executable for **Linux** and **Windows**.
 
 - Windows:
 ```
+npm i
 npm run build:win
 npm run dist:win
 ```
@@ -13,6 +14,7 @@ Since I don't use Windows anymore, I can't guarantee full support for windows bu
 
 - Linux:
 ```
+npm i
 npm run build:linux
 npm run dist:linux
 ```
