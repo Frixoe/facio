@@ -24,7 +24,7 @@
   "author": "Suryansh S. <business.suryansh@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "ajv": "^6.10.0",
+    "ajv": "^6.12.3",
     "chokidar": "^2.1.5",
     "electron-better-ipc": "^0.1.2",
     "electron-context-menu": "^0.10.1",
